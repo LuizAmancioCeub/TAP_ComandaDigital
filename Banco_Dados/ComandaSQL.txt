@@ -1,0 +1,296 @@
+
+-- -----------------------------------------------------
+-- Schema comanda
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `comanda` DEFAULT CHARACTER SET utf8 ;
+USE `comanda` ;
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB01_Perfil`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB01_Perfil` (
+  `NU_PERFIL` INT NOT NULL,
+  `PERFIL` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`NU_PERFIL`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB05_Garcom`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB05_Garcom` (
+  `NU_GARCOM` INT NOT NULL,
+  `CPF` VARCHAR(45) NOT NULL,
+  `NOME` VARCHAR(45) NOT NULL,
+  `TELEFONE` VARCHAR(45) NOT NULL,
+  `MATRICULA` INT NOT NULL,
+  `NU_PERFIL` INT NOT NULL,
+  PRIMARY KEY (`NU_GARCOM`),
+  UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
+  INDEX `fk_Garcom_Perfil1_idx` (`NU_PERFIL` ASC) ,
+  CONSTRAINT `fk_Garcom_Perfil1`
+    FOREIGN KEY (`NU_PERFIL`)
+    REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB13_Status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB13_Status` (
+  `NU_STATUS` INT NOT NULL,
+  `STATUS` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`NU_STATUS`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB07_Mesa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB07_Mesa` (
+  `NU_MESA` INT NOT NULL,
+  `QR_CODE` VARCHAR(45) NOT NULL,
+  `NU_GARCOM` INT NOT NULL,
+  `NU_STATUS` INT NOT NULL,
+  PRIMARY KEY (`NU_MESA`),
+  INDEX `fk_Mesa_Garcom1_idx` (`NU_GARCOM` ASC) ,
+  INDEX `fk_Mesa_Status1_idx` (`NU_STATUS` ASC) ,
+  CONSTRAINT `fk_Mesa_Garcom1`
+    FOREIGN KEY (`NU_GARCOM`)
+    REFERENCES `comanda`.`TB05_Garcom` (`NU_GARCOM`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Mesa_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB08_Comanda`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB08_Comanda` (
+  `NU_COMANDA` INT NOT NULL,
+  `VALOR_TOTAL` DOUBLE NOT NULL,
+  `NU_STATUS` INT NOT NULL,
+  PRIMARY KEY (`NU_COMANDA`),
+  INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
+  CONSTRAINT `fk_Comanda_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB06_Cliente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
+  `NU_CLIENTE` INT NOT NULL,
+  `CPF` VARCHAR(45) NOT NULL,
+  `NOME` VARCHAR(45) NOT NULL,
+  `TELEFONE` VARCHAR(45) NOT NULL,
+  `SENHA` VARCHAR(45) NOT NULL,
+  `NU_MESA` INT NOT NULL,
+  `NU_PERFIL` INT NOT NULL,
+  `NU_COMANDA` INT NOT NULL,
+  PRIMARY KEY (`NU_CLIENTE`),
+  UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
+  INDEX `fk_Cliente_Mesa_idx` (`NU_MESA` ASC) ,
+  INDEX `fk_Cliente_Perfil1_idx` (`NU_PERFIL` ASC) ,
+  INDEX `fk_Cliente_Comanda1_idx` (`NU_COMANDA` ASC) ,
+  CONSTRAINT `fk_Cliente_Mesa`
+    FOREIGN KEY (`NU_MESA`)
+    REFERENCES `comanda`.`TB07_Mesa` (`NU_MESA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Cliente_Perfil1`
+    FOREIGN KEY (`NU_PERFIL`)
+    REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Cliente_Comanda1`
+    FOREIGN KEY (`NU_COMANDA`)
+    REFERENCES `comanda`.`TB08_Comanda` (`NU_COMANDA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB12_Categoria`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB12_Categoria` (
+  `NU_CATEGORIA` INT NOT NULL,
+  `CATEGORIA` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`NU_CATEGORIA`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB11_Item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB11_Item` (
+  `NU_ITEM` INT NOT NULL,
+  `NOME` VARCHAR(45) NOT NULL,
+  `DESCRICAO` VARCHAR(45) NOT NULL,
+  `PRECO` DOUBLE NOT NULL,
+  `IMAGEM` VARCHAR(45) NOT NULL,
+  `NU_CATEGORIA` INT NOT NULL,
+  `NU_STATUS` INT NOT NULL,
+  PRIMARY KEY (`NU_ITEM`),
+  INDEX `fk_Item_Categoria1_idx` (`NU_CATEGORIA` ASC) ,
+  INDEX `fk_Item_Status1_idx` (`NU_STATUS` ASC) ,
+  CONSTRAINT `fk_Item_Categoria1`
+    FOREIGN KEY (`NU_CATEGORIA`)
+    REFERENCES `comanda`.`TB12_Categoria` (`NU_CATEGORIA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Item_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB04_Cozinha`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB04_Cozinha` (
+  `NU_COZINHA` INT NOT NULL,
+  `TIPO` VARCHAR(45) NOT NULL,
+  `NU_PERFIL` INT NOT NULL,
+  PRIMARY KEY (`NU_COZINHA`),
+  INDEX `fk_Cozinha_Perfil1_idx` (`NU_PERFIL` ASC) ,
+  CONSTRAINT `fk_Cozinha_Perfil1`
+    FOREIGN KEY (`NU_PERFIL`)
+    REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB09_Pedido`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB09_Pedido` (
+  `NU_PEDIDO` INT NOT NULL,
+  `VALOR` DOUBLE NOT NULL,
+  `QUANTIDADE` INT NOT NULL,
+  `NU_STATUS` INT NOT NULL,
+  `NU_COMANDA` INT NOT NULL,
+  `NU_COZINHA` INT NOT NULL,
+  PRIMARY KEY (`NU_PEDIDO`),
+  INDEX `fk_Pedido_Status1_idx` (`NU_STATUS` ASC) ,
+  INDEX `fk_Pedido_Comanda1_idx` (`NU_COMANDA` ASC) ,
+  INDEX `fk_TB09_Pedido_TB04_Cozinha1_idx` (`NU_COZINHA` ASC) ,
+  CONSTRAINT `fk_Pedido_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Pedido_Comanda1`
+    FOREIGN KEY (`NU_COMANDA`)
+    REFERENCES `comanda`.`TB08_Comanda` (`NU_COMANDA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB09_Pedido_TB04_Cozinha1`
+    FOREIGN KEY (`NU_COZINHA`)
+    REFERENCES `comanda`.`TB04_Cozinha` (`NU_COZINHA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB03_Caixa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB03_Caixa` (
+  `NU_CAIXA` INT NOT NULL,
+  `LOGIN` VARCHAR(45) NOT NULL,
+  `SENHA` VARCHAR(45) NOT NULL,
+  `NU_PERFIL` INT NOT NULL,
+  PRIMARY KEY (`NU_CAIXA`),
+  INDEX `fk_Caixa_Perfil1_idx` (`NU_PERFIL` ASC) ,
+  CONSTRAINT `fk_Caixa_Perfil1`
+    FOREIGN KEY (`NU_PERFIL`)
+    REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB02_Gerente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB02_Gerente` (
+  `NU_GERENTE` INT NOT NULL,
+  `NOME` VARCHAR(45) NOT NULL,
+  `CPF` VARCHAR(45) NOT NULL,
+  `SENHA` VARCHAR(45) NOT NULL,
+  `MATRICULA` INT NOT NULL,
+  `NU_PERFIL` INT NOT NULL,
+  PRIMARY KEY (`NU_GERENTE`),
+  UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
+  INDEX `fk_Gerente_Perfil1_idx` (`NU_PERFIL` ASC) ,
+  CONSTRAINT `fk_Gerente_Perfil1`
+    FOREIGN KEY (`NU_PERFIL`)
+    REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB14_FeedBack`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB14_FeedBack` (
+  `NU_FEEDBACK` INT NOT NULL,
+  `AVALIACAO` INT NOT NULL,
+  `COMENTARIO` VARCHAR(45) NULL,
+  `NU_CLIENTE` INT NOT NULL,
+  `NU_ITEM` INT NOT NULL,
+  PRIMARY KEY (`NU_FEEDBACK`),
+  INDEX `fk_FeedBack_Cliente1_idx` (`NU_CLIENTE` ASC) ,
+  INDEX `fk_FeedBack_Item1_idx` (`NU_ITEM` ASC) ,
+  CONSTRAINT `fk_FeedBack_Cliente1`
+    FOREIGN KEY (`NU_CLIENTE`)
+    REFERENCES `comanda`.`TB06_Cliente` (`NU_CLIENTE`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_FeedBack_Item1`
+    FOREIGN KEY (`NU_ITEM`)
+    REFERENCES `comanda`.`TB11_Item` (`NU_ITEM`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB10_Pedido_Item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB10_Pedido_Item` (
+  `NU_PEDIDO` INT NOT NULL,
+  `NU_ITEM` INT NOT NULL,
+  PRIMARY KEY (`NU_PEDIDO`, `NU_ITEM`),
+  INDEX `fk_Pedido_has_Item_Item1_idx` (`NU_ITEM` ASC) ,
+  INDEX `fk_Pedido_has_Item_Pedido1_idx` (`NU_PEDIDO` ASC) ,
+  CONSTRAINT `fk_Pedido_has_Item_Pedido1`
+    FOREIGN KEY (`NU_PEDIDO`)
+    REFERENCES `comanda`.`TB09_Pedido` (`NU_PEDIDO`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Pedido_has_Item_Item1`
+    FOREIGN KEY (`NU_ITEM`)
+    REFERENCES `comanda`.`TB11_Item` (`NU_ITEM`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
