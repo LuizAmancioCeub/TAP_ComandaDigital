@@ -71,23 +71,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `comanda`.`TB08_Comanda`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `comanda`.`TB08_Comanda` (
-  `NU_COMANDA` INT NOT NULL,
-  `VALOR_TOTAL` DOUBLE NOT NULL,
-  `NU_STATUS` INT NOT NULL,
-  PRIMARY KEY (`NU_COMANDA`),
-  INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
-  CONSTRAINT `fk_Comanda_Status1`
-    FOREIGN KEY (`NU_STATUS`)
-    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `comanda`.`TB06_Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
@@ -98,12 +81,10 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
   `SENHA` VARCHAR(45) NOT NULL,
   `NU_MESA` INT NOT NULL,
   `NU_PERFIL` INT NOT NULL,
-  `NU_COMANDA` INT NOT NULL,
   PRIMARY KEY (`NU_CLIENTE`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
   INDEX `fk_Cliente_Mesa_idx` (`NU_MESA` ASC) ,
   INDEX `fk_Cliente_Perfil1_idx` (`NU_PERFIL` ASC) ,
-  INDEX `fk_Cliente_Comanda1_idx` (`NU_COMANDA` ASC) ,
   CONSTRAINT `fk_Cliente_Mesa`
     FOREIGN KEY (`NU_MESA`)
     REFERENCES `comanda`.`TB07_Mesa` (`NU_MESA`)
@@ -112,11 +93,6 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
   CONSTRAINT `fk_Cliente_Perfil1`
     FOREIGN KEY (`NU_PERFIL`)
     REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Cliente_Comanda1`
-    FOREIGN KEY (`NU_COMANDA`)
-    REFERENCES `comanda`.`TB08_Comanda` (`NU_COMANDA`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -154,6 +130,30 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB11_Item` (
   CONSTRAINT `fk_Item_Status1`
     FOREIGN KEY (`NU_STATUS`)
     REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comanda`.`TB08_Comanda`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda`.`TB08_Comanda` (
+  `NU_COMANDA` INT NOT NULL,
+  `VALOR_TOTAL` DOUBLE NOT NULL,
+  `NU_STATUS` INT NOT NULL,
+  `NU_CLIENTE` INT NOT NULL,
+  PRIMARY KEY (`NU_COMANDA`),
+  INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
+  INDEX `fk_TB08_Comanda_TB06_Cliente1_idx` (`NU_CLIENTE` ASC) ,
+  CONSTRAINT `fk_Comanda_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB08_Comanda_TB06_Cliente1`
+    FOREIGN KEY (`NU_CLIENTE`)
+    REFERENCES `comanda`.`TB06_Cliente` (`NU_CLIENTE`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -294,3 +294,6 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB10_Pedido_Item` (
 ENGINE = InnoDB;
 
 
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
