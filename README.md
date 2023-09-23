@@ -14,3 +14,14 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
 
 3. Banco de Dados
    - MySQL
+
+## Configurando Ambiente Angular 15.2.4
+- Antes de instalar o Angular CLI, você precisa instalar o Node.js e o npm. O Node.js é uma plataforma de desenvolvimento JavaScript que é necessária para executar o Angular CLI. O npm é um gerenciador de pacotes que é usado para instalar o Angular CLI e outros pacotes necessários para o desenvolvimento Angular.
+  > - Acesse [site do Node.js](https://nodejs.org/en) e baixe o instalador para o seu sistema operacional.
+  > -  Execute o instalador e siga as instruções na tela.
+  > -  Verifique se eles estão instalados corretamente executando os seguintes comandos no seu terminal: node -v e npm -v
+
+- O Angular CLI é uma ferramenta que pode ser usada para criar, compilar e executar aplicativos Angular. Para instalar o Angular CLI, abra o terminal e execute o seguinte comando:
+  > npm install -g @angular/cli@15.2.4
+
+- Após instalação do Angular CLI seguir os passos descritos no [README.md do Front_End/comanda-digital](Front_End/comanda-digital)
