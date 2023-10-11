@@ -1,6 +1,4 @@
 
-
-
 -- -----------------------------------------------------
 -- Schema comanda
 -- -----------------------------------------------------
@@ -21,7 +19,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB05_Garcom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB05_Garcom` (
-  `MATRICULA` INT NOT NULL,
+  `MATRICULA` INT NOT NULL AUTO_INCREMENT,
   `CPF` VARCHAR(45) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `SENHA` VARCHAR(45) NOT NULL,
@@ -42,7 +40,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB13_Status`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB13_Status` (
-  `NU_STATUS` INT NOT NULL,
+  `NU_STATUS` INT NOT NULL AUTO_INCREMENT,
   `STATUS` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`NU_STATUS`))
 ENGINE = InnoDB;
@@ -76,7 +74,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB06_Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
-  `NU_CLIENTE` INT NOT NULL,
+  `NU_CLIENTE` INT NOT NULL AUTO_INCREMENT,
   `CPF` VARCHAR(45) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `TELEFONE` VARCHAR(45) NOT NULL,
@@ -104,7 +102,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB12_Categoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB12_Categoria` (
-  `NU_CATEGORIA` INT NOT NULL,
+  `NU_CATEGORIA` INT NOT NULL AUTO_INCREMENT,
   `CATEGORIA` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`NU_CATEGORIA`))
 ENGINE = InnoDB;
@@ -114,7 +112,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB11_Item`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB11_Item` (
-  `NU_ITEM` INT NOT NULL,
+  `NU_ITEM` INT NOT NULL AUTO_INCREMENT,
   `NOME` VARCHAR(45) NOT NULL,
   `DESCRICAO` VARCHAR(45) NOT NULL,
   `PRECO` DOUBLE NOT NULL,
@@ -141,7 +139,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB08_Comanda`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB08_Comanda` (
-  `NU_COMANDA` INT NOT NULL,
+  `NU_COMANDA` INT NOT NULL AUTO_INCREMENT,
   `VALOR_TOTAL` DOUBLE NOT NULL,
   `NU_STATUS` INT NOT NULL,
   `NU_CLIENTE` INT NOT NULL,
@@ -165,7 +163,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB04_Cozinha`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB04_Cozinha` (
-  `NU_COZINHA` INT NOT NULL,
+  `NU_COZINHA` INT NOT NULL AUTO_INCREMENT,
   `TIPO` VARCHAR(45) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_COZINHA`),
@@ -182,7 +180,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB09_Pedido`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB09_Pedido` (
-  `NU_PEDIDO` INT NOT NULL,
+  `NU_PEDIDO` INT NOT NULL AUTO_INCREMENT,
   `VALOR` DOUBLE NOT NULL,
   `QUANTIDADE` INT NOT NULL,
   `NU_STATUS` INT NOT NULL,
@@ -214,7 +212,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB03_Caixa`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB03_Caixa` (
-  `NU_CAIXA` INT NOT NULL,
+  `NU_CAIXA` INT NOT NULL AUTO_INCREMENT,
   `SENHA` VARCHAR(45) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_CAIXA`),
@@ -231,7 +229,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB02_Gerente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB02_Gerente` (
-  `NU_GERENTE` INT NOT NULL,
+  `NU_GERENTE` INT NOT NULL AUTO_INCREMENT,
   `NOME` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(45) NOT NULL,
   `SENHA` VARCHAR(45) NOT NULL,
@@ -251,7 +249,7 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB14_FeedBack`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB14_FeedBack` (
-  `NU_FEEDBACK` INT NOT NULL,
+  `NU_FEEDBACK` INT NOT NULL AUTO_INCREMENT,
   `AVALIACAO` INT NOT NULL,
   `COMENTARIO` VARCHAR(45) NULL,
   `NU_CLIENTE` INT NOT NULL,
@@ -292,5 +290,4 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB10_Pedido_Item` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
