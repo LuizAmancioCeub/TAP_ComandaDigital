@@ -1,4 +1,6 @@
 
+
+
 -- -----------------------------------------------------
 -- Schema comanda
 -- -----------------------------------------------------
@@ -19,13 +21,13 @@ ENGINE = InnoDB;
 -- Table `comanda`.`TB05_Garcom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB05_Garcom` (
-  `NU_GARCOM` INT NOT NULL,
+  `MATRICULA` INT NOT NULL,
   `CPF` VARCHAR(45) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
+  `SENHA` VARCHAR(45) NOT NULL,
   `TELEFONE` VARCHAR(45) NOT NULL,
-  `MATRICULA` INT NOT NULL,
   `NU_PERFIL` INT NOT NULL,
-  PRIMARY KEY (`NU_GARCOM`),
+  PRIMARY KEY (`MATRICULA`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
   INDEX `fk_Garcom_Perfil1_idx` (`NU_PERFIL` ASC) ,
   CONSTRAINT `fk_Garcom_Perfil1`
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB07_Mesa` (
   INDEX `fk_Mesa_Status1_idx` (`NU_STATUS` ASC) ,
   CONSTRAINT `fk_Mesa_Garcom1`
     FOREIGN KEY (`NU_GARCOM`)
-    REFERENCES `comanda`.`TB05_Garcom` (`NU_GARCOM`)
+    REFERENCES `comanda`.`TB05_Garcom` (`MATRICULA`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Mesa_Status1`
@@ -79,20 +81,20 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB06_Cliente` (
   `NOME` VARCHAR(45) NOT NULL,
   `TELEFONE` VARCHAR(45) NOT NULL,
   `SENHA` VARCHAR(45) NOT NULL,
-  `NU_MESA` INT NOT NULL,
   `NU_PERFIL` INT NOT NULL,
+  `NU_MESA` INT NOT NULL,
   PRIMARY KEY (`NU_CLIENTE`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
-  INDEX `fk_Cliente_Mesa_idx` (`NU_MESA` ASC) ,
   INDEX `fk_Cliente_Perfil1_idx` (`NU_PERFIL` ASC) ,
-  CONSTRAINT `fk_Cliente_Mesa`
-    FOREIGN KEY (`NU_MESA`)
-    REFERENCES `comanda`.`TB07_Mesa` (`NU_MESA`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
+  INDEX `fk_TB06_Cliente_TB07_Mesa1_idx` (`NU_MESA` ASC) ,
   CONSTRAINT `fk_Cliente_Perfil1`
     FOREIGN KEY (`NU_PERFIL`)
     REFERENCES `comanda`.`TB01_Perfil` (`NU_PERFIL`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB06_Cliente_TB07_Mesa1`
+    FOREIGN KEY (`NU_MESA`)
+    REFERENCES `comanda`.`TB07_Mesa` (`NU_MESA`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -213,7 +215,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda`.`TB03_Caixa` (
   `NU_CAIXA` INT NOT NULL,
-  `LOGIN` VARCHAR(45) NOT NULL,
   `SENHA` VARCHAR(45) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_CAIXA`),
@@ -234,7 +235,6 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB02_Gerente` (
   `NOME` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(45) NOT NULL,
   `SENHA` VARCHAR(45) NOT NULL,
-  `MATRICULA` INT NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_GERENTE`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
@@ -294,6 +294,3 @@ CREATE TABLE IF NOT EXISTS `comanda`.`TB10_Pedido_Item` (
 ENGINE = InnoDB;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
