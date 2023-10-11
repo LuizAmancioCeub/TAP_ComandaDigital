@@ -1,0 +1,131 @@
+.card_login{
+    display: flex;
+    margin: auto;
+    min-height: 420px;
+    width: 85vh;
+    flex-direction: column;
+    gap: 35px;
+    background: rgba(192,200,211, 0.90);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    border-radius:.8rem;
+}
+@media screen and (max-width: 768px ) {
+    .card_login {
+        min-height: 400px;
+        width: 95%;
+        }
+}
+
+.title_card_login{
+    padding:.5rem;      
+    color: #000;
+    text-transform: uppercase;
+    text-align:center;
+    letter-spacing: 1px;
+    display: block;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.inputBox {
+    margin-left:1rem;
+    position: relative;
+    width: 90%;
+    margin-top:.5rem;
+}
+.inputBox select {
+    width: 40%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border: 2px solid #000;
+    transition: 0.1s;
+    border-radius: 8px;
+}    
+
+.input {
+    position: relative;
+    width: 95%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.input__field {
+    width: 90%;
+    padding: 8px;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border: 2px solid #000;
+    transition: 0.1s;
+    border-radius: 18px;
+}
+.inputField {
+    width: 90%;
+    padding: 8px;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border: 2px solid #000;
+    transition: 0.1s;
+    border-radius: 18px;
+}
+.input__label {
+	position: absolute;
+	top: 0;
+	left: 5%;
+	transform: translate(10px, 10px);
+	transform-origin: left;
+	transition: transform 0.35s;
+    color: #000;
+}
+.input__field:focus-visible ~ .input__label,
+.input__field:valid ~ .input__label {
+	transform: translate(0, -20px) scale(0.8);
+	color: #000000;
+}
+.inputField:focus-visible ~ .input__label,
+.inputField:valid ~ .input__label {
+	transform: translate(0, -20px) scale(0.8);
+	color: #000000;
+}
+
+.input__icon-wrapper {
+	position: absolute;
+	top: 50%;
+	right: 8%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+.input__icon {
+	color: rgb(15, 14, 14);
+	font-size: 24px;
+}
+.input__icon:hover {
+	color: #333;
+}
+
+.btn {
+    border-radius: 18px;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 8px;
+    width: 70%;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.btns{
+    margin-bottom: 2rem;
+}

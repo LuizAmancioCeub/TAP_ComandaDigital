@@ -1,0 +1,39 @@
+<div class="card_login">
+    <a class="title_card_login">Bem-Vindo !! <br>Preencha os campos para acessar nosso cardápio</a>
+
+    <div class="inputBox">
+        <select name="mesa" id="mesa" required="required">
+            <option selected disabled>Sua Mesa</option> 
+        </select>
+    </div> 
+        <div class="input">
+            <input class="inputField" type="text" name="cpf" id="cpf" maxlength="11" required="required">
+            <label for="cpf" class="input__label">CPF</label>
+        </div>
+
+        <div class="input">
+            <input class="input__field" id="password" name="senha" type="password" required />
+            <label for="password" class="input__label">Senha</label>
+            <span class="input__icon-wrapper">
+                <i (click)="eye()" class="input__icon ri-eye-off-line"></i>
+            </span>
+        </div>
+
+        <div class="btns">
+            <div class="form-group col-md-12">
+                <button  id="cadastrar" name="cadastrar" class=" form-control btn btn-primary btn-block">Entrar</button> 
+            </div>
+    
+            <div style="margin-top: .8rem;" class="form-group col-md-12">
+                <button  id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
+            </div>
+    
+            <div style="margin-top: 1.5rem;" class="form-group col-md-12 d-flex justify-content-center"> 
+                <a href="#registrar" style="color: black;" data-toggle="modal">Não tem conta? Registra-se aqui</a>
+            </div>
+            <div style="margin-top: .8rem;" class="form-group col-md-12 d-flex justify-content-center"> 
+                <a href="#esqueci" style="color: black;" data-toggle="modal">Esqueci a Senha</a>
+            </div>    
+        </div>
+        
+</div>
