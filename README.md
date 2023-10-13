@@ -36,4 +36,5 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
   > -  Instalar e configurar Lombock, [siga estes passos](https://dicasdeprogramacao.com.br/como-configurar-o-lombok-no-eclipse/)
 
 - Para gerar as dependências utilizadas no projeto foi utilizado o [Spring Initializr](https://start.spring.io/)
+- Instalar [Postman](https://www.postman.com/downloads/)
 - Mais informações do nosso Back-End: [clique aqui](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/tree/main/Back_End) 
