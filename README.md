@@ -25,3 +25,16 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
   > npm install -g @angular/cli@15.2.4
 
 - Após instalação do Angular CLI seguir os passos descritos no [README.md do Front_End/comanda-digital](Front_End/comanda-digital)
+
+## Configurando Ambiente Spring-Boot 3.1.4
+
+- Instalar IDE de sua preferência:
+
+> - Eclipse: [https://www.eclipse.org/downloads/](https://www.eclipse.org/downloads/) 
+> - IntelliJ: [https://www.jetbrains.com/idea/download/?section=windows](https://www.jetbrains.com/idea/download/?section=windows)
+  > -  Instalar e configurar Apache Maven, [siga estes passos](https://dicasdeprogramacao.com.br/como-instalar-o-maven-no-windows/).
+  > -  Instalar e configurar Lombock, [siga estes passos](https://dicasdeprogramacao.com.br/como-configurar-o-lombok-no-eclipse/)
+
+- Para gerar as dependências utilizadas no projeto foi utilizado o [Spring Initializr](https://start.spring.io/)
+- Instalar [Postman](https://www.postman.com/downloads/)
+- Mais informações do nosso Back-End: [clique aqui](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/tree/main/Back_End) 
