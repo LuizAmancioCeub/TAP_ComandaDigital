@@ -37,4 +37,13 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
 
 - Para gerar as dependências utilizadas no projeto foi utilizado o [Spring Initializr](https://start.spring.io/)
 - Instalar [Postman](https://www.postman.com/downloads/)
-- Mais informações do nosso Back-End: [clique aqui](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/tree/main/Back_End) 
+- Mais informações do nosso Back-End: [clique aqui](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/tree/main/Back_End)
+
+## Configurando Ambiente MySQL
+
+- Instalar MySQL [https://dev.mysql.com/downloads/installer/](https://dev.mysql.com/downloads/installer/)
+> - Siga os passos para instalação [https://dev.mysql.com/downloads/installer/](https://dev.mysql.com/downloads/installer/)
+
+- Inicie uma nova conexão no MySQL
+- Copie e cole o script da base dados -> [script](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/blob/main/Banco_Dados/ComandaSQL.txt)
+- Execute o script.
