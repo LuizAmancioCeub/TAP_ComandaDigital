@@ -11,9 +11,12 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
         
 2. Front-End:
    - Angular
+   - Bootstrap
 
 3. Banco de Dados
    - MySQL
+
+> Nossa Arquitetura mais detalhada se encontra na [WIKI](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/wiki)
 
 ## Configurando Ambiente Angular 15.2.4
 - Antes de instalar o Angular CLI, é necessário instalar o Node.js e o npm. O Node.js é uma plataforma de desenvolvimento JavaScript que é necessária para executar o Angular CLI. O npm é um gerenciador de pacotes que é usado para instalar o Angular CLI e outros pacotes necessários para o desenvolvimento Angular.
