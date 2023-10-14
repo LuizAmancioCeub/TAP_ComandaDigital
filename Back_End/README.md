@@ -17,6 +17,8 @@ Aplicação de uma API utilizando recursos e bibliotecas que prestam suporte par
 ## Testando API
 - Após todas dependências e base de dados instaladas e configuradas:
   > - Execute o arquivo CardapioApplication -> Back_End/cardapio/src/main/java/com/comanda/cardapio/CardapioApplication
+  > - ![1 - Executando-Spring](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/assets/134547510/c2febd0c-2fb0-48e3-96ed-f364f8830d09)
+
   > - Abrir e configurar o Postman conforme as seguintes imagens:
   
   > - 127.0.0.1 representa o localhost da máquina
