@@ -2,6 +2,8 @@
 
 Aplicação de uma API utilizando recursos e bibliotecas que prestam suporte para o Spring Boot 3.1.4.  Essa API é basicamente um CRUD para um Sistema de Comanda/Cardapio Digital para restaurantes
 
+> [WIKI da aplicação](https://github.com/LuizAmancioCeub/TAP_ComandaDigital/wiki/Java-%E2%80%90-Spring-Boot)
+
 ## Configuração DataSource
 - Configure de acordo com sua máquina o DataSource da aplicação
   
