@@ -1,0 +1,19 @@
+.slider{
+    border-radius: 1rem;
+    width: 90%; 
+    height:600px;
+    margin-bottom: 1rem;
+  }
+@media screen and (max-width: 750px ) {   
+    .slider{
+      border-radius: 1rem;
+      height: auto;
+      width: 100%;
+    }
+}    
+
+h1{
+  text-align: center;
+  margin: 2rem;
+  font-size: 2.5rem;
+}
