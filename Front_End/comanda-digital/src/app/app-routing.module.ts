@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {LoginComponent} from './pages/login/login.component';
 import {CardapioComponent} from './pages/cardapio/cardapio.component';
+import { ComandaComponent } from './pages/comanda/comanda.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path:'cardapio',
     component: CardapioComponent
+  },
+  {
+    path:'cardapio/comanda',
+    component: ComandaComponent
   }
 ];
 

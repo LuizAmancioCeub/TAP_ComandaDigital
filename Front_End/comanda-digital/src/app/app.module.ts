@@ -12,6 +12,10 @@ import { CardsComponent } from './components/cardapio-components/cards/cards.com
 import { SliderComponent } from './components/cardapio-components/slider/slider.component';
 import { ContentsComponent } from './components/cardapio-components/contents/contents.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ComandaComponent } from './pages/comanda/comanda.component';
+import { ContentsComponentComanda } from './components/comanda-components/contents/contents.component';
+import { TabelaPreparoComponent } from './components/comanda-components/tabela-preparo/tabela-preparo.component';
+import { TabelaComandaComponent } from './components/comanda-components/tabela-comanda/tabela-comanda.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { FooterComponent } from './components/footer/footer.component';
     CardsComponent,
     SliderComponent,
     ContentsComponent,
-    FooterComponent
+    FooterComponent,
+    ComandaComponent,
+    ContentsComponentComanda,
+    TabelaPreparoComponent,
+    TabelaComandaComponent
   ],
   imports: [
     BrowserModule,

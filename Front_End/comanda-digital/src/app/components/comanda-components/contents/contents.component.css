@@ -1,0 +1,23 @@
+h1{
+    text-align: center;
+    margin: 2%;
+    margin-top: 3%;
+}
+@media screen and (max-width: 750px ) { 
+    h1{
+        margin:2rem;
+        font-size: 28px;
+      }
+}
+
+.bt{
+    font-size: 18px;
+    background-color: #28a745;
+    border-radius: .8rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 135, 48, 0.37);
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+  

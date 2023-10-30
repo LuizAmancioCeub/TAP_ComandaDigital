@@ -1,0 +1,97 @@
+table{
+    width: 100%;
+}
+table thead th {
+    padding: 10px;
+    font-size: 1em;
+    color: #000;
+    font-weight: 600;
+}
+
+table tbody tr td {
+    display: table-cell;
+    font-weight: 400;
+    padding: 10px;
+    text-align: left;
+    position: relative;
+}
+
+table tbody tr {    
+    border: none;
+    display: table-row;
+}
+
+table tbody tr td button {    
+    display: block;
+    position: initial;
+    transform: translate(0);
+    width: 100%;
+
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 700;;
+    padding: .4rem 0;
+}
+table thead {
+    display: table-header-group;
+    font-weight: 500;
+}
+
+
+table tbody tr td:before {
+    display: none;
+}
+
+table tbody tr td button:hover, table tbody tr td button:focus {
+    background: #a795fe;
+    cursor: pointer;
+}
+
+@media all and (min-width: 750px){
+    .pagamento{
+        width: 30%;
+    }
+    #pagamento td button{
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 750px) {
+    .tabela{
+        overflow: auto; 
+        white-space: nowrap;
+        display: flex;
+        gap: 1rem;
+    }
+    table tbody tr td {
+        display: block;
+        text-align: right;
+    }
+
+    table tbody tr td:before {
+        content: attr(data-title);
+        position: absolute;
+        left: 15px;
+        display: block;
+        font-weight: 600;
+        font-size: 1em;
+    }
+
+    table {
+        min-width: 280px;
+        border: none;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tbody tr {
+        margin-bottom: 10px;
+        display: block;
+        border: 1px solid #dad6eb;
+    }
+
+
+}
