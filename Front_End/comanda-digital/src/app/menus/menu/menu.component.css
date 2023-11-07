@@ -44,10 +44,10 @@ div.scrollmenu a.active{
     }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 900px) {
     div.scrollmenu {
         margin: 0 auto;
-        width: fit-content;
+        width: max-content;
         background-color: #FFFAF0;
         border-radius: 10px;
         padding-bottom: .2rem; padding-top: .2rem;
