@@ -8,13 +8,14 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.comandadigital.controllers.CategoriaController;
 import com.comandadigital.controllers.ItemController;
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ItemRecordDTO;
-import com.comandadigital.dtos.myValidations.ItemUnique;
+import com.comandadigital.dtos.myValidations.CustomUniqueConstraintViolationException;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
 import com.comandadigital.models.StatusModel;
@@ -81,8 +82,6 @@ public class ItemServiceImplements implements ItemService{
 			return null;
 		}
 		
-		
-		
 		for(ItemModel item : itens) {
 			
 			Integer id = item.getId();
@@ -110,7 +109,7 @@ public class ItemServiceImplements implements ItemService{
 	}
 
 	@Override
-	public ItemModel register(@ItemUnique ItemRecordDTO itemDTO) {
+	public ItemModel register( ItemRecordDTO itemDTO) {
 		var itemModel = new ItemModel();
 		BeanUtils.copyProperties(itemDTO, itemModel);
 		
@@ -118,11 +117,18 @@ public class ItemServiceImplements implements ItemService{
 		StatusModel defaultStatus = statusRepository.findById(1).orElse(null);
 		itemModel.setStatus(defaultStatus); // salvando o item já com status = 1(Ativo)
 		
-		return itemRepository.save(itemModel);
+		try {
+			return itemRepository.save(itemModel);
+			
+		} catch (DataIntegrityViolationException e) {
+	    
+	        	throw new CustomUniqueConstraintViolationException("O nome do item já está em uso no cardápio");
+	        }
+		
 	}
 
 	@Override
-	public ItemModel update(Integer id, @ItemUnique ItemRecordDTO itemDTO) {
+	public ItemModel update(Integer id, ItemRecordDTO itemDTO) {
 		Optional<ItemModel> item0 = itemRepository.findById(id);
 		
 		if(item0.isEmpty()) {
@@ -139,7 +145,15 @@ public class ItemServiceImplements implements ItemService{
 		 var ItemModel = item0.get();
 
 		 BeanUtils.copyProperties(itemDTO, ItemModel); // convertendo dto para model
-		 return itemRepository.save(ItemModel);
+		 
+		 // validando nome do item
+		 try {
+	            return itemRepository.save(ItemModel);
+	            
+	        } catch (DataIntegrityViolationException e) {
+	           
+	        	throw new CustomUniqueConstraintViolationException("O nome do item já está em uso no cardápio");
+	        }
 	}
 
 	@Override
@@ -147,7 +161,7 @@ public class ItemServiceImplements implements ItemService{
 		Optional<ItemModel> item0 = itemRepository.findById(id);
 		
 		if (item0.isEmpty()) {
-            return "Categoria não encontrada";
+            return "Item não encontrado";
         }
 		
 		ItemModel itemDelete = item0.get();

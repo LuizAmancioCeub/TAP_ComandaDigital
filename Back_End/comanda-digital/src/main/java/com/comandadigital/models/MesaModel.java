@@ -10,7 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 @Table(name = "TB_07_MESA")
 public class MesaModel extends RepresentationModel<MesaModel> implements Serializable {
@@ -23,9 +26,9 @@ public class MesaModel extends RepresentationModel<MesaModel> implements Seriali
 	@Column(name = "QR_CODE")
 	private String qr_code;
 	
-	//@ManyToOne
-	//@JoinColumn(name = "NU_GARCOM", nullable = false)
-	//private GarcomModel garcom;
+	@ManyToOne
+	@JoinColumn(name = "NU_GARCOM", nullable = true)
+	private GarcomModel garcom;
 	
 	@ManyToOne
 	@JoinColumn(name = "NU_STATUS", nullable = false)
