@@ -4,6 +4,9 @@
     <div class="inputBox">
         <select name="mesa" id="mesa" required="required">
             <option selected disabled>Sua Mesa</option> 
+            <option>Mesa 10</option>
+            <option>Mesa 11</option>
+            <option>Mesa 12</option>
         </select>
     </div> 
         <div class="input">
@@ -25,7 +28,7 @@
             </div>
     
             <div style="margin-top: .8rem;" class="form-group col-md-12">
-                <button  id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
+                <button [routerLink]="['cardapio']" id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
             </div>
     
             <div style="margin-top: 1.5rem;" class="form-group col-md-12 d-flex justify-content-center"> 

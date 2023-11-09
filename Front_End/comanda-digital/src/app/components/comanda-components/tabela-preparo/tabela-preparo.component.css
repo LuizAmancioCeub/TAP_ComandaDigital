@@ -59,7 +59,7 @@ table tbody tr td button:hover, table tbody tr td button:focus {
     cursor: pointer;
 }
     
-@media all and (max-width: 750px) {
+@media all and (max-width: 950px) {
     .tabela{
         overflow: auto; 
         white-space: nowrap;

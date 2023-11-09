@@ -57,12 +57,15 @@ table tbody tr td button:hover, table tbody tr td button:focus {
     }
 }
 
-@media all and (max-width: 750px) {
+@media all and (max-width: 950px) {
     .tabela{
         overflow: auto; 
         white-space: nowrap;
         display: flex;
         gap: 1rem;
+    }
+    .pagamento{
+        width: 100%;
     }
     table tbody tr td {
         display: block;
