@@ -1,11 +1,17 @@
 package com.comandadigital.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.comandadigital.infra.security.roles.UserRoles;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,12 +21,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -32,10 +36,9 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	private static final long serialVersionUID = 8016917473065647291L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // id é auto increment e chave primaria
+	@GeneratedValue(strategy = GenerationType.UUID) // id é auto increment e chave primaria
 	@Column(name="NU_CLIENTE", nullable = false, unique = true)
-	@Setter(AccessLevel.NONE)
-	private Integer id;
+	private UUID id;
 	
 	@Column(name = "CPF", nullable = false, unique = true)
 	private String cpf;
@@ -57,22 +60,44 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	@JoinColumn(name = "NU_MESA", nullable = false)
 	private MesaModel mesa;
 	
+	
+	public ClienteModel(String cpf, String nome,String senha,String telefone, PerfilModel perfil, MesaModel mesa) {
+		this.cpf = cpf;
+		this.senha = senha;
+		this.perfil = perfil;
+		this.nome = nome;
+		this.telefone = telefone;
+		this.mesa = mesa;
+	}
+	
+	// verificar quais roles esse usuario tem
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		
+		if("Cliente".equals(perfil.getPerfil())) {
+			
+			authorities.add(new SimpleGrantedAuthority(UserRoles.CLIENTE.getRole()));
+		}
+		else if("Visitante".equals(perfil.getPerfil())) {
+			
+			authorities.add(new SimpleGrantedAuthority(UserRoles.VISITANTE.getRole()));
+		} 
+		
+		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return senha;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return cpf;
 	}
 
 	@Override
