@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_07_MESA")
+@Table(name = "TB07_MESA")
 public class MesaModel extends RepresentationModel<MesaModel> implements Serializable {
 	private static final long serialVersionUID = 1L; // controle de versão
 	
@@ -27,7 +27,7 @@ public class MesaModel extends RepresentationModel<MesaModel> implements Seriali
 	private String qr_code;
 	
 	@ManyToOne
-	@JoinColumn(name = "NU_GARCOM", nullable = true)
+	@JoinColumn(name = "NU_GARCOM")
 	private GarcomModel garcom;
 	
 	@ManyToOne

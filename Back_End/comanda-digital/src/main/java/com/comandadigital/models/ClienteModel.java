@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.comandadigital.infra.security.roles.UserRoles;
+import com.comandadigital.infra.security.roles.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,9 +25,11 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TB06_CLIENTE")
@@ -61,13 +63,13 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	private MesaModel mesa;
 	
 	
-	public ClienteModel(String cpf, String nome,String senha,String telefone, PerfilModel perfil, MesaModel mesa) {
+	
+	public ClienteModel(String cpf, String nome,String senha,String telefone, PerfilModel perfil) {
 		this.cpf = cpf;
 		this.senha = senha;
 		this.perfil = perfil;
 		this.nome = nome;
 		this.telefone = telefone;
-		this.mesa = mesa;
 	}
 	
 	// verificar quais roles esse usuario tem
@@ -78,11 +80,11 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 		
 		if("Cliente".equals(perfil.getPerfil())) {
 			
-			authorities.add(new SimpleGrantedAuthority(UserRoles.CLIENTE.getRole()));
+			authorities.add(new SimpleGrantedAuthority(UserRole.CLIENTE.getRole()));
 		}
 		else if("Visitante".equals(perfil.getPerfil())) {
 			
-			authorities.add(new SimpleGrantedAuthority(UserRoles.VISITANTE.getRole()));
+			authorities.add(new SimpleGrantedAuthority(UserRole.VISITANTE.getRole()));
 		} 
 		
 		return authorities;

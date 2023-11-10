@@ -30,6 +30,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/login/registrar").permitAll() // qlqr um pode se registrar
 						.requestMatchers(HttpMethod.POST, "/login").permitAll() // qlqr um pode fazer login
+						.requestMatchers(HttpMethod.POST, "/mesa").hasRole("CLIENTE")
+						.requestMatchers(HttpMethod.GET, "/mesas").hasRole("CLIENTE")
 						//.requestMatchers(HttpMethod.POST, "/categorias").hasRole("GERENTE") // para o endpoint /products so Gerente pode fazer POST
 						.anyRequest().authenticated()
 				)
@@ -37,6 +39,7 @@ public class SecurityConfig {
 				.build();
 				
 	}
+	
 	
 	 @Bean
 	    public AuthenticationManager authManager(AuthenticationConfiguration authConfiguration) throws Exception {
