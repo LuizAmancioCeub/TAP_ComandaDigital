@@ -75,7 +75,7 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB06_Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB06_Cliente` (
-  `NU_CLIENTE` INT NOT NULL AUTO_INCREMENT,
+  `NU_CLIENTE` BINARY(16) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `TELEFONE` VARCHAR(11) NOT NULL,
@@ -104,7 +104,7 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB12_Categoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB12_Categoria` (
-  `NU_CATEGORIA` INT NOT NULL AUTO_INCREMENT,
+  `NU_CATEGORIA` INT NOT NULL,
   `CATEGORIA` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`NU_CATEGORIA`),
   UNIQUE INDEX `CATEGORIA_UNIQUE` (`CATEGORIA` ASC) )
@@ -115,7 +115,7 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB11_Item`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB11_Item` (
-  `NU_ITEM` INT NOT NULL AUTO_INCREMENT,
+  `NU_ITEM` INT NOT NULL,
   `NOME` VARCHAR(25) NOT NULL,
   `DESCRICAO` VARCHAR(105) NOT NULL,
   `PRECO` DOUBLE NOT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB14_FeedBack` (
   `NU_FEEDBACK` INT NOT NULL AUTO_INCREMENT,
   `AVALIACAO` INT NOT NULL,
   `COMENTARIO` VARCHAR(45) NULL,
-  `NU_CLIENTE` INT NOT NULL,
+  `NU_CLIENTE` BINARY(16) NOT NULL,
   `NU_ITEM` INT NOT NULL,
   PRIMARY KEY (`NU_FEEDBACK`),
   INDEX `fk_FeedBack_Cliente1_idx` (`NU_CLIENTE` ASC) ,
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB08_Comanda` (
   `NU_COMANDA` INT NOT NULL AUTO_INCREMENT,
   `VALOR_TOTAL` DOUBLE NOT NULL,
   `NU_STATUS` INT NOT NULL,
-  `NU_CLIENTE` INT NOT NULL,
+  `NU_CLIENTE` BINARY(16) NOT NULL,
   PRIMARY KEY (`NU_COMANDA`),
   INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
   INDEX `fk_TB08_Comanda_TB06_Cliente1_idx` (`NU_CLIENTE` ASC) ,
@@ -298,6 +298,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB10_Pedido_Item` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-Insert into tb01_perfil(tb01_perfil.NU_PERFIL,tb01_perfil.PERFIL) values (1, "Cliente"),(2,"Visitante"),(3,"Gerente"),(4,"Garçom"),(5,"Cozinha"),(6,"Caixa")
 
-Insert into tb13_status (tb13_status.STATUS) values ("Ativo"),("Inativo"),("Em Preparação"),("Pronto para Entrega"),("Entregue"),("Aberta"),("Pendente de Pagamento"),("Paga"),("Livre"),("Ocupada"),("Reservado")
+Insert into tb01_perfil(tb01_perfil.NU_PERFIL,tb01_perfil.PERFIL) values (1, "Cliente"),(2,"Visitante"),(3,"Gerente"),(4,"Garçom"),(5,"Cozinha"),(6,"Caixa");
+
+Insert into tb13_status (tb13_status.STATUS) values ("Ativo"),("Inativo"),("Em Preparação"),("Pronto para Entrega"),("Entregue"),("Aberta"),("Pendente de Pagamento"),("Paga"),("Livre"),("Ocupada"),("Reservado"),("Indisponível");
