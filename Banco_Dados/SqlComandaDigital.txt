@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB05_Garcom` (
   `MATRICULA` INT NOT NULL AUTO_INCREMENT,
   `CPF` VARCHAR(11) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
-  `SENHA` TEXT NOT NULL,
+  `SENHA` TEXT(155) NOT NULL,
   `TELEFONE` VARCHAR(11) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`MATRICULA`),
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB06_Cliente` (
   `CPF` VARCHAR(11) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `TELEFONE` VARCHAR(11) NOT NULL,
-  `SENHA` TEXT NOT NULL,
+  `SENHA` TEXT(155) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   `NU_MESA` INT NULL,
   PRIMARY KEY (`NU_CLIENTE`),
@@ -104,7 +104,7 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB12_Categoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB12_Categoria` (
-  `NU_CATEGORIA` INT NOT NULL AUTO_INCREMENT,
+  `NU_CATEGORIA`INT NOT NULL AUTO_INCREMENT,
   `CATEGORIA` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`NU_CATEGORIA`),
   UNIQUE INDEX `CATEGORIA_UNIQUE` (`CATEGORIA` ASC) )
@@ -140,19 +140,24 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `comanda-digital`.`TB09_Pedido`
+-- Table `comanda-digital`.`TB08_Comanda`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB09_Pedido` (
-  `NU_PEDIDO` INT NOT NULL AUTO_INCREMENT,
-  `VALOR` DOUBLE NOT NULL,
-  `QUANTIDADE` INT NOT NULL,
-  `OBSERVACAO` VARCHAR(35) NULL,
+CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB08_Comanda` (
+  `NU_COMANDA` INT NOT NULL AUTO_INCREMENT,
+  `VALOR_TOTAL` DOUBLE NOT NULL,
   `NU_STATUS` INT NOT NULL,
-  PRIMARY KEY (`NU_PEDIDO`),
-  INDEX `fk_Pedido_Status1_idx` (`NU_STATUS` ASC) ,
-  CONSTRAINT `fk_Pedido_Status1`
+  `NU_CLIENTE` BINARY(16) NOT NULL,
+  PRIMARY KEY (`NU_COMANDA`),
+  INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
+  INDEX `fk_TB08_Comanda_TB06_Cliente1_idx` (`NU_CLIENTE` ASC) ,
+  CONSTRAINT `fk_Comanda_Status1`
     FOREIGN KEY (`NU_STATUS`)
     REFERENCES `comanda-digital`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB08_Comanda_TB06_Cliente1`
+    FOREIGN KEY (`NU_CLIENTE`)
+    REFERENCES `comanda-digital`.`TB06_Cliente` (`NU_CLIENTE`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -162,9 +167,9 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB04_Cozinha`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB04_Cozinha` (
-  `NU_COZINHA` INT NOT NULL,
+  `NU_COZINHA` INT NOT NULL AUTO_INCREMENT,
   `TIPO` VARCHAR(25) NOT NULL,
-  `SENHA` TEXT NOT NULL,
+  `SENHA` VARCHAR(155) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_COZINHA`),
   INDEX `fk_Cozinha_Perfil1_idx` (`NU_PERFIL` ASC) ,
@@ -177,11 +182,44 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `comanda-digital`.`TB09_Pedido`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB09_Pedido` (
+  `NU_PEDIDO` INT NOT NULL AUTO_INCREMENT,
+  `VALOR` DOUBLE NOT NULL,
+  `QUANTIDADE` INT NOT NULL,
+  `OBSERVACAO` VARCHAR(35) NULL,
+  `NU_STATUS` INT NOT NULL,
+  `NU_COMANDA` INT NOT NULL,
+  `NU_COZINHA` INT NOT NULL,
+  PRIMARY KEY (`NU_PEDIDO`),
+  INDEX `fk_Pedido_Status1_idx` (`NU_STATUS` ASC) ,
+  INDEX `fk_TB09_Pedido_TB08_Comanda1_idx` (`NU_COMANDA` ASC) ,
+  INDEX `fk_TB09_Pedido_TB04_Cozinha1_idx` (`NU_COZINHA` ASC) ,
+  CONSTRAINT `fk_Pedido_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda-digital`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB09_Pedido_TB08_Comanda1`
+    FOREIGN KEY (`NU_COMANDA`)
+    REFERENCES `comanda-digital`.`TB08_Comanda` (`NU_COMANDA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB09_Pedido_TB04_Cozinha1`
+    FOREIGN KEY (`NU_COZINHA`)
+    REFERENCES `comanda-digital`.`TB04_Cozinha` (`NU_COZINHA`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `comanda-digital`.`TB03_Caixa`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB03_Caixa` (
   `NU_CAIXA` INT NOT NULL AUTO_INCREMENT,
-  `SENHA` TEXT NOT NULL,
+  `SENHA` TEXT(155) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_CAIXA`),
   INDEX `fk_Caixa_Perfil1_idx` (`NU_PERFIL` ASC) ,
@@ -200,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB02_Gerente` (
   `NU_GERENTE` INT NOT NULL AUTO_INCREMENT,
   `NOME` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
-  `SENHA` TEXT NOT NULL,
+  `SENHA` TEXT(155) NOT NULL,
   `TELEFONE` VARCHAR(11) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_GERENTE`),
@@ -240,42 +278,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `comanda-digital`.`TB08_Comanda`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB08_Comanda` (
-  `NU_COMANDA` INT NOT NULL AUTO_INCREMENT,
-  `VALOR_TOTAL` DOUBLE NOT NULL,
-  `NU_STATUS` INT NOT NULL,
-  `NU_CLIENTE` BINARY(16) NOT NULL,
-  PRIMARY KEY (`NU_COMANDA`),
-  INDEX `fk_Comanda_Status1_idx` (`NU_STATUS` ASC) ,
-  INDEX `fk_TB08_Comanda_TB06_Cliente1_idx` (`NU_CLIENTE` ASC) ,
-  CONSTRAINT `fk_Comanda_Status1`
-    FOREIGN KEY (`NU_STATUS`)
-    REFERENCES `comanda-digital`.`TB13_Status` (`NU_STATUS`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_TB08_Comanda_TB06_Cliente1`
-    FOREIGN KEY (`NU_CLIENTE`)
-    REFERENCES `comanda-digital`.`TB06_Cliente` (`NU_CLIENTE`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `comanda-digital`.`TB10_Pedido_Item`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB10_Pedido_Item` (
   `NU_PEDIDO` INT NOT NULL,
   `NU_ITEM` INT NOT NULL,
-  `NU_COZINHA` INT NOT NULL,
-  `NU_COMANDA` INT NOT NULL,
   PRIMARY KEY (`NU_PEDIDO`, `NU_ITEM`),
   INDEX `fk_Pedido_has_Item_Item1_idx` (`NU_ITEM` ASC) ,
   INDEX `fk_Pedido_has_Item_Pedido1_idx` (`NU_PEDIDO` ASC) ,
-  INDEX `fk_TB10_Pedido_Item_TB04_Cozinha1_idx` (`NU_COZINHA` ASC) ,
-  INDEX `fk_TB10_Pedido_Item_TB08_Comanda1_idx` (`NU_COMANDA` ASC) ,
   CONSTRAINT `fk_Pedido_has_Item_Pedido1`
     FOREIGN KEY (`NU_PEDIDO`)
     REFERENCES `comanda-digital`.`TB09_Pedido` (`NU_PEDIDO`)
@@ -285,17 +295,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB10_Pedido_Item` (
     FOREIGN KEY (`NU_ITEM`)
     REFERENCES `comanda-digital`.`TB11_Item` (`NU_ITEM`)
     ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_TB10_Pedido_Item_TB04_Cozinha1`
-    FOREIGN KEY (`NU_COZINHA`)
-    REFERENCES `comanda-digital`.`TB04_Cozinha` (`NU_COZINHA`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_TB10_Pedido_Item_TB08_Comanda1`
-    FOREIGN KEY (`NU_COMANDA`)
-    REFERENCES `comanda-digital`.`TB08_Comanda` (`NU_COMANDA`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
