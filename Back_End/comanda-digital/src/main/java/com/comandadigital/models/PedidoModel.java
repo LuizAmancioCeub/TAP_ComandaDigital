@@ -24,7 +24,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "TB09_PEDIDO")
-public class PedidoModel extends RepresentationModel<CategoriaModel> implements Serializable {
+public class PedidoModel extends RepresentationModel<PedidoModel> implements Serializable {
 	private static final long serialVersionUID = 3279824532929844035L;
 	
 	@Id
@@ -46,6 +46,14 @@ public class PedidoModel extends RepresentationModel<CategoriaModel> implements 
 	    @JoinColumn(name = "NU_STATUS", nullable = false)
 	    private StatusModel status;
 	    
+	    @ManyToOne
+	    @JoinColumn(name = "NU_COMANDA", nullable = false)
+	    private ComandaModel comanda;
+
+	    @ManyToOne
+	    @JoinColumn(name = "NU_COZINHA", nullable = false)
+	    private CozinhaModel cozinha;
+	    
 	    @ManyToMany
 	    @JoinTable(
 	        name = "TB10_Pedido_Item",
@@ -53,4 +61,5 @@ public class PedidoModel extends RepresentationModel<CategoriaModel> implements 
 	        inverseJoinColumns = @JoinColumn(name = "NU_ITEM")
 	    )
 	    private Set<ItemModel> itens;
+	    
 }

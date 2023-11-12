@@ -167,7 +167,7 @@ public class ItemServiceImplements implements ItemService{
 		ItemModel itemDelete = item0.get();
  		String name = itemDelete.getNome();
  		
- 		itemRepository.delete(item0.get());
+ 		itemRepository.delete(itemDelete);
  		return "Categoria "+name+" deletada com Sucesso";
 	}
 

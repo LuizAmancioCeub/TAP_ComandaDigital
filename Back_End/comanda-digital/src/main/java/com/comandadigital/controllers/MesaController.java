@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +42,17 @@ public class MesaController {
 			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mesa não encontrada!");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(mesa0.get());
+	}
+	
+	@PutMapping("/mesa/{id}")
+	public ResponseEntity<Object> updateMesa(@PathVariable(value="id") Integer id, @RequestBody @Valid MesaRecordDTO dto){
+		MesaModel updateMesa = mesaServiceImplements.update(id, dto);
+		
+		if(updateMesa == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível alterar o status da mesa!!");
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(updateMesa);
 	}
 
 }

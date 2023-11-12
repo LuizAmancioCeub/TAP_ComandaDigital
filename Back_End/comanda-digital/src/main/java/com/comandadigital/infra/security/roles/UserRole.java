@@ -2,7 +2,8 @@ package com.comandadigital.infra.security.roles;
 
 public enum UserRole {
 	CLIENTE("ROLE_CLIENTE"),
-    VISITANTE("ROLE_VISITANTE");
+    VISITANTE("ROLE_VISITANTE"),
+    COZINHA("ROLE_COZINHA");
 	
 	private String role;
 	

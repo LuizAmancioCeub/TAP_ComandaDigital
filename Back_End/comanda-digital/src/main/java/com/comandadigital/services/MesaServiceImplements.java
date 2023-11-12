@@ -74,17 +74,47 @@ public class MesaServiceImplements implements MesaService {
 
 	@Override
 	public MesaModel update(Integer id, MesaRecordDTO mesaDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
+		
+		if(mesa0.isEmpty()) {
+			throw new RuntimeException("Mesa não encontrada");
+		}
+		StatusModel status = mesaDTO.status();
+		Optional<StatusModel> existingMesa = statusRepository.findById(status.getId());
+		if(existingMesa.isEmpty()) {
+			throw new RuntimeException("Mesa não encontrada");
+		}
+		var mesaModel = mesa0.get();
+		BeanUtils.copyProperties(mesaDTO, mesaModel);
+		
+		return mesaRepository.save(mesaModel);
 	}
 
 	@Override
 	public String delete(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
+		if(mesa0.isEmpty()) {
+			throw new RuntimeException("Mesa não encontrada");
+		}
+		MesaModel mesaDelete = mesa0.get();
+		mesaRepository.delete(mesaDelete);
+		return "Mesa "+mesaDelete.getId()+"deletado";
+		
 	}
 	
 	public boolean existsById(Integer id) {
 		return mesaRepository.existsById(id);
 	}
+	
+	 public void atualizarStatusMesa(Integer mesaId, Integer nuStatusAntigo, Integer nuStatusNovo) {
+	        Optional<MesaModel> mesaOptional = mesaRepository.findById(mesaId);
+
+	        if (mesaOptional.isPresent() && mesaOptional.get().getStatus().getId() == nuStatusAntigo) {
+	            // Lógica de atualização da mesa para o status desejado 
+	            StatusModel novoStatus = statusRepository.findById(nuStatusNovo).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+	            mesaOptional.get().setStatus(novoStatus);
+
+	            mesaRepository.save(mesaOptional.get());
+	        }
+	 }
 }
