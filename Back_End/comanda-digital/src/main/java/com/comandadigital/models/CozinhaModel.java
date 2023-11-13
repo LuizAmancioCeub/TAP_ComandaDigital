@@ -57,13 +57,15 @@ public class CozinhaModel extends RepresentationModel<GarcomModel> implements Se
 		this.perfil = perfil;
 	}
 	
+	// definindo tipo de usuário
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
 		if("COZINHA".equals(perfil.getPerfil())) {
-			
 			authorities.add(new SimpleGrantedAuthority(UserRole.COZINHA.getRole()));
+		}else if("BAR".equals(perfil.getPerfil())) {
+			authorities.add(new SimpleGrantedAuthority(UserRole.BAR.getRole()));
 		}
 		
 		return authorities;

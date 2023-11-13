@@ -6,16 +6,31 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.comandadigital.models.ClienteModel;
+import com.comandadigital.models.CozinhaModel;
 import com.comandadigital.repositories.ClienteRepository;
+import com.comandadigital.repositories.CozinhaRepository;
 
 @Service
 public class AuthService implements UserDetailsService {
 	@Autowired
-	ClienteRepository repository;
+	ClienteRepository clienteRepository;
+	@Autowired
+	CozinhaRepository cozinhaRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return repository.findByCpf(username);
+		UserDetails cliente = clienteRepository.findByCpf(username);
+        if (cliente != null) {
+            return cliente;
+        }
+
+        UserDetails cozinha = cozinhaRepository.findByTipo(username);
+        if (cozinha != null) {
+            return cozinha;
+        }
+        
+        throw new UsernameNotFoundException("Usuário não encontrado com a identificação: " + username);
 	}
 
 }

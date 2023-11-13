@@ -78,7 +78,7 @@ public class ClienteServiceImplements implements ClienteService {
     
         
      // Criar comanda para o cliente se n tiver comanda ativa
-        if(comandaService.findComandaByCpf(dto.cpf(),6) == null) {
+        if(comandaService.findComandaByCpf(dto.cpf(),6) == null || comandaService.findComandaByCpf(dto.cpf(),7) == null ) {
         	 StatusModel defaultStatus = statusRepository.findById(6).orElseThrow(() -> new RuntimeException("Status não encontrado"));
              ClienteModel defaultCliente = (ClienteModel) clienteRepository.findByCpf(dto.cpf());
              ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
@@ -86,7 +86,7 @@ public class ClienteServiceImplements implements ClienteService {
         }
        
 		
-		return tokenService.generateToken((ClienteModel)auth.getPrincipal());	
+		return tokenService.generateTokenCliente((ClienteModel)auth.getPrincipal());	
 		 
 	}
 

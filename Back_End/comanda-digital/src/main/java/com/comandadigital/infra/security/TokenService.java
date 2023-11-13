@@ -12,22 +12,32 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.comandadigital.models.ClienteModel;
+import com.comandadigital.models.CozinhaModel;
 
 
 @Service
 public class TokenService {
 	
 	@Value("${api.security.token.secret}")
-	
 	private String secret;
 	
+	 // Criando token para ClienteModel
+    public String generateTokenCliente(ClienteModel cliente) {
+        return generateToken(cliente.getCpf(), "CLIENTE");
+    }
+
+    // Criando token para CozinhaModel
+    public String generateTokenCozinha(CozinhaModel cozinha) {
+        return generateToken(cozinha.getTipo(), "COZINHA");
+    }
+	
 	// criando token
-	public String generateToken(ClienteModel cliente) {
+	public String generateToken(String login, String tipoUsuario) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			String token = JWT.create()
 					.withIssuer("auth-comanda")
-					.withSubject(cliente.getCpf())
+					.withSubject(tipoUsuario + login)
 					.withExpiresAt(genExpirationDate())
 					.sign(algorithm);
 			
