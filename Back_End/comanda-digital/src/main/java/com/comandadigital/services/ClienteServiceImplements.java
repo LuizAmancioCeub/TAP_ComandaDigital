@@ -1,12 +1,12 @@
 package com.comandadigital.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,6 @@ public class ClienteServiceImplements implements ClienteService {
 		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.cpf(), dto.senha());
 		var auth = this.authManager.authenticate(userNameSenha);
 	    
-//		String cpfDoUsuarioAutenticado = ((ClienteModel) auth.getPrincipal()).getCpf();
-//		List<PedidoModel> pedidosDoCliente = pedidoService.findPedidoByCpf(cpfDoUsuarioAutenticado);
 
 		MesaModel mesa = mesaOptional.get();
 		
@@ -77,8 +75,9 @@ public class ClienteServiceImplements implements ClienteService {
         setarMesaCliente(dto.cpf(), mesa.getId());
     
         
-     // Criar comanda para o cliente se n tiver comanda ativa
-        if(comandaService.findComandaByCpf(dto.cpf(),6) == null || comandaService.findComandaByCpf(dto.cpf(),7) == null ) {
+     // Criar comanda para o cliente se n tiver comanda ativa   
+        List<Integer> statusList = Arrays.asList(6, 7);
+        if(comandaService.findComandaByCpf(dto.cpf(), statusList) == null ) {
         	 StatusModel defaultStatus = statusRepository.findById(6).orElseThrow(() -> new RuntimeException("Status não encontrado"));
              ClienteModel defaultCliente = (ClienteModel) clienteRepository.findByCpf(dto.cpf());
              ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);

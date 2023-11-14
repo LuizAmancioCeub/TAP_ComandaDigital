@@ -3,6 +3,7 @@ package com.comandadigital.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.comandadigital.controllers.ItemController;
 import com.comandadigital.controllers.PedidoController;
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ComandaRecordDTO;
@@ -90,18 +90,16 @@ public class ComandaServiceImplements implements ComandaService {
 				" de cpf: "+comandaDelete.getCliente().getCpf()+" deletada com sucesso";
 	}
 	
-	public Optional<ComandaModel> findComandaByCpf(String cpf, Integer statusId){
+	public ComandaModel findComandaByCpf(String cpf, List<Integer> statusId){
 		UserDetails clienteDetails  = clienteRepository.findByCpf(cpf);
 		if(clienteDetails == null) {
 			return null;
 		}
-		 ClienteModel cliente = (ClienteModel) clienteDetails ; // converter UserDetails em model
-		 
-		 return comandaRepository.findComandaByCpf(cliente.getCpf(), statusId);
+		 return comandaRepository.findComandaByCpf(cpf, statusId);
 	}
 	
 	// método para retornar comanda do cliente logado
-	public Optional<ComandaModel> findMyComanda(){
+	public ComandaModel findMyComanda(){
 		 // Obtém o contexto de segurança
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 
@@ -115,17 +113,17 @@ public class ComandaServiceImplements implements ComandaService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getCpf();
 	        
-	        Optional<ComandaModel> comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,6);
-	        if(comandaCliente.isEmpty()) {
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(6));
+	        if(comandaCliente == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }
 	        // hipermidia para buscar os pedidos
-	        comandaCliente.get().add(linkTo(methodOn(PedidoController.class).getMyPedidos()).withRel("pedidos"));
+	        comandaCliente.add(linkTo(methodOn(PedidoController.class).getMyPedidos()).withRel("pedidos"));
 	    
 	        return comandaCliente; // retorna comanda o cliente logado
 
 	    }
-	    return Optional.empty();
+	    return null;
 	}
 
 }

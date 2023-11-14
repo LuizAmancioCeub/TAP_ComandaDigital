@@ -1,4 +1,4 @@
-package com.comandadigital.infra.security;
+ package com.comandadigital.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,10 +30,12 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/login/registrar").permitAll() // qlqr um pode se registrar
 						.requestMatchers(HttpMethod.POST, "/login").permitAll() // qlqr um pode fazer login
-						.requestMatchers(HttpMethod.POST, "/mesa").hasRole("CLIENTE")
-						.requestMatchers(HttpMethod.GET, "/mesas").hasRole("CLIENTE")
-						//.requestMatchers(HttpMethod.POST, "/categorias").hasRole("GERENTE") // para o endpoint /products so Gerente pode fazer POST
-						.anyRequest().authenticated()
+						.requestMatchers(HttpMethod.POST, "/mesa").hasRole("GERENTE") // apenas Gerente
+						.requestMatchers(HttpMethod.GET, "/mesas").hasAnyRole("GARCOM","GERENTE","CAIXA") // lista de quem pode realizar
+						.requestMatchers(HttpMethod.POST, "/categorias").hasRole("GERENTE") 
+						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA")
+						.requestMatchers(HttpMethod.POST, "/pedido").hasRole("CLIENTE")
+						.anyRequest().authenticated() // qualquer outra requisição precisa estar logado
 				)
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // filtro vai acontecer antes do UserNamePassword...
 				.build();

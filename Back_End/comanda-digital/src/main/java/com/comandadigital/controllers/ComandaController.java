@@ -1,5 +1,6 @@
 package com.comandadigital.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +49,9 @@ public class ComandaController {
 	
 	@GetMapping("consultarComanda/{cpf}")
 	public ResponseEntity<Object> getOneComandaId(@PathVariable(value="cpf") String cpf){
-		Optional<ComandaModel> comanda0 = comandaService.findComandaByCpf(cpf, 6);
+		ComandaModel comanda0 = comandaService.findComandaByCpf(cpf, Arrays.asList(6));
 		
-		return ResponseEntity.status(HttpStatus.OK).body(comanda0.get());
+		return ResponseEntity.status(HttpStatus.OK).body(comanda0);
 	}
 	
 	
