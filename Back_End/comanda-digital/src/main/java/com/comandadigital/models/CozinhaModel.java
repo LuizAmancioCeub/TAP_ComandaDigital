@@ -42,7 +42,7 @@ public class CozinhaModel extends RepresentationModel<GarcomModel> implements Se
 	private Integer id;
 	
 	@Column(name = "TIPO", nullable = false)
-	private String tipo;
+	private String login;
 	
 	@Column(name = "SENHA", nullable = false)
 	private String senha;
@@ -51,8 +51,8 @@ public class CozinhaModel extends RepresentationModel<GarcomModel> implements Se
 	@JoinColumn(name = "NU_PERFIL", nullable = false)
 	private PerfilModel perfil;
 	
-	public CozinhaModel(String tipo, String senha, PerfilModel perfil) {
-		this.tipo = tipo;
+	public CozinhaModel(String login, String senha, PerfilModel perfil) {
+		this.login = login;
 		this.senha = senha;
 		this.perfil = perfil;
 	}
@@ -80,7 +80,7 @@ public class CozinhaModel extends RepresentationModel<GarcomModel> implements Se
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return tipo;
+		return login;
 	}
 
 	@Override

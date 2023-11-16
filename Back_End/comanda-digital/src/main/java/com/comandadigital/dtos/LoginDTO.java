@@ -1,5 +1,7 @@
 package com.comandadigital.dtos;
 
-public record LoginDTO(String token) {
+import com.comandadigital.models.MesaModel;
+
+public record LoginDTO(String login,String senha, MesaModel mesa) {
 
 }

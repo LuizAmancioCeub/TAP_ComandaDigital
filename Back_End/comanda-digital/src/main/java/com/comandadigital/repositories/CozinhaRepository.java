@@ -10,7 +10,7 @@ import com.comandadigital.models.CozinhaModel;
 public interface CozinhaRepository extends JpaRepository<CozinhaModel, Integer> {
 	
 	//consultarLogin
-	UserDetails findByTipo(String tipo);
+	UserDetails findByLogin(String login);
 	
 	UserDetails findBySenha(String senha);
 }

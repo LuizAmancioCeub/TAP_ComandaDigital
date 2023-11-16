@@ -12,9 +12,9 @@ import com.comandadigital.models.PedidoModel;
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	
-	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.cpf = :cpf")
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf")
 	List<PedidoModel>findPedidoByCpf(@Param("cpf") String cpf);
 	
-	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.cpf = :cpf AND pedido.status.id = :statusId")
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id = :statusId")
 	List<PedidoModel>findPedidoByCpfAndStatus(@Param("cpf") String cpf, @Param("statusId")Integer statusId);
 }

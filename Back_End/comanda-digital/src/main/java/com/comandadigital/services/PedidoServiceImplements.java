@@ -58,7 +58,7 @@ public class PedidoServiceImplements implements PedidoService {
 	    	// Obtem detalhes do ClienteModel
 	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
 	        // Obtém o CPF do cliente
-	        String cpfDoUsuarioAutenticado = clienteModel.getCpf();
+	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        // verificando comanda
 	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(6, 7));
@@ -139,7 +139,7 @@ public class PedidoServiceImplements implements PedidoService {
 	    	// Obtem detalhes do ClienteModel
 	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
 	        // Obtém o CPF do cliente
-	        String cpfDoUsuarioAutenticado = clienteModel.getCpf();
+	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpf(cpfDoUsuarioAutenticado);
 	        

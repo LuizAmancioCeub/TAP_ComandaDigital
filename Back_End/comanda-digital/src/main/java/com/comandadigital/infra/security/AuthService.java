@@ -18,12 +18,12 @@ public class AuthService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDetails cliente = clienteRepository.findByCpf(username);
+		UserDetails cliente = clienteRepository.findByLogin(username);
         if (cliente != null) {
             return cliente;
         }
 
-        UserDetails cozinha = cozinhaRepository.findByTipo(username);
+        UserDetails cozinha = cozinhaRepository.findByLogin(username);
         if (cozinha != null) {
             return cozinha;
         }

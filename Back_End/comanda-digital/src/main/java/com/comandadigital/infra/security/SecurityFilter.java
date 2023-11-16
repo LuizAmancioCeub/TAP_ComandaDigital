@@ -39,9 +39,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 			// Verifica o tipo de usuário com base no token
             if (login != null) {
                 if (login.startsWith("CLIENTE")) {
-                    userDetails = clienteRepository.findByCpf(login.substring("CLIENTE".length())); // subtraindo a string que verifica o tipo de usuário
+                    userDetails = clienteRepository.findByLogin(login.substring("CLIENTE".length())); // subtraindo a string que verifica o tipo de usuário
                 } else if (login.startsWith("COZINHA")) {
-                    userDetails = cozinhaRepository.findByTipo(login.substring("COZINHA".length()));
+                    userDetails = cozinhaRepository.findByLogin(login.substring("COZINHA".length()));
                 }
             }
 			

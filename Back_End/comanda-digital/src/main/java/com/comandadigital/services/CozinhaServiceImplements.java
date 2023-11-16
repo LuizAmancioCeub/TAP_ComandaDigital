@@ -32,11 +32,11 @@ public class CozinhaServiceImplements implements CozinhaService {
 	@Override
 	public String login(@RequestBody @Valid CozinhaLoginDTO dto) {
 		// Validar se existe login
-		if(cozinhaRepository.findByTipo(dto.tipo()) == null) {
+		if(cozinhaRepository.findByLogin(dto.login()) == null) {
 			return "LoginNotFound";
 		}
 		
-		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.tipo(), dto.senha());
+		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
 		var auth = this.authManager.authenticate(userNameSenha);
 		
 		return tokenService.generateTokenCozinha((CozinhaModel)auth.getPrincipal());
@@ -44,13 +44,13 @@ public class CozinhaServiceImplements implements CozinhaService {
 
 	@Override
 	public CozinhaModel register(@RequestBody @Valid CozinhaRegisterDTO dto) {
-		if(cozinhaRepository.findByTipo(dto.tipo()) != null) {
+		if(cozinhaRepository.findByLogin(dto.login()) != null) {
 			return null;
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha());
 		PerfilModel perfilCliente = perfilRepository.findById(5).orElseThrow(() -> new RuntimeException("Perfil não encontrado"));
 		
-		CozinhaModel newCozinha = new CozinhaModel(dto.tipo(), encryptedPassword, perfilCliente);
+		CozinhaModel newCozinha = new CozinhaModel(dto.login(), encryptedPassword, perfilCliente);
 		
 		return this.cozinhaRepository.save(newCozinha);
 	}

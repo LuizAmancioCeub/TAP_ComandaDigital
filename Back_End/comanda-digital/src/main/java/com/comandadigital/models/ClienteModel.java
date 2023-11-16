@@ -43,7 +43,7 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	private UUID id;
 	
 	@Column(name = "CPF", nullable = false, unique = true)
-	private String cpf;
+	private String login;
 	
 	@Column(name = "NOME", nullable = false)
 	 private String nome;
@@ -64,8 +64,8 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	
 	
 	
-	public ClienteModel(String cpf, String nome,String senha,String telefone, PerfilModel perfil) {
-		this.cpf = cpf;
+	public ClienteModel(String login, String nome,String senha,String telefone, PerfilModel perfil) {
+		this.login = login;
 		this.senha = senha;
 		this.perfil = perfil;
 		this.nome = nome;
@@ -99,7 +99,7 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	@Override
 	public String getUsername() {
 		
-		return cpf;
+		return login;
 	}
 
 	@Override

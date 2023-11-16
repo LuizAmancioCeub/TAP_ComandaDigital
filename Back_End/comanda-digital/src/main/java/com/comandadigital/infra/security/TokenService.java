@@ -23,12 +23,12 @@ public class TokenService {
 	
 	 // Criando token para ClienteModel
     public String generateTokenCliente(ClienteModel cliente) {
-        return generateToken(cliente.getCpf(), "CLIENTE");
+        return generateToken(cliente.getLogin(), "CLIENTE");
     }
 
     // Criando token para CozinhaModel
     public String generateTokenCozinha(CozinhaModel cozinha) {
-        return generateToken(cozinha.getTipo(), "COZINHA");
+        return generateToken(cozinha.getLogin(), "COZINHA");
     }
 	
 	// criando token

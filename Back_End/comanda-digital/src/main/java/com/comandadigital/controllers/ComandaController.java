@@ -48,7 +48,7 @@ public class ComandaController {
 	}
 	
 	@GetMapping("consultarComanda/{cpf}")
-	public ResponseEntity<Object> getOneComandaId(@PathVariable(value="cpf") String cpf){
+	public ResponseEntity<Object> getOneComandaId(@PathVariable(value="login") String cpf){
 		ComandaModel comanda0 = comandaService.findComandaByCpf(cpf, Arrays.asList(6));
 		
 		return ResponseEntity.status(HttpStatus.OK).body(comanda0);

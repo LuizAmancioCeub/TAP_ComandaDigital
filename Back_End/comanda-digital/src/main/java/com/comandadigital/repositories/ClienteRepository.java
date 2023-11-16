@@ -12,7 +12,7 @@ import com.comandadigital.models.ClienteModel;
 public interface ClienteRepository extends JpaRepository<ClienteModel, UUID> {
 	
 	//consultarLogin
-	UserDetails findByCpf(String cpf);
+	UserDetails findByLogin(String login);
 	
 	//consultar telefone
 	UserDetails findByTelefone(String telefone);

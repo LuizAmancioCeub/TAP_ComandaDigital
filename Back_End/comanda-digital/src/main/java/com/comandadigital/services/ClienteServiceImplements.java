@@ -45,15 +45,13 @@ public class ClienteServiceImplements implements ClienteService {
 	@Autowired
 	private ComandaServiceImplements comandaService;
 	@Autowired
-	StatusRepository statusRepository;
-	@Autowired
-	ClienteRepository clienteRepository;
+	private StatusRepository statusRepository;
 	
 	@Override
 	public String login(@RequestBody @Valid ClienteLoginDTO dto) {
 		
 		// Validar se existe login
-		if(repository.findByCpf(dto.cpf()) == null) {
+		if(repository.findByLogin(dto.login()) == null) {
 			return "LoginNotFound";
 		}
 		
@@ -62,7 +60,7 @@ public class ClienteServiceImplements implements ClienteService {
 			return "MesaNotFound";
 		}
 		
-		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.cpf(), dto.senha());
+		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
 		var auth = this.authManager.authenticate(userNameSenha);
 	    
 
@@ -72,14 +70,14 @@ public class ClienteServiceImplements implements ClienteService {
 			 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 9, 10);
 	    }
 		 // Associar número da mesa ao cliente durante o login
-        setarMesaCliente(dto.cpf(), mesa.getId());
+        setarMesaCliente(dto.login(), mesa.getId());
     
         
      // Criar comanda para o cliente se n tiver comanda ativa   
         List<Integer> statusList = Arrays.asList(6, 7);
-        if(comandaService.findComandaByCpf(dto.cpf(), statusList) == null ) {
+        if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
         	 StatusModel defaultStatus = statusRepository.findById(6).orElseThrow(() -> new RuntimeException("Status não encontrado"));
-             ClienteModel defaultCliente = (ClienteModel) clienteRepository.findByCpf(dto.cpf());
+             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
              ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
              comandaService.register(comandaDTO);
         }
@@ -91,7 +89,7 @@ public class ClienteServiceImplements implements ClienteService {
 
 	@Override
 	public ClienteModel register(@RequestBody @Valid ClienteRegisterDTO dto) {
-		if(repository.findByCpf(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null) {
+		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null) {
 			return null;
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
@@ -104,7 +102,7 @@ public class ClienteServiceImplements implements ClienteService {
 	}
 	
 	public void setarMesaCliente(String cpf, Integer nuMesa) {
-		UserDetails clienteDetails  = repository.findByCpf(cpf);
+		UserDetails clienteDetails  = repository.findByLogin(cpf);
 		
 		if(clienteDetails  != null) {
 			 ClienteModel cliente = (ClienteModel) clienteDetails; // Converter UserDetails para ClienteModel

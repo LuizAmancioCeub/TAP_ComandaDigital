@@ -87,11 +87,11 @@ public class ComandaServiceImplements implements ComandaService {
 		ComandaModel comandaDelete = comanda0.get();
 		comandaRepository.delete(comandaDelete);
 		return "Comanda do cliente "+comandaDelete.getCliente().getNome()+
-				" de cpf: "+comandaDelete.getCliente().getCpf()+" deletada com sucesso";
+				" de cpf: "+comandaDelete.getCliente().getLogin()+" deletada com sucesso";
 	}
 	
 	public ComandaModel findComandaByCpf(String cpf, List<Integer> statusId){
-		UserDetails clienteDetails  = clienteRepository.findByCpf(cpf);
+		UserDetails clienteDetails  = clienteRepository.findByLogin(cpf);
 		if(clienteDetails == null) {
 			return null;
 		}
@@ -111,7 +111,7 @@ public class ComandaServiceImplements implements ComandaService {
 	    	// Obtem detalhes do ClienteModel
 	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
 	        // Obtém o CPF do cliente
-	        String cpfDoUsuarioAutenticado = clienteModel.getCpf();
+	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(6));
 	        if(comandaCliente == null) {
