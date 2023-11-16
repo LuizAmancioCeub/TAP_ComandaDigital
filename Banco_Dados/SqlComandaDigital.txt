@@ -1,4 +1,5 @@
 
+
 -- -----------------------------------------------------
 -- Schema comanda-digital
 -- -----------------------------------------------------
@@ -52,7 +53,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB07_Mesa` (
   `NU_MESA` INT NOT NULL,
   `QR_CODE` VARCHAR(145) NOT NULL,
-  `NU_GARCOM` INT NOT NULL,
+  `NU_GARCOM` INT NULL,
   `NU_STATUS` INT NOT NULL,
   PRIMARY KEY (`NU_MESA`),
   INDEX `fk_Mesa_Garcom1_idx` (`NU_GARCOM` ASC) ,
@@ -81,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB06_Cliente` (
   `TELEFONE` VARCHAR(11) NOT NULL,
   `SENHA` TEXT(155) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
-  `NU_MESA` INT NOT NULL,
+  `NU_MESA` INT NULL,
   PRIMARY KEY (`NU_CLIENTE`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
   INDEX `fk_Cliente_Perfil1_idx` (`NU_PERFIL` ASC) ,
@@ -284,9 +285,11 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB10_Pedido_Item` (
   `QUANTIDADE` INT NOT NULL,
   `VALOR` DOUBLE NOT NULL,
   `OBSERVACAO` VARCHAR(35) NULL,
+  `NU_STATUS` INT NOT NULL,
   PRIMARY KEY (`NU_PEDIDO`, `NU_ITEM`),
   INDEX `fk_Pedido_has_Item_Item1_idx` (`NU_ITEM` ASC) ,
   INDEX `fk_Pedido_has_Item_Pedido1_idx` (`NU_PEDIDO` ASC) ,
+  INDEX `fk_TB10_Pedido_Item_TB13_Status1_idx` (`NU_STATUS` ASC) ,
   CONSTRAINT `fk_Pedido_has_Item_Pedido1`
     FOREIGN KEY (`NU_PEDIDO`)
     REFERENCES `comanda-digital`.`TB09_Pedido` (`NU_PEDIDO`)
@@ -296,10 +299,16 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB10_Pedido_Item` (
     FOREIGN KEY (`NU_ITEM`)
     REFERENCES `comanda-digital`.`TB11_Item` (`NU_ITEM`)
     ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_TB10_Pedido_Item_TB13_Status1`
+    FOREIGN KEY (`NU_STATUS`)
+    REFERENCES `comanda-digital`.`TB13_Status` (`NU_STATUS`)
+    ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
+
 Insert into tb01_perfil(tb01_perfil.NU_PERFIL,tb01_perfil.PERFIL) values (1, "Cliente"),(2,"Visitante"),(3,"Gerente"),(4,"Garçom"),(5,"Cozinha"),(6,"Caixa");
 
-Insert into tb13_status (tb13_status.STATUS) values ("Ativo"),("Inativo"),("Em Preparação"),("Pronto para Entrega"),("Entregue"),("Aberta"),("Pendente de Pagamento"),("Paga"),("Livre"),("Ocupada"),("Reservado"),("Indisponível");
+Insert into tb13_status (tb13_status.STATUS) values ("Ativo"),("Inativo"),("Em Preparação"),("Pronto para Entrega"),("Entregue"),("Cancelado"),("Em Processamento"),("Aberta"),("Aguardando Pagamento"),("Paga"),("Livre"),("Ocupada"),("Reservado"),("Indisponível");
