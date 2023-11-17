@@ -1,0 +1,25 @@
+<div style="margin-top: 4rem;" class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-tittle">Mesas:</div>
+                    <ul>
+                        <hr>
+                        <li *ngFor="let mesa of data">
+                          <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }}</p>
+                          <p>Garçom: {{ mesa.garcom }}</p>
+                          <p>QR Code: {{ mesa.qr_code }}</p>
+                          <p>Status: {{ mesa.status.status }}</p>
+                          <hr>
+                        </li>
+                      </ul>
+
+                    <div *ngIf="!data || data.length === 0">
+                        <p>Nenhuma mesa encontrada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

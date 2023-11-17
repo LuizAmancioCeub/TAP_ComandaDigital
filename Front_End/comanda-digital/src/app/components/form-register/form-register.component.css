@@ -1,0 +1,30 @@
+
+.register{
+    box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
+    border-radius: 1rem;
+}
+.register > .modal-body > .form > .card-body > .form-group{
+    margin-top: .5rem;
+}
+.btn {
+    border-radius: 18px;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 8px;
+    width: 70%;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.alert{
+    padding: .3rem;
+    text-align: center;
+    border-radius: .5rem;
+}

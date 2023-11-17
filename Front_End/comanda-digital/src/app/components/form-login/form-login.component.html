@@ -1,42 +1,53 @@
 <div class="card_login">
     <a class="title_card_login">Bem-Vindo !! <br>Preencha os campos para acessar nosso cardápio</a>
+    <form #loginForm="ngForm">
+        <ng-container *ngIf="mostrarErro">
+            <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+        </ng-container>
+        <div class="inputBox">
+            <select name="mesa" id="mesa" [(ngModel)]="mesa" required="required">
+                <option selected disabled value="null">Sua Mesa</option> 
+                <option value="10">Mesa 10</option>
+                <option>Mesa 11</option>
+                <option>Mesa 12</option>
+            </select>
+        </div> 
+            <div class="input">
+                <input class="inputField" type="text" name="login" id="login" [(ngModel)]="login" maxlength="11" required="required">
+                <label for="cpf" class="input__label">CPF</label>
+            </div>
 
-    <div class="inputBox">
-        <select name="mesa" id="mesa" required="required">
-            <option selected disabled>Sua Mesa</option> 
-            <option>Mesa 10</option>
-            <option>Mesa 11</option>
-            <option>Mesa 12</option>
-        </select>
-    </div> 
-        <div class="input">
-            <input class="inputField" type="text" name="cpf" id="cpf" maxlength="11" required="required">
-            <label for="cpf" class="input__label">CPF</label>
-        </div>
-
-        <div class="input">
-            <input class="input__field" id="password" name="senha" type="password" required />
-            <label for="password" class="input__label">Senha</label>
-            <span class="input__icon-wrapper">
-                <i (click)="eye()" class="input__icon ri-eye-off-line"></i>
-            </span>
-        </div>
-
+            <div class="input">
+                <input class="input__field" id="password" name="senha" type="password" [(ngModel)]="senha" required />
+                <label for="password" class="input__label">Senha</label>
+                <span class="input__icon-wrapper">
+                    <i (click)="eye()" class="input__icon ri-eye-off-line"></i>
+                </span>
+            </div>
+       
         <div class="btns">
+            <!--<div  style="margin-bottom: .8rem;" class="form-group col-md-12">
+                <button type="submit" class=" form-control btn btn-block">Entrar</button> 
+            </div> -->
             <div class="form-group col-md-12">
-                <button [routerLink]="['cardapio']" id="cadastrar" name="cadastrar" class=" form-control btn btn-primary btn-block">Entrar</button> 
+                <button (click)="onSubmitLogin()" type="submit" id="cadastrar" name="cadastrar" class=" form-control btn btn-primary btn-block">Entrar</button> 
             </div>
     
             <div style="margin-top: .8rem;" class="form-group col-md-12">
                 <button [routerLink]="['cardapio']" id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
             </div>
-    
+           
             <div style="margin-top: 1.5rem;" class="form-group col-md-12 d-flex justify-content-center"> 
-                <a href="#registrar" style="color: black;" data-toggle="modal">Não tem conta? Registra-se aqui</a>
+                <a (click)="openVerticallyCentered(content)" href="#registrar" style="color: black;" data-toggle="modal">Não tem conta? Registra-se aqui</a>
             </div>
             <div style="margin-top: .8rem;" class="form-group col-md-12 d-flex justify-content-center"> 
                 <a href="#esqueci" style="color: black;" data-toggle="modal">Esqueci a Senha</a>
             </div>    
         </div>
+    </form> 
         
 </div>
+
+<ng-template #content let-modal>
+    <app-form-register></app-form-register>
+</ng-template>

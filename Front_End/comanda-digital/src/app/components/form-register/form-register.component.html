@@ -1,0 +1,54 @@
+<div class="register">   
+    <div class="modal-body">
+
+        <form class="form" (ngSubmit)="onSubmitRegister()" #RegisterForm="ngForm">
+            <p class="description text-center">Faça seu Cadastro</p>
+            <ng-container *ngIf="mostrarErro">
+                <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+            </ng-container>
+            
+            <div class="card-body">
+
+                <div class="form-group bmd-form-group">
+                    <div class="input-group">
+                      <input [(ngModel)]="nome" type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome...">
+                    </div>
+                </div>
+
+                <div class="form-group bmd-form-group">
+                    <div class="input-group">
+                      <input [(ngModel)]="cpf" type="text" id="cpf" name="cpf" class="form-control" placeholder="Seu CPF...">
+                    </div>
+                </div>
+
+                <div class="form-group bmd-form-group">
+                    <div class="input-group">
+                        <input [(ngModel)]="telefone" type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone...">
+                    </div>
+                </div>
+
+                <div class="form-group bmd-form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i (click)="eye()" class="input__iconR ri-eye-off-line"></i>
+                        </span>
+                      </div>
+                      <input [(ngModel)]="senha" type="password" name="senha" id="senha"  placeholder="Sua senha..." class="form-control input__fieldR">
+                    </div>
+                </div>
+
+                <div class="form-group bmd-form-group">
+                    <div class="input-group">
+                      <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme sua senha..." class="form-control">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-primary">CADASTRAR</button>
+            </div>
+        </form>
+    </div>
+   
+</div>
