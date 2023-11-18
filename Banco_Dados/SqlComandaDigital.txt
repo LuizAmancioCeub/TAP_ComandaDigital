@@ -105,7 +105,7 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB12_Categoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB12_Categoria` (
-  `NU_CATEGORIA` INT NOT NULL,
+  `NU_CATEGORIA` INT NOT NULL AUTO_INCREMENT,
   `CATEGORIA` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`NU_CATEGORIA`),
   UNIQUE INDEX `CATEGORIA_UNIQUE` (`CATEGORIA` ASC) )
