@@ -1,0 +1,22 @@
+img{
+    width:100%;
+    border-radius: .5rem;
+    margin-bottom: 1.5rem;
+}
+
+.quantidade{
+    margin-left: .7rem;
+    margin-right: .7rem;
+}
+
+.obs{
+    margin-top: 1rem;
+}
+
+@media screen and (min-width: 1150px ){
+    .quantidade{
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+    
+}

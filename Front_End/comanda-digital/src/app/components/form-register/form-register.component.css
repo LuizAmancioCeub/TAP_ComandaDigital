@@ -28,3 +28,10 @@
     text-align: center;
     border-radius: .5rem;
 }
+.description{
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    font-weight: bold;
+    font-size: medium;
+}

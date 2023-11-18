@@ -51,8 +51,8 @@ export class FormRegisterComponent {
 
   // função para visualizar/ esconder senha
   public eye():void{
-      const inputIcon:any= document.querySelector('.input__icon')
-      const inputPassword:any = document.querySelector('.input__field')
+      const inputIcon:any= document.querySelector('.input__iconR')
+      const inputPassword:any = document.querySelector('.input__fieldR')
      
       inputIcon.classList.toggle('ri-eye-off-line');
       inputIcon.classList.toggle('ri-eye-line');

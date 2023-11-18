@@ -21,6 +21,7 @@ import { ContentsComponentComanda } from './components/comanda-components/conten
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { FormRegisterComponent } from './components/form-register/form-register.component';
+import { ModelPedidoComponent } from './components/cardapio-components/model-pedido/model-pedido.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { FormRegisterComponent } from './components/form-register/form-register.
     MenuComponent,
     MenuPerfilComponent,
     TesteContentComponent,
-    FormRegisterComponent
+    FormRegisterComponent,
+    ModelPedidoComponent
   ],
   imports: [
     BrowserModule,

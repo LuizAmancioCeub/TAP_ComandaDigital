@@ -1,0 +1,52 @@
+  <div class="modal-header">
+    <h5 class="modal-title" id="gridModalLabel">{{item}}</h5>
+    
+  </div>
+  <div class="modal-body">
+    
+    <div class="container-fluid bd-example-row">
+
+      <div class="row img">
+        <div class="col-12 col-sm-12">
+            <img src="assets/imagens/{{imagem}}">
+        </div>
+      </div>
+
+      
+
+      <div class="row qntd" style="margin-top: .5rem;">
+        <div class="col-6 col-sm-6" style="display: flex;">
+           
+            <div class="minus">
+                <i (click)="diminuir()" style="font-size: 22px;" class="bi bi-dash-circle"></i>
+            </div>
+            <div class="quantidade" >
+                <input style="text-align: center;" type="number" [(ngModel)]="quantidade" class="form-control" readonly>
+            </div>
+            <div class="plus">
+                <i (click)="add()" style="font-size: 22px;" class="bi bi-plus-circle"></i>
+            </div>
+        </div>
+        <div class="col-1 col-sm-1"></div>
+        <div class="col-1 col-sm-1" style="margin-top: .5rem;">
+            <label>R$:</label>
+        </div>
+        <div class="col-4 col-sm-4">
+            <input class="form-control" [(ngModel)]="valorTotal" type="text"  readonly>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 obs">
+        <label for="observacoes">Observações:</label>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12 col-example">
+         <textarea name="observacoes" [(ngModel)]="observacoes" class="form-control" rows="3" placeholder="Ex: Sem cebola, sem molho..."></textarea>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" name="realizarPedido" id="realizarPedido">Realizar Pedido</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+  </div>

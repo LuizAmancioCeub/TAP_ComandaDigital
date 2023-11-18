@@ -17,3 +17,28 @@
     justify-content: center;
 }
 
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    place-content: center;
+}
+@media screen and (max-width: 750px ) {
+    .cards{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 347px ) {
+    .cards{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+      padding: 1rem;
+    }
+}
+

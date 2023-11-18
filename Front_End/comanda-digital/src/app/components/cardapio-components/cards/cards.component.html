@@ -1,46 +1,20 @@
-<div class="cards">
-    <div class="cardi h-100">             
-        <img name="imagem" id="imagem" src="assets/imagens/hamburguer.jpg"/>
-        <h4 name="item" id="item">X-Tudo</h4>
-        <p name="descricao" id="descricao">Hambúrguer Artesanal na chapa - 200g de Picanha, 50g Queijo, Alface, Tomate, Cebola e 10g de Bacon.</p>
-        <p name="preco" id="preco"><b>Valor: R$ 28.99</b></p>
-        <hr style="background-color: black">
-        <div class="card-footer">
-          <button class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
-        </div>
-    </div>    
 
     <div class="cardi h-100">             
-        <img name="imagem" id="imagem" src="assets/imagens/hamburguer2.jpg"/>
-        <h4 name="item" id="item">X-Tudo</h4>
-        <p name="descricao" id="descricao">Hambúrguer Artesanal na chapa - 200g de Picanha, 50g Queijo, Alface, Tomate, Cebola e 10g de Bacon.</p>
-        <p name="preco" id="preco"><b>Valor: R$ 28.99</b></p>
+        <img name="imagem" id="imagem" src="assets/imagens/{{imagem}}"/>
+        <h4 name="item" id="item">{{item}}</h4>
+        <p name="descricao" id="descricao">{{descricao}}</p>
+        <p name="preco" id="preco"><b>Valor: R$ {{preco}}</b></p>
         <hr style="background-color: black">
         <div class="card-footer">
-          <button class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
+          <button (click)="openVerticallyCentered(pedido)" class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
         </div>
-    </div>  
+    </div>    
     
-    <div class="cardi h-100">             
-        <img name="imagem" id="imagem" src="assets/imagens/hamburguer2.jpg"/>
-        <h4 name="item" id="item">X-Tudo</h4>
-        <p name="descricao" id="descricao">Hambúrguer Artesanal na chapa - 200g de Picanha, 50g Queijo, Alface, Tomate, Cebola e 10g de Bacon.</p>
-        <p name="preco" id="preco"><b>Valor: R$ 28.99</b></p>
-        <hr style="background-color: black">
-        <div class="card-footer">
-          <button class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
-        </div>
-    </div> 
-    
-    <div class="cardi h-100">             
-        <img name="imagem" id="imagem" src="assets/imagens/hamburguer2.jpg"/>
-        <h4 name="item" id="item">X-Tudo</h4>
-        <p name="descricao" id="descricao">Hambúrguer Artesanal na chapa - 200g de Picanha, 50g Queijo, Alface, Tomate, Cebola e 10g de Bacon.</p>
-        <p name="preco" id="preco"><b>Valor: R$ 28.99</b></p>
-        <hr style="background-color: black">
-        <div class="card-footer">
-          <button class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
-        </div>
-    </div>  
-    
-</div>
+
+<ng-template #pedido let-modal>
+  <app-model-pedido
+    item="{{item}}"
+    imagem="{{imagem}}"
+    valor="{{preco}}">
+  </app-model-pedido>
+</ng-template>
