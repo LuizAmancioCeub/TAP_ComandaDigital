@@ -1,6 +1,5 @@
 <div class="register">   
     <div class="modal-body">
-
         <form class="form" (ngSubmit)="onSubmitRegister()" #RegisterForm="ngForm">
             <p class="description text-center">Faça seu Cadastro</p>
             <ng-container *ngIf="mostrarErro">
@@ -23,7 +22,7 @@
 
                 <div class="form-group bmd-form-group">
                     <div class="input-group">
-                        <input [(ngModel)]="telefone" type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone..." maxlength="11">
+                        <input [(ngModel)]="telefone" type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone..." minlength="11" maxlength="11">
                     </div>
                 </div>
 
@@ -40,13 +39,13 @@
 
                 <div class="form-group bmd-form-group">
                     <div class="input-group">
-                      <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme sua senha..." class="form-control">
+                      <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme sua senha..." class="form-control" minlength="6" maxlength="12">
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="submit" class="btn btn-primary">CADASTRAR</button>
+                <button type="submit" class="btn btn-primary">CADASTRARR</button>
             </div>
         </form>
     </div>

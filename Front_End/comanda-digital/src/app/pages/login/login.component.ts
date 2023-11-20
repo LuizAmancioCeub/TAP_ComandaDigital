@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {AxiosService} from '../../services/axios.service'
+import { FormLoginComponent } from 'src/app/components/form-login/form-login.component';
+import { LoginService } from 'src/app/services/login.service';
 
 
 @Component({
@@ -8,23 +10,14 @@ import {AxiosService} from '../../services/axios.service'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
-  constructor(private axiosService: AxiosService ){}
 
-  onLogin(input:any):void{
-    this.axiosService.request(
-      "POST",
-      "/login",
-      {
-        login: input.login,
-        senha: input.senha,
-        mesa: input.mesa
-      }
-    );
-  }
+  constructor(private axiosService: AxiosService, private formService:LoginService ){}
+
+  
 
   ngOnInit(): void {
-    
+     // Limpa o token ao acessar a rota principal
+     this.axiosService.setAuthToken(null);
   }
 
   
