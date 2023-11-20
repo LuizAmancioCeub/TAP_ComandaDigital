@@ -64,7 +64,7 @@ public class ComandaServiceImplements implements ComandaService {
 		BeanUtils.copyProperties(comandaDTO, comandaModel);
 		
 		// consultando o status inicial do item
-		StatusModel defaultStatus = statusRepository.findById(6).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+		StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 		comandaModel.setStatus(defaultStatus);
 		// valor incial da comanda
 		comandaModel.setValorTotal(0.0);

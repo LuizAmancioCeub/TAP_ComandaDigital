@@ -21,7 +21,7 @@ public class MesaModel extends RepresentationModel<MesaModel> implements Seriali
 	
 	@Id// id é auto increment e chave primaria
 	@Column(name = "NU_MESA", nullable = false, unique = true)
-	private int id;
+	private Integer id;
 	
 	@Column(name = "QR_CODE")
 	private String qr_code;

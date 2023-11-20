@@ -25,7 +25,7 @@ public class LoginController {
 		
 		if(token.equals("MesaNotFound")) {
 				
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mesa Indisponível");
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Mesa Indisponível");
 				
 		}else if(token.equals("LoginNotFound")){
 				

@@ -27,7 +27,7 @@ public class ClienteController {
 		
 		if(cliente0 == null) {
 			
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Já existe cadastro com o cpf ou telefone informado!!!");
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Já existe cadastro com o cpf ou telefone informado!!!");
 		}
 		
 		return ResponseEntity.ok().body("Cadastro efetuado, faça o login para acessar nossos serviços");

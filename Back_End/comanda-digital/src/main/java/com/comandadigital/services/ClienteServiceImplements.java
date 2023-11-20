@@ -56,7 +56,7 @@ public class ClienteServiceImplements implements ClienteService {
 		}
 		
 		Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
-		if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(12)) {
+		if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(14)) {
 			return "MesaNotFound";
 		}
 		
@@ -66,17 +66,17 @@ public class ClienteServiceImplements implements ClienteService {
 
 		MesaModel mesa = mesaOptional.get();
 		
-		if (mesa.getStatus().getId() == 9) {
-			 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 9, 10);
+		if (mesa.getStatus().getId() == 11) {
+			 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 11, 12);
 	    }
 		 // Associar número da mesa ao cliente durante o login
         setarMesaCliente(dto.login(), mesa.getId());
     
         
      // Criar comanda para o cliente se n tiver comanda ativa   
-        List<Integer> statusList = Arrays.asList(6, 7);
+        List<Integer> statusList = Arrays.asList(8, 9);
         if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
-        	 StatusModel defaultStatus = statusRepository.findById(6).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+        	 StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
              ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
              ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
              comandaService.register(comandaDTO);
