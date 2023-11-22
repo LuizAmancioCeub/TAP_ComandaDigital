@@ -1,12 +1,5 @@
 
 <div class="scrollmenu">
-    <a class="active">Home</a>
-    <a >Ofertas</a>
-    <a >Acompanhamentos</a>
-    <a >Massas</a>
-    <a >Sobremesas</a>
-    <a >Pratos</a>
-    <a >Home</a>
-    <a>Ofertas</a>
-    <a>Acompanhamentos</a>    
+    <a *ngFor="let categoria of data" [ngClass]="{ 'active': categoria.active }"  (click)="activateCategory(categoria)" > {{ categoria.categoria }}</a>
+     
 </div>

@@ -6,6 +6,11 @@ import { AxiosService } from './axios.service';
   providedIn: 'root'
 })
 export class LoginService {
+  private isLoggedIn = false;
+
+  setLoggedIn(value: boolean): void {
+    this.isLoggedIn = value;
+  }
 
   constructor(private axiosService:AxiosService) { }
 
@@ -20,6 +25,16 @@ export class LoginService {
 
   conferirLogin(login:string, senha:string, mesa:number):string{
     return "fail"
+  }
+
+  // Método para verificar se o usuário está autenticado
+  isAuthenticated(): boolean {
+    return this.isLoggedIn;
+  }
+
+  // Método para simular o logout
+  logout(): void {
+    this.isLoggedIn = false;
   }
 
 

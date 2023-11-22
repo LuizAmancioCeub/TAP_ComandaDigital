@@ -4,6 +4,7 @@ import { AxiosService } from 'src/app/services/axios.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
+import { CredencialsData } from 'src/app/Models/CredencialsData';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class FormLoginComponent implements OnInit {
   private modalService = inject(NgbModal);
+  data:CredencialsData[] = [];
   
   constructor(private axiosService: AxiosService , private loginService:LoginService, private router: Router){}
   
@@ -67,7 +69,7 @@ export class FormLoginComponent implements OnInit {
       const token = response.data.token;
       if (token) {
         this.axiosService.setAuthToken(token);
-        this.router.navigate(['/cardapio']);
+        this.verificarUsuario();
       } 
     })
     .catch((error) => {
@@ -88,6 +90,28 @@ export class FormLoginComponent implements OnInit {
         console.clear
       }
     });
+  }
+  verificarUsuario():void{
+    this.axiosService.request("GET", "/myCredenciais", "").then(
+      (response) => {
+      const perfil = response.data.perfil.perfil;
+      
+      if (perfil === "Cliente") {
+
+        this.loginService.setLoggedIn(true);
+        this.router.navigate(['/cardapio']); // Rota para clientes
+
+      } else if (perfil === "Cozinha") {
+
+        this.loginService.setLoggedIn(true);
+        this.router.navigate(['/teste']); // Rota para usuários comuns
+
+      } else {
+        // Rota padrão para outros perfis ou tratamento de erro
+        this.router.navigate(['/']);
+      }
+      }
+    );
   }
   // função para visualizar/ esconder senha
   public eye():void{
