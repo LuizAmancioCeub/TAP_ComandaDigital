@@ -15,6 +15,7 @@ import com.comandadigital.controllers.CategoriaController;
 import com.comandadigital.controllers.ItemController;
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ItemRecordDTO;
+import com.comandadigital.dtos.ItemUpdateRecordDTO;
 import com.comandadigital.dtos.myValidations.CustomUniqueConstraintViolationException;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
@@ -128,7 +129,7 @@ public class ItemServiceImplements implements ItemService{
 	}
 
 	@Override
-	public ItemModel update(Integer id, ItemRecordDTO itemDTO) {
+	public ItemModel update(Integer id, ItemUpdateRecordDTO itemDTO) {
 		Optional<ItemModel> item0 = itemRepository.findById(id);
 		
 		if(item0.isEmpty()) {

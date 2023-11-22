@@ -3,6 +3,7 @@ package com.comandadigital.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.CozinhaLoginDTO;
 import com.comandadigital.dtos.CozinhaRegisterDTO;
+import com.comandadigital.infra.security.AuthService;
 import com.comandadigital.dtos.AuthDTO;
 import com.comandadigital.services.CozinhaServiceImplements;
 
@@ -20,6 +22,8 @@ public class CozinhaController {
 	
 	@Autowired
 	CozinhaServiceImplements cozinhaService;
+	@Autowired
+	AuthService authService;
 	
 	// Registrar
 	@PostMapping("cozinha/registrar")
@@ -30,5 +34,7 @@ public class CozinhaController {
 		}
 		return ResponseEntity.ok().body("Cadastro da Cozinha efetuado, faça o login para acessar os serviços");
 	}
+	
+
 	
 }

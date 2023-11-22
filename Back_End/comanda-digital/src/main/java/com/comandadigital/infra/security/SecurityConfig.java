@@ -50,7 +50,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/mesa").permitAll() // apenas Gerente
 						.requestMatchers(HttpMethod.GET, "/mesas").authenticated() // lista de quem pode realizar
 						.requestMatchers(HttpMethod.DELETE, "/mesa/*").permitAll()
-						.requestMatchers(HttpMethod.POST, "/categorias").hasRole("GERENTE") 
+						.requestMatchers(HttpMethod.POST, "/categorias").authenticated() 
 						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA")
 						.requestMatchers(HttpMethod.POST, "/pedido").hasRole("CLIENTE")
 						.requestMatchers(HttpMethod.GET, "/status").permitAll()

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.ItemRecordDTO;
+import com.comandadigital.dtos.ItemUpdateRecordDTO;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
 import com.comandadigital.services.CategoriaServiceImplements;
@@ -59,7 +60,7 @@ public class ItemController {
 		}
 		
 		@PutMapping("/item/{id}")
-		public ResponseEntity<Object> updateItem(@PathVariable(value="id") Integer id, @RequestBody @Valid ItemRecordDTO dto){
+		public ResponseEntity<Object> updateItem(@PathVariable(value="id") Integer id, @RequestBody @Valid ItemUpdateRecordDTO dto){
 			
 			ItemModel updateItem = itemServiceImplements.update(id, dto);
 			

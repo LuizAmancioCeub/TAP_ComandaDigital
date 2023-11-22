@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.comandadigital.dtos.ItemRecordDTO;
+import com.comandadigital.dtos.ItemUpdateRecordDTO;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
 
@@ -19,7 +20,7 @@ public interface ItemService {
 	
 	ItemModel register( ItemRecordDTO itemDTO); // registro
 	
-	ItemModel update(Integer id, ItemRecordDTO itemDTO); // update
+	ItemModel update(Integer id, ItemUpdateRecordDTO itemDTO); // update
 	
 	String delete(Integer id); // delete
 }
