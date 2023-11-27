@@ -1,5 +1,7 @@
 package com.comandadigital.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -16,18 +18,26 @@ import com.comandadigital.dtos.PedidoRecordDTO;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.ComandaModel;
 import com.comandadigital.models.CozinhaModel;
-import com.comandadigital.models.ItemModel;
+import com.comandadigital.models.PedidoItemModel;
+import com.comandadigital.models.PedidoItemPK;
 import com.comandadigital.models.PedidoModel;
 import com.comandadigital.models.StatusModel;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.ComandaRepository;
 import com.comandadigital.repositories.CozinhaRepository;
 import com.comandadigital.repositories.ItemRepository;
+import com.comandadigital.repositories.PedidoItemRepository;
 import com.comandadigital.repositories.PedidoRepository;
 import com.comandadigital.repositories.StatusRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 @Service
 public class PedidoServiceImplements implements PedidoService {
+	 @PersistenceContext
+	 private EntityManager entityManager;
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
@@ -41,6 +51,8 @@ public class PedidoServiceImplements implements PedidoService {
 	private ComandaRepository comandaRepository;
 	@Autowired 
 	private CozinhaRepository cozinhaRepository;
+	@Autowired
+	private PedidoItemRepository pedidoItemRepository;
 	
 	@Override
 	public PedidoModel register( PedidoRecordDTO pedidoDTO) {
@@ -51,7 +63,6 @@ public class PedidoServiceImplements implements PedidoService {
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 	    // Obtém a autenticação do contexto de segurança
 	    Authentication authentication = securityContext.getAuthentication();
-	    // Verifica se a autenticação é do tipo UsernamePasswordAuthenticationToken
 	    
 	    if (authentication instanceof UsernamePasswordAuthenticationToken) {
 	    	
@@ -61,33 +72,63 @@ public class PedidoServiceImplements implements PedidoService {
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        // verificando comanda
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(6, 7));
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8, 9));
 	        if(comandaCliente == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }
 	        
-	    	// Verificando se os itens do pedido existem e estão disponiveis
-			Set<ItemModel> itens = pedidoModel.getItens();
-			double valorPedido = 0;
-			for(ItemModel item : itens) {
-				ItemModel existingItem = itemRepository.findByIdAndStatusId(item.getId(), 1);
+	        // Verificando se os itens do pedido existem e estão disponíveis
+	        Set<PedidoItemModel> itens = pedidoDTO.itens();
+	        double valorPedido = 0;
+	      
+			
+	        for(PedidoItemModel pedidoItem : itens) {
+				
+				var existingItem = itemRepository.findByIdAndStatusId(pedidoItem.getItem().getId(), 1);	
+				
 				if(existingItem == null) {
-					throw new RuntimeException( item.getNome()+" não encontrado ou com status inválido");
+					return null;
 				}
-				valorPedido += existingItem.getPreco();
 			}
-			pedidoModel.setValor(valorPedido);
 			
-			// Setando status inicial do pedido
-			StatusModel statusInicial = statusRepository.findById(3).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
-			pedidoModel.setStatus(statusInicial);
+	     
+	     					
+	     // Setando status inicial do pedido
+	     StatusModel statusInicial = statusRepository.findById(3).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
+	     pedidoModel.setStatus(statusInicial);
+	     									
+	     CozinhaModel cozinha = cozinhaRepository.findById(1).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
+	     pedidoModel.setCozinha(cozinha);
+	     									
+	     pedidoModel.setComanda(comandaCliente);
+	     PedidoModel savedPedido = pedidoRepository.save(pedidoModel);	
+	    	
+			for(PedidoItemModel pedidoItem : itens) {
+				var existingItem = itemRepository.findByIdAndStatusId(pedidoItem.getItem().getId(), 1);	
+				
+	            // Cria um novo ItemModel associado ao PedidoModel
+	            PedidoItemModel pedidoItemModel = new PedidoItemModel();
+	            pedidoItemModel.setId(new PedidoItemPK(savedPedido, existingItem));
+	            pedidoItemModel.setQuantidade(pedidoItem.getQuantidade());
+	            pedidoItemModel.setObservacao(pedidoItem.getObservacao());
+	            pedidoItemModel.setValor(existingItem.getPreco()* pedidoItem.getQuantidade());
+	            pedidoItemModel.setStatus(statusInicial);
+	            
+	            pedidoItemRepository.save(pedidoItemModel);
+	            
+	            //savedPedido.getItens().add(pedidoItemModel);
+	            
+				valorPedido += pedidoItemModel.getValor();
+			}
+			//savedPedido.setValor(valorPedido);
+			this.updateValor(savedPedido.getId(), valorPedido);
+						
+			//pedidoItemRepository.saveAll(itensPedido);
 			
-			CozinhaModel cozinha = cozinhaRepository.findById(1).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
-			pedidoModel.setCozinha(cozinha);
 			
-			pedidoModel.setComanda(comandaCliente);
-			
-			return pedidoRepository.save(pedidoModel);
+			// Salvar o pedido atualizado com os itens associados
+	        return savedPedido;
+
 	    }
 		return null;
 	}
@@ -151,8 +192,22 @@ public class PedidoServiceImplements implements PedidoService {
 
 	@Override
 	public PedidoModel update(Integer id, PedidoRecordDTO pedidoDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return null ;
+	}
+	
+	@Transactional
+	public void updateValor(Integer id, double newValor) {
+		PedidoModel pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
+		
+		 BigDecimal v = BigDecimal.valueOf(newValor).setScale(2, RoundingMode.HALF_EVEN);
+		 newValor = v.doubleValue();
+        // Atualiza o valor do pedido
+        pedido.setValor(newValor);
+
+        // Salva as alterações no banco de dados
+        pedidoRepository.save(pedido);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.comandadigital.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,12 +23,12 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "TB11_ITEM")
-public class ItemModel extends RepresentationModel<CategoriaModel> implements Serializable {
+public class ItemModel extends RepresentationModel<ItemModel> implements Serializable {
 	private static final long serialVersionUID = 1L; // controle de versão
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // id é auto increment e chave primaria
 	@Column(name = "NU_ITEM", nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // id é auto increment e chave primaria
 	@Setter(AccessLevel.NONE) // para não modificar o id
 	private Integer id;
 	
@@ -49,4 +51,7 @@ public class ItemModel extends RepresentationModel<CategoriaModel> implements Se
 	@ManyToOne
 	@JoinColumn(name = "NU_STATUS", nullable = false)
 	private StatusModel status;
+	
+	@OneToMany(mappedBy = "id.item")
+	private List<PedidoItemModel> pedido;
 }
