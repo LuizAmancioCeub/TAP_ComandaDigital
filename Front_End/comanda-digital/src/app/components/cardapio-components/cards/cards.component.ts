@@ -10,6 +10,7 @@ export class CardsComponent {
   private modalService = inject(NgbModal);
   
   @Input()item:string="";
+  @Input()itemId:string = "";
   @Input()descricao:string="";
   @Input()imagem:string="";
   @Input()preco:number|null|string= null;

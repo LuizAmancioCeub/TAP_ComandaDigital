@@ -22,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { FormRegisterComponent } from './components/form-register/form-register.component';
 import { ModelPedidoComponent } from './components/cardapio-components/model-pedido/model-pedido.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ModelPedidoComponent } from './components/cardapio-components/model-ped
     MenuPerfilComponent,
     TesteContentComponent,
     FormRegisterComponent,
-    ModelPedidoComponent
+    ModelPedidoComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

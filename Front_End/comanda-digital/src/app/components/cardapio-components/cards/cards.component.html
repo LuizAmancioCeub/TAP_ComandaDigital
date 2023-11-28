@@ -1,5 +1,6 @@
 
-    <div class="cardi h-100">             
+    <div class="cardi h-100">   
+      <input type="hidden" name="id" value="{{itemId}}">          
         <img name="imagem" id="imagem" src="assets/imagens/{{imagem}}"/>
         <h4 name="item" id="item">{{item}}</h4>
         <p name="descricao" id="descricao">{{descricao}}</p>
@@ -14,6 +15,7 @@
 <ng-template #pedido let-modal>
   <app-model-pedido
     item="{{item}}"
+    itemId="{{itemId}}"
     imagem="{{imagem}}"
     valor="{{preco}}">
   </app-model-pedido>

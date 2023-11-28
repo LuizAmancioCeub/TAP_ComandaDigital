@@ -1,27 +1,39 @@
-<div class="btn_comanda">
-    <a [routerLink]="['comanda']" title="Sua Comanda" class="comanda btn btn-success" style="font-size: 30px;">
-      <i class="bi bi-receipt-cutoff"></i> 
-      <span style="font-size:15px;border-radius:10px;color:black" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-          2 </span>
-    </a>
-</div>
-<div class="cards">
-    <ng-container *ngIf="itens">
+<!--
+<ng-container *ngIf="isLoading">
+    <app-loading></app-loading>
+</ng-container>
+-->
 
-        <app-cards *ngFor="let itens of data"
-            item="{{itens.nome}}"
-            descricao="{{itens.descricao}}"
-            imagem="{{itens.imagem}}"
-            preco= {{itens.preco}}>
-        </app-cards>
-
+    <div class="btn_comanda">
+        <a [routerLink]="['comanda']" title="Sua Comanda" class="comanda btn btn-success" style="font-size: 30px;">
+          <i class="bi bi-receipt-cutoff"></i> 
+          <span style="font-size:15px;border-radius:10px;color:black" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+              2 </span>
+        </a>
+    </div>
+    <div class="cards">
+        <ng-container *ngIf="itens">
+    
+            <app-cards *ngFor="let itens of data"
+                item="{{itens.nome}}"
+                itemId= "{{itens.id}}"
+                descricao="{{itens.descricao}}"
+                imagem="{{itens.imagem}}"
+                preco= {{itens.preco}}>
+            </app-cards>
+    
+        </ng-container>
+        
+    
+    </div>
+    
+    <ng-container *ngIf="msg">
+        <div class="{{show}}" id="snackbar"><i style="background-color: lightgreen;  border-radius: 1rem; font-size: 22px;" class='bi bi-check-circle'></i> {{txt}}</div>
     </ng-container>
     
+    <ng-container *ngIf="!itens">
+        <div style="text-align:center; margin: .5rem; padding: 1rem; font-size: 22px;" class="alert alert-warning" role="alert">Categoria sem produtos!!</div>
+    </ng-container>
 
-</div>
 
-
-<ng-container *ngIf="!itens">
-    <div style="text-align:center; margin: .5rem; padding: 1rem; font-size: 22px;" class="alert alert-warning" role="alert">Categoria sem produtos!!</div>
-</ng-container>
 
