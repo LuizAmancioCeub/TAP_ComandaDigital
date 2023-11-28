@@ -1,5 +1,7 @@
-<div class="register">   
+<div class="register"> 
+    
     <div class="modal-body">
+        <button style="margin-left: 95%;" type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
         <form class="form" (ngSubmit)="onSubmitRegister()" #RegisterForm="ngForm">
             <p class="description text-center">Faça seu Cadastro</p>
             <ng-container *ngIf="mostrarErro">
@@ -45,7 +47,7 @@
 
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="submit" class="btn btn-primary">CADASTRARR</button>
+                <button type="submit" class="btn btn-primary">CADASTRAR</button>
             </div>
         </form>
     </div>

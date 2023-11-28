@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AxiosService } from 'src/app/services/axios.service';
 import { RegisterService } from 'src/app/services/register.service';
 
@@ -10,7 +11,7 @@ import { RegisterService } from 'src/app/services/register.service';
 })
 export class FormRegisterComponent {
 
-  constructor(private axiosService: AxiosService,private registerService:RegisterService){  }
+  constructor(private axiosService: AxiosService,private registerService:RegisterService,private modalService: NgbModal){  }
   
   nome:string = "";
   cpf:string = "";
@@ -124,5 +125,9 @@ export class FormRegisterComponent {
      setTimeout(() => {
       this.mostrarErro = false;
     }, 3000);
+  }
+
+  close() {
+    this.modalService.dismissAll();
   }
 }

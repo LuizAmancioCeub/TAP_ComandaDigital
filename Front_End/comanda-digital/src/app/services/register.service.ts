@@ -20,58 +20,42 @@ export class RegisterService {
     });
    }
 
-  conferirCampos(cpf: string,nome:string,telefone:string, senha: string, senhaB:string): string{
-    if(cpf == "" || nome == "" || telefone == null || senha == null || senhaB == null){
-      return "campos"
-    }
-    else if(!this.validarCPF){
-      return "cpf"
-    }
-    else if(!this.validarNome){
-      return "nome"
-    }
-    else if(!this.validarTelefone){
-      return "Telefone"
-    }
-    else if(senha !== senhaB){
-      return "senha"
-    }
-    else{
-      return "ok"
+   conferirCampos(cpf: string, nome: string, telefone: string, senha: string, senhaB: string): string {
+    if (cpf === "" || nome === "" || telefone === "" || senha === "" || senhaB === "") {
+      return "campos";
+    } else if (!this.validarNome(nome)) {
+      return "nome";
+    } else if (!this.validarCPF(cpf)) {
+      return "cpf";
+    }else if (!this.validarTelefone(telefone)) {
+      return "Telefone";
+    } else if (senha !== senhaB || senha.length < 3 || senha.length > 12) {
+      return "senha";
+    } else {
+      return "ok";
     }
   }
 
-  validarTelefone(telefone:string):boolean{
+  validarTelefone(telefone: string): boolean {
     if (telefone.length !== 11) {
-      return false
-    } 
-    else {
+      return false;
+    } else {
       const phoneRegex = /^[0-9]{11}$/;
-      const isValid = phoneRegex.test(telefone);
-      if (!isValid) {
-       return false
-      }
-      return true;
+      return phoneRegex.test(telefone);
     }
   }
-
-  validarCPF(cpf:string):string {
+  
+  validarCPF(cpf: string): boolean {
     if (cpf.length !== 11) {
-      return "false"
+      return false;
     } else {
       const cpfRegex = /^[0-9]{11}$/;
-      const isValid = cpfRegex.test(cpf);
-      if (!isValid) {
-        return "false"
-      }
-      return "true";
+      return cpfRegex.test(cpf);
     }
-  }  
-
-  validarNome(nome:string):boolean {
-    if (!nome.match(/^[a-zA-ZÀ-ÿ\s]*$/)) {
-     return false;
-    }
-    return true;
+  }
+  
+  validarNome(nome: string): boolean {
+    const nameRegex = /^[a-zA-ZÀ-ÿ\s]*$/;
+    return nameRegex.test(nome);
   }
 }
