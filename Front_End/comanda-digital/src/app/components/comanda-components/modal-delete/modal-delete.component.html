@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="gridModalLabel">Cancelar Item</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+  </div>
+<form class="form" (ngSubmit)="onSubmitDelete()" #PedidoForm="ngForm">
+  <div class="modal-body">
+    <div class="form-row">
+        <div class="col-md-12">
+            <p style="font-size: 20px; font-weight: 600;text-align: center;">Deseja Cancelar seu pedido?</p>
+        </div>
+    </div>
+   
+    <div style="display: flex;justify-content: center;">
+        <button type="submit" class="btn btn-success" name="realizarPedido" id="realizarPedido">SIM</button>
+        <button style="margin-left: .8rem;" type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">NÃO</button>   
+    </div>
+
+   
+  </div>
+</form>    

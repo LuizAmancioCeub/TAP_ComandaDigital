@@ -14,6 +14,8 @@ export class LoginService {
 
   constructor(private axiosService:AxiosService) { }
 
+  
+
   conferirCampos(login: string, senha: string, mesa: any): String{
     if(login == "" || senha == "" || mesa == null || login == null || senha == null){
       return "campos";

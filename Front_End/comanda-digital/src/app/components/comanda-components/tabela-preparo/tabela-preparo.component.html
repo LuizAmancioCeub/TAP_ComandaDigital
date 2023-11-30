@@ -1,138 +1,69 @@
 <h4><b>Pedidos em Preparo:</b></h4> 
-<div class="tabela"> 
-    <table>
-        <thead>
-            <tr>
-               <th>Num Pedido</th>
-               <th>Item</th>
-               <th>Quantidade</th>            
-               <th>Observação</th>
-               <th>Valor</th>
-               <th>Horário do Pedido</th>
-               <th></th>
-           </tr>
-           </thead>
 
-           <tbody>                   
-            <tr style="border-radius:20px;">
-                <input type="hidden" name="idItens" value="1">
-                <input type="hidden" name="idPedido" value="1">
-                <td data-title="Num Pedido">1</td>
-                <td data-title="Item">X-Tudo</td>
-                <td data-title="Quantidade">1</td>
-                <td data-title="Obs"><textarea rows="1" readonly>Sem Barbecue sem isso sem aquilo sem isso também</textarea></td>
-                <td data-title="Valor">R$ 28.99</td>
-                <td data-title="Horário">21:54</td>
-                <td class="editar">
-                    <button class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
-                </td>
-                <td>    
-                    <button class='btn btn-danger' data-toggle='modal' data-target='#cancelarPedido' style='margin-top: 10px;'>Cancelar</button>
-                </td>
-            </tr>
-        </tbody>
+<ng-container *ngIf="!pedidos">
+    <div style="text-align:center" class="alert alert-warning" role="alert">
+        Sem pedidos em preparo!
+    </div>
+</ng-container>
 
-    </table>
+<ng-container *ngIf="pedidos">
 
-    <table>
-        <thead>
-            <tr>
-               <th>Num Pedido</th>
-               <th>Item</th>
-               <th>Quantidade</th>            
-               <th>Observação</th>
-               <th>Valor</th>
-               <th>Horário do Pedido</th>
-               <th></th>
-           </tr>
-           </thead>
-
-            <tbody>                   
+    <div class="tabela"> 
+        <table *ngFor="let pedidos of data">
+            <thead>
+                <tr>
+                   <th>Num Pedido</th>
+                   <th>Item</th>
+                   <th>Quantidade</th>            
+                   <th>Observação</th>
+                   <th>Valor</th>
+                   <th>Horário do Pedido</th>
+                   <th></th>
+               </tr>
+               </thead>
+    
+               <tbody>                   
                 <tr style="border-radius:20px;">
-                    <input type="hidden" name="idItens" value="1">
-                    <input type="hidden" name="idPedido" value="1">
-                    <td data-title="Num Pedido">1</td>
-                    <td data-title="Item">X-Tudo</td>
-                    <td data-title="Quantidade">1</td>
-                    <td data-title="Obs"><textarea rows="1" readonly>Sem Barbecue</textarea></td>
-                    <td data-title="Valor">R$ 28.99</td>
+                    <input type="hidden" name="idItens" value="{{pedidos.item.id}}">
+                    <input type="hidden" name="idPedido" value="{{pedidos.id}}">
+                    <td data-title="Num Pedido">{{pedidos.id}}</td>
+                    <td data-title="Item">{{pedidos.item.nome}}</td>
+                    <td data-title="Quantidade">{{pedidos.quantidade}}</td>
+                    <td data-title="Obs"><textarea rows="1" readonly>{{pedidos.observacao}}</textarea></td>
+                    <td data-title="Valor">R$ {{pedidos.valor}}</td>
                     <td data-title="Horário">21:54</td>
                     <td class="editar">
-                        <button class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
+                        <button (click)="openVerticallyCentered(content)" class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
                     </td>
                     <td>    
-                        <button class='btn btn-danger' data-toggle='modal' data-target='#cancelarPedido' style='margin-top: 10px;'>Cancelar</button>
+                        <button (click)="openVerticallyCentered(contentDelete)" class='btn btn-danger' data-toggle='modal' data-target='#cancelarPedido' style='margin-top: 10px;'>Cancelar</button>
                     </td>
                 </tr>
-            </tbody> 
+            </tbody>
 
-    </table>
+            <ng-template #content let-modal>
+                <app-modal-update
+                    idItem="{{pedidos.item.id}}"
+                    idPedido="{{pedidos.id}}"
+                    item="{{pedidos.item.nome}}"
+                    quantidade="{{pedidos.quantidade}}"
+                    observacao="{{pedidos.observacao}}"
+                    valor="{{pedidos.item.preco}}"
+                >
+                </app-modal-update>
+            </ng-template>
+            
+            <ng-template #contentDelete let-modal>
+                <app-modal-delete
+                    idPedido="{{pedidos.id}}"
+                ></app-modal-delete>
+            </ng-template>
 
-    <table>
-        <thead>
-            <tr>
-               <th>Num Pedido</th>
-               <th>Item</th>
-               <th>Quantidade</th>            
-               <th>Observação</th>
-               <th>Valor</th>
-               <th>Horário do Pedido</th>
-               <th></th>
-           </tr>
-           </thead>
+        </table>
+    </div>
 
-            <tbody>                   
-                <tr style="border-radius:20px;">
-                    <input type="hidden" name="idItens" value="1">
-                    <input type="hidden" name="idPedido" value="1">
-                    <td data-title="Num Pedido">1</td>
-                    <td data-title="Item">X-Tudo</td>
-                    <td data-title="Quantidade">1</td>
-                    <td data-title="Obs"><textarea rows="1" readonly>Sem Barbecue</textarea></td>
-                    <td data-title="Valor">R$ 28.99</td>
-                    <td data-title="Horário">21:54</td>
-                    <td class="editar">
-                        <button class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
-                    </td>
-                    <td>    
-                        <button class='btn btn-danger' data-toggle='modal' data-target='#cancelarPedido' style='margin-top: 10px;'>Cancelar</button>
-                    </td>
-                </tr>
-            </tbody> 
+</ng-container>
 
-    </table>
 
-    <table>
-        <thead>
-            <tr>
-               <th>Num Pedido</th>
-               <th>Item</th>
-               <th>Quantidade</th>            
-               <th>Observação</th>
-               <th>Valor</th>
-               <th>Horário do Pedido</th>
-               <th></th>
-           </tr>
-           </thead>
+    
 
-            <tbody>                   
-                <tr style="border-radius:20px;">
-                    <input type="hidden" name="idItens" value="1">
-                    <input type="hidden" name="idPedido" value="1">
-                    <td data-title="Num Pedido">1</td>
-                    <td data-title="Item">X-Tudo</td>
-                    <td data-title="Quantidade">1</td>
-                    <td data-title="Obs"><textarea rows="1" readonly>Sem Barbecue</textarea></td>
-                    <td data-title="Valor">R$ 28.99</td>
-                    <td data-title="Horário">21:54</td>
-                    <td class="editar">
-                        <button class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
-                    </td>
-                    <td>    
-                        <button class='btn btn-danger' data-toggle='modal' data-target='#cancelarPedido' style='margin-top: 10px;'>Cancelar</button>
-                    </td>
-                </tr>
-            </tbody> 
-
-    </table>
-</div>

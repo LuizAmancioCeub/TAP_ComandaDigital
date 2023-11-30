@@ -1,0 +1,28 @@
+export type PedidosData = {
+    id:number
+    valor:number
+    quantidade:number,
+    observacao:string
+    item:{
+        id:number
+        nome:string
+        descricao:string
+        preco:number
+        imagem:string
+        categoria:{
+            id:number
+            categoria:string
+        }
+    }
+    status:{
+        id:number
+        status:string
+    }
+    cliente:{
+        login:string
+        nome:string,
+        mesa:{
+            id:number
+        }
+    }
+}

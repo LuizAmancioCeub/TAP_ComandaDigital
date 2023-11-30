@@ -5,3 +5,7 @@
 <app-tabela-preparo></app-tabela-preparo>
 <br><br>
 <app-tabela-comanda></app-tabela-comanda>
+
+<ng-container *ngIf="msg">
+    <div class="{{show}}" id="snackbar"><i style="background-color: lightgreen;  border-radius: 1rem; font-size: 22px;" class='bi bi-check-circle'></i> {{txt}}</div>
+</ng-container>

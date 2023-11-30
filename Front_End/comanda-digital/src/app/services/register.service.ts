@@ -20,6 +20,20 @@ export class RegisterService {
     });
    }
 
+
+   register(cpf:string, nome:string,telefone:string, senha:string):Promise<any>{
+    return this.axiosService.request(
+       "POST",
+       "/login/registrar",
+       {
+         cpf: cpf,
+         nome: nome,
+         telefone: telefone,
+         senha: senha
+       }
+     );
+   }
+
    conferirCampos(cpf: string, nome: string, telefone: string, senha: string, senhaB: string): string {
     if (cpf === "" || nome === "" || telefone === "" || senha === "" || senhaB === "") {
       return "campos";

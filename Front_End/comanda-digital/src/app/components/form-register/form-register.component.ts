@@ -34,32 +34,21 @@ export class FormRegisterComponent {
     } 
     else {
       this.mostrarErro = false; // Limpar mensagem de erro se já estiver sendo exibida
-      this.register(this.cpf, this.nome, this.telefone, this.senha);
+      this.registerUser(this.cpf, this.nome, this.telefone, this.senha);
     }
   }
 
-  register(cpf:string, nome:string,telefone:string, senha:string):void{
-    this.axiosService.request(
-      "POST",
-      "/login/registrar",
-      {
-        cpf: cpf,
-        nome: nome,
-        telefone:telefone,
-        senha:senha
-      }
-    ).then((response) => {
-      // Lidar com a resposta bem-sucedida do servidor (usuário logado)
-      this.mostrarMsg("cadastrado")
+  registerUser(cpf:string, nome:string,telefone:string, senha:string):void{
+    this.registerService.register(cpf, nome, telefone, senha)
+    .then((response) => {
+      this.mostrarMsg("cadastrado");
       // Redirecionar ou fazer outras ações necessárias após o login
-    }).catch((error) => {
-      if(error.response.status === 406) {
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 406) {
         this.mostrarMsg("406");
-        console.clear
-      }
-      else{
-        this.mostrarMsg("fail")
-        console.clear
+      } else {
+        this.mostrarMsg("fail");
       }
     });
   }

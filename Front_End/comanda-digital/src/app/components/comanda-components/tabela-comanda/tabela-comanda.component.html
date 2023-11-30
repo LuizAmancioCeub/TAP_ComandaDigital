@@ -1,80 +1,61 @@
 <h4><b>Pedidos já entregues:</b></h4>  
-<div class="tabela">
-    <table>
-        <thead>
-        <tr>
-            <th>Num Pedido</th>
-            <th>Pedido</th>
-            <th>Quantidade</th>
-            <th>Observação</th>
-            <th>Valor</th>
-            <th>Horário Entrega</th>                      
-            <th></th>
-        </tr>
-        </thead>
 
-        <tbody>
-            <tr style="border-radius:20px;background-color:rgba(220, 220, 220, 0.45)">
-                <input type="hidden" name="idItens" value="'.$row2['idItens'].'">
-                <input type="hidden" name="idPedido" value="'.$row2['idPedido'].'">
-                <td data-title="Num Pedido">2</td>
-                <td data-title="Pedido">Coca-Cola 200ml</td>
-                <td data-title="Quantidade">2</td>
-                <td data-title="Obs">Com gelo e Limão</td>
-                <td data-title="Valor">R$ 7.99</td>
-                <td data-title="Entrega">28/08/2023 - 21:45</td>
-                    <td>
-                        <button class="btn btn-info">Ver no cardápio</button>
-                    </td>
+<ng-container *ngIf="!pedidos">
+   <div style="text-align:center" class="alert alert-warning" role="alert">
+       Ainda sem pedidos entregues!<br><br> Você só poderá fechar sua Comanda quando todos pedidos estiverem entregues
+    </div> 
+</ng-container>
+
+<ng-container *ngIf="pedidos">
+    <div class="tabela">
+        <table *ngFor="let pedidos of dataE">
+            <thead>
+            <tr>
+                <th>Num Pedido</th>
+                <th>Pedido</th>
+                <th>Quantidade</th>
+                <th>Observação</th>
+                <th>Valor</th>
+                <th>Horário Entrega</th>                      
+                <th></th>
+            </tr>
+            </thead>
+    
+            <tbody>
+                <tr style="border-radius:20px;background-color:rgba(220, 220, 220, 0.45)">
+                    <input type="hidden" name="idItens" value="{{pedidos.item.id}}">
+                    <input type="hidden" name="idPedido" value="{{pedidos.id}}">
+                    <td data-title="Num Pedido">{{pedidos.id}}</td>
+                    <td data-title="Pedido">{{pedidos.item.nome}}</td>
+                    <td data-title="Quantidade">{{pedidos.quantidade}}</td>
+                    <td data-title="Obs">{{pedidos.observacao}}</td>
+                    <td data-title="Valor">R$ {{pedidos.valor}}</td>
+                    <td data-title="Entrega">28/08/2023 - 21:45</td>
+                        <td>
+                            <button class="btn btn-info">Ver no cardápio</button>
+                        </td>
+                </tr>
+            </tbody> 
+        </table>
+    
+    
+    </div>
+    
+    <table class="pagamento">
+        <thead>
+            <tr>
+                <th>Valor Total </th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr id="pagamento">
+                <td data-title = "Valor Total">R$ {{dataF.valorTotal}} </td>
+                <td>
+                    <button class="btn btn-warning" style="color: #000;">Pagamento</button>
+                </td>
             </tr>
         </tbody> 
     </table>
+</ng-container>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Num Pedido</th>
-            <th>Pedido</th>
-            <th>Quantidade</th>
-            <th>Observação</th>
-            <th>Valor</th>
-            <th>Horário Entrega</th>                      
-            <th></th>
-        </tr>
-        </thead>
-
-        <tbody>
-            <tr style="border-radius:20px;background-color:rgba(220, 220, 220, 0.45)">
-                <input type="hidden" name="idItens" value="'.$row2['idItens'].'">
-                <input type="hidden" name="idPedido" value="'.$row2['idPedido'].'">
-                <td data-title="Num Pedido">2</td>
-                <td data-title="Pedido">Coca-Cola 200ml</td>
-                <td data-title="Quantidade">2</td>
-                <td data-title="Obs">Com gelo e Limão</td>
-                <td data-title="Valor">R$ 7.99</td>
-                <td data-title="Entrega">28/08/2023 - 21:45</td>
-                    <td>
-                        <button class="btn btn-info">Ver no cardápio</button>
-                    </td>
-            </tr>
-        </tbody> 
-   </table>
-
-</div>
-
-<table class="pagamento">
-    <thead>
-        <tr>
-            <th>Valor Total</th>
-        </tr>
-    </thead>
-    <tbody> 
-        <tr id="pagamento">
-            <td data-title = "Valor Total">R$ 7.99 </td>
-            <td>
-                <button class="btn btn-warning" style="color: #000;">Pagamento</button>
-            </td>
-        </tr>
-    </tbody> 
-</table>
 

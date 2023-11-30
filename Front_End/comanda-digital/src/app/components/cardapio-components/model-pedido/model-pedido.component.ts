@@ -46,16 +46,12 @@ export class ModelPedidoComponent implements OnChanges {
             status:{
               id: 3
             },
-            itens:[
-              {
-                item:{
-                  id: this.itemId
-                },
+            item:{
+              id: this.itemId
+            },
                 quantidade: this.quantidade,
                 observacao: this.observacoes,
                 valor: this.valorTotal
-              }
-            ] 
           }
         ).then((response) => {
           this.close();

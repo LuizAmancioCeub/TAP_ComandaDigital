@@ -23,6 +23,8 @@ import { TesteContentComponent } from './testesAPI/teste-content/teste-content.c
 import { FormRegisterComponent } from './components/form-register/form-register.component';
 import { ModelPedidoComponent } from './components/cardapio-components/model-pedido/model-pedido.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { ModalUpdateComponent } from './components/comanda-components/modal-update/modal-update.component';
+import { ModalDeleteComponent } from './components/comanda-components/modal-delete/modal-delete.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { LoadingComponent } from './components/loading/loading.component';
     TesteContentComponent,
     FormRegisterComponent,
     ModelPedidoComponent,
-    LoadingComponent
+    LoadingComponent,
+    ModalUpdateComponent,
+    ModalDeleteComponent
   ],
   imports: [
     BrowserModule,
