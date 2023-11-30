@@ -51,7 +51,7 @@ public class ItemModel extends RepresentationModel<ItemModel> implements Seriali
 	@ManyToOne
 	@JoinColumn(name = "NU_STATUS", nullable = false)
 	private StatusModel status;
-	
-	@OneToMany(mappedBy = "id.item")
-	private List<PedidoItemModel> pedido;
+//	
+//	@OneToMany(mappedBy = "id.item")
+//	private List<PedidoItemModel> pedido;
 }

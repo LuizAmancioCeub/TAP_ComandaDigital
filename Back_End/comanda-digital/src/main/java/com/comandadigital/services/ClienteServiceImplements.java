@@ -1,8 +1,5 @@
 package com.comandadigital.services;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -10,21 +7,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.comandadigital.controllers.PedidoController;
 import com.comandadigital.dtos.ClienteLoginDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
 import com.comandadigital.dtos.ComandaRecordDTO;
 import com.comandadigital.infra.security.TokenService;
 import com.comandadigital.models.ClienteModel;
-import com.comandadigital.models.ComandaModel;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.PerfilModel;
 import com.comandadigital.models.StatusModel;
@@ -43,7 +35,7 @@ public class ClienteServiceImplements implements ClienteService {
 	@Autowired
 	private ClienteRepository repository;
 	@Autowired
-	TokenService tokenService;
+	private TokenService tokenService;
 	@Autowired
 	private PerfilRepository perfilRepository;
 	@Autowired

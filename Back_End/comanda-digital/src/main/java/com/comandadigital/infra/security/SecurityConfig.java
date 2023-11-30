@@ -51,9 +51,10 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/mesas").authenticated() // lista de quem pode realizar
 						.requestMatchers(HttpMethod.DELETE, "/mesa/*").permitAll()
 						.requestMatchers(HttpMethod.POST, "/categorias").authenticated() 
-						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA")
+						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA", "CLIENTE")
 						.requestMatchers(HttpMethod.POST, "/pedido").hasRole("CLIENTE")
 						.requestMatchers(HttpMethod.GET, "/status").permitAll()
+						.requestMatchers(HttpMethod.GET, "/itens").permitAll()
 						.anyRequest().authenticated()// qualquer outra requisição precisa estar logado
 				)
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // filtro vai acontecer antes do UserNamePassword...

@@ -113,17 +113,23 @@ public class ComandaServiceImplements implements ComandaService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(6));
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8));
 	        if(comandaCliente == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }
 	        // hipermidia para buscar os pedidos
-	        comandaCliente.add(linkTo(methodOn(PedidoController.class).getMyPedidos()).withRel("pedidos"));
+	        comandaCliente.add(linkTo(methodOn(PedidoController.class).getPedidosByCpf(cpfDoUsuarioAutenticado)).withRel("pedidos"));
 	    
 	        return comandaCliente; // retorna comanda o cliente logado
 
 	    }
 	    return null;
+	}
+	
+	public void updateValor(Integer id,double valor) {
+		ComandaModel comanda = comandaRepository.findById(id).orElseThrow(() -> new RuntimeException("Comanda não encontrado com ID: " + id));
+		comanda.setValorTotal(valor);
+		comandaRepository.save(comanda);
 	}
 
 }

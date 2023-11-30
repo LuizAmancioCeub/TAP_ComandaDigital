@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.validator.constraints.Length;
 
 import com.comandadigital.models.CategoriaModel;
-import com.comandadigital.models.PedidoItemModel;
 import com.comandadigital.models.StatusModel;
 
 import jakarta.validation.Valid;

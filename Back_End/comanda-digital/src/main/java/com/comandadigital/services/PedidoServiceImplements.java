@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,32 +12,31 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.comandadigital.dtos.PedidoRecordDTO;
+import com.comandadigital.dtos.PedidoRecordUpdateDTO;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.ComandaModel;
 import com.comandadigital.models.CozinhaModel;
-import com.comandadigital.models.PedidoItemModel;
-import com.comandadigital.models.PedidoItemPK;
+import com.comandadigital.models.ItemModel;
+//import com.comandadigital.models.PedidoItemModel;
+//import com.comandadigital.models.PedidoItemPK;
 import com.comandadigital.models.PedidoModel;
 import com.comandadigital.models.StatusModel;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.ComandaRepository;
 import com.comandadigital.repositories.CozinhaRepository;
 import com.comandadigital.repositories.ItemRepository;
-import com.comandadigital.repositories.PedidoItemRepository;
 import com.comandadigital.repositories.PedidoRepository;
 import com.comandadigital.repositories.StatusRepository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 @Service
 public class PedidoServiceImplements implements PedidoService {
-	 @PersistenceContext
-	 private EntityManager entityManager;
+	
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
@@ -52,7 +51,47 @@ public class PedidoServiceImplements implements PedidoService {
 	@Autowired 
 	private CozinhaRepository cozinhaRepository;
 	@Autowired
-	private PedidoItemRepository pedidoItemRepository;
+	private ComandaServiceImplements comandaService;
+//	@Autowired
+//	private PedidoItemRepository pedidoItemRepository;
+	
+//	@Override
+//	public PedidoModel register( PedidoRecordDTO pedidoDTO) {
+//		var pedidoModel = new PedidoModel();
+//		BeanUtils.copyProperties(pedidoDTO, pedidoModel);
+//		
+//		 // Obtém o contexto de segurança
+//	    SecurityContext securityContext = SecurityContextHolder.getContext();
+//	    // Obtém a autenticação do contexto de segurança
+//	    Authentication authentication = securityContext.getAuthentication();
+//	    
+//	    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+//	    	
+//	    	// Obtem detalhes do ClienteModel
+//	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
+//	        // Obtém o CPF do cliente
+//	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
+//	        
+//	        // verificando comanda
+//	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8, 9));
+//	        if(comandaCliente == null) {
+//	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
+//	        }
+//	        
+//	        // Verificando se os itens do pedido existem e estão disponíveis
+//	        Set<PedidoItemModel> itens = pedidoDTO.itens();
+//	        double valorPedido = 0;
+//	      
+//			
+//	        for(PedidoItemModel pedidoItem : itens) {
+//				
+//				var existingItem = itemRepository.findByIdAndStatusId(pedidoItem.getItem().getId(), 1);	
+//				
+//				if(existingItem == null) {
+//					return null;
+//				}
+//			}
+			
 	
 	@Override
 	public PedidoModel register( PedidoRecordDTO pedidoDTO) {
@@ -74,62 +113,32 @@ public class PedidoServiceImplements implements PedidoService {
 	        // verificando comanda
 	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8, 9));
 	        if(comandaCliente == null) {
-	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
+	        	return null;
 	        }
 	        
 	        // Verificando se os itens do pedido existem e estão disponíveis
-	        Set<PedidoItemModel> itens = pedidoDTO.itens();
-	        double valorPedido = 0;
-	      
-			
-	        for(PedidoItemModel pedidoItem : itens) {
+	        ItemModel item = pedidoDTO.item();
+	        var existingItem = itemRepository.findByIdAndStatusId(item.getId(), 1);	
 				
-				var existingItem = itemRepository.findByIdAndStatusId(pedidoItem.getItem().getId(), 1);	
-				
-				if(existingItem == null) {
-					return null;
-				}
+			if(existingItem == null) {
+				return null;
 			}
 			
-	     
-	     					
-	     // Setando status inicial do pedido
-	     StatusModel statusInicial = statusRepository.findById(3).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
-	     pedidoModel.setStatus(statusInicial);
-	     									
-	     CozinhaModel cozinha = cozinhaRepository.findById(1).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
-	     pedidoModel.setCozinha(cozinha);
-	     									
-	     pedidoModel.setComanda(comandaCliente);
-	     PedidoModel savedPedido = pedidoRepository.save(pedidoModel);	
-	    	
-			for(PedidoItemModel pedidoItem : itens) {
-				var existingItem = itemRepository.findByIdAndStatusId(pedidoItem.getItem().getId(), 1);	
-				
-	            // Cria um novo ItemModel associado ao PedidoModel
-	            PedidoItemModel pedidoItemModel = new PedidoItemModel();
-	            pedidoItemModel.setId(new PedidoItemPK(savedPedido, existingItem));
-	            pedidoItemModel.setQuantidade(pedidoItem.getQuantidade());
-	            pedidoItemModel.setObservacao(pedidoItem.getObservacao());
-	            pedidoItemModel.setValor(existingItem.getPreco()* pedidoItem.getQuantidade());
-	            pedidoItemModel.setStatus(statusInicial);
-	            
-	            pedidoItemRepository.save(pedidoItemModel);
-	            
-	            //savedPedido.getItens().add(pedidoItemModel);
-	            
-				valorPedido += pedidoItemModel.getValor();
-			}
-			//savedPedido.setValor(valorPedido);
-			this.updateValor(savedPedido.getId(), valorPedido);
-						
-			//pedidoItemRepository.saveAll(itensPedido);
+		     pedidoModel.setItem(existingItem);	
+		     pedidoModel.setQuantidade(pedidoDTO.quantidade());
+		     pedidoModel.setObservacao(pedidoDTO.observacao());
+		     pedidoModel.setValor(existingItem.getPreco() * pedidoModel.getQuantidade());
+		     // Setando status inicial do pedido
+		     StatusModel statusInicial = statusRepository.findById(3).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
+		     pedidoModel.setStatus(statusInicial);
+		     									
+		     CozinhaModel cozinha = cozinhaRepository.findById(1).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
+		     pedidoModel.setCozinha(cozinha);
+		     									
+		     pedidoModel.setComanda(comandaCliente);
+		     return  pedidoRepository.save(pedidoModel);	
+	    }  	
 			
-			
-			// Salvar o pedido atualizado com os itens associados
-	        return savedPedido;
-
-	    }
 		return null;
 	}
 
@@ -159,15 +168,6 @@ public class PedidoServiceImplements implements PedidoService {
 		
 		return pedidos;
 	}
-
-//	@Override
-//	public List<PedidoModel> findPedidoByCpf(String cpf) {
-//		UserDetails cliente = clienteRepository.findByCpf(cpf);
-//		if (cliente == null) {
-//	        throw new RuntimeException("Cliente não encontrado");
-//	    }
-//		return pedidoRepository.findPedidosByCpf(cpf);
-//	}
 	
 	public List<PedidoModel> findMyPedidos(){
 		 
@@ -189,11 +189,84 @@ public class PedidoServiceImplements implements PedidoService {
 	    
 	    return null;
 	}
+	
+	public List<PedidoModel> findMyPedidosEmPreparo(){
+		List<Integer> statusList = Arrays.asList(3, 4);
+		// Obtém o contexto de segurança
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    // Obtém a autenticação do contexto de segurança
+	    Authentication authentication = securityContext.getAuthentication();
+	 // Verifica se a autenticação é do tipo UsernamePasswordAuthenticationToken
+	    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+	    	// Obtem detalhes do ClienteModel
+	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
+	        // Obtém o CPF do cliente
+	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
+	        
+	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatus(cpfDoUsuarioAutenticado,statusList);
+	        if(pedidosCliente == null) {
+	        	return null;
+	        }
+	        return pedidosCliente;
+	    } 
+	    
+	    return null;
+	}
+	
+	public List<PedidoModel> findMyPedidosEntregues(){
+		List<Integer> statusList = Arrays.asList(5);
+		// Obtém o contexto de segurança
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    // Obtém a autenticação do contexto de segurança
+	    Authentication authentication = securityContext.getAuthentication();
+	 // Verifica se a autenticação é do tipo UsernamePasswordAuthenticationToken
+	    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+	    	// Obtem detalhes do ClienteModel
+	        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
+	        // Obtém o CPF do cliente
+	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
+	        
+	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatus(cpfDoUsuarioAutenticado, statusList);
+	        if(pedidosCliente == null) {
+	        	return null;
+	        }
+	        
+	        return pedidosCliente;
+	    } 
+	    
+	    return null;
+	}
+
 
 	@Override
-	public PedidoModel update(Integer id, PedidoRecordDTO pedidoDTO) {
+	public PedidoModel update(Integer id, PedidoRecordUpdateDTO dto) {
+		PedidoModel pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
+		
+		if(pedido.getStatus().getId() == 3) {
+			  if (!Objects.equals(dto.quantidade(), pedido.getQuantidade()) && !Objects.equals(dto.valor(), pedido.getValor())) {
+			        pedido.setValor(dto.valor());
+			        pedido.setQuantidade(dto.quantidade());
+			    }
+	    if (!Objects.equals(dto.observacao(), pedido.getObservacao())) {
+			        pedido.setObservacao(dto.observacao());
+	    }
+	    
+			return pedidoRepository.save(pedido);
+		}
 		
 		return null ;
+	}
+	
+	public void updateStatus(Integer id, Integer statusNovo) {
+		
+		PedidoModel pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
+		StatusModel status = statusRepository.findById(statusNovo).orElseThrow(() -> new RuntimeException("Status não encontrado com ID: " + id));
+		pedido.setStatus(status);
+		pedidoRepository.save(pedido);
+		if(pedido.getStatus().getId() == 5 ) {
+			comandaService.updateValor(pedido.getComanda().getId(), pedido.getValor()); 
+		}
 	}
 	
 	@Transactional
@@ -214,6 +287,14 @@ public class PedidoServiceImplements implements PedidoService {
 	public String delete(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<PedidoModel> findPedidosByCpf(String cpf, List<Integer> statusId) {
+		UserDetails clienteDetails  = clienteRepository.findByLogin(cpf);
+		if(clienteDetails == null) {
+			return null;
+		}
+		 return pedidoRepository.findPedidoByCpf(cpf);
 	}
 
 }

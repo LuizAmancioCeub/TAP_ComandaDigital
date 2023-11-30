@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.comandadigital.models.PedidoModel;
+import com.comandadigital.models.StatusModel;
 
 import jakarta.transaction.Transactional;
 
@@ -18,11 +19,12 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf")
 	List<PedidoModel>findPedidoByCpf(@Param("cpf") String cpf);
 	
-	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id = :statusId")
-	List<PedidoModel>findPedidoByCpfAndStatus(@Param("cpf") String cpf, @Param("statusId")Integer statusId);
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id IN :statusId")
+	List<PedidoModel>findPedidoByCpfAndStatus(@Param("cpf") String cpf, @Param("statusId")List<Integer> statusList);
 	
 	 @Query("SELECT MAX(p.id) FROM PedidoModel p")
 	 Integer findMaxId();
+	 
 	 
 	 
 }
