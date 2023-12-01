@@ -25,6 +25,7 @@ import { ModelPedidoComponent } from './components/cardapio-components/model-ped
 import { LoadingComponent } from './components/loading/loading.component';
 import { ModalUpdateComponent } from './components/comanda-components/modal-update/modal-update.component';
 import { ModalDeleteComponent } from './components/comanda-components/modal-delete/modal-delete.component';
+import { MsgComponent } from './components/msg/msg.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { ModalDeleteComponent } from './components/comanda-components/modal-dele
     ModelPedidoComponent,
     LoadingComponent,
     ModalUpdateComponent,
-    ModalDeleteComponent
+    ModalDeleteComponent,
+    MsgComponent
   ],
   imports: [
     BrowserModule,

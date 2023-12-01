@@ -1,7 +1,6 @@
 .slider{
     border-radius: 1rem;
-    width: 90%; 
-    height:600px;
+    width: 100%; 
     margin-bottom: 1rem;
   }
 @media screen and (max-width: 750px ) {   

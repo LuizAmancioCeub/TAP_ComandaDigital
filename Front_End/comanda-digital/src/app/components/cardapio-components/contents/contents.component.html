@@ -28,7 +28,7 @@
     </div>
     
     <ng-container *ngIf="msg">
-        <div class="{{show}}" id="snackbar"><i style="background-color: lightgreen;  border-radius: 1rem; font-size: 22px;" class='bi bi-check-circle'></i> {{txt}}</div>
+        <app-msg txt="{{txt}}" show="{{show}}"></app-msg>
     </ng-container>
     
     <ng-container *ngIf="!itens">
