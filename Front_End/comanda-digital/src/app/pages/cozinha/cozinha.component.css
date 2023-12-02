@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap");
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 0rem;
+  padding: 1rem;
+  margin-top: 3%;
+}

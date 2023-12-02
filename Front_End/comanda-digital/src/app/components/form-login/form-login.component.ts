@@ -54,49 +54,44 @@ export class FormLoginComponent implements OnInit {
    }
   }
 
-  onLogin(login:string, senha:string, mesa:number):void{
-    this.axiosService.request(
-      "POST",
-      "/login",
-      {
-        login: login,
-        senha: senha,
-        mesa: {
-          id: mesa
-        } 
-      }
-    ).then((response) => {
-      const token = response.data.token;
-      if (token) {
-        this.axiosService.setAuthToken(token);
-        this.verificarUsuario();
-      } 
-    })
-    .catch((error) => {
+  onSubmitLoginVisitante():void{
+      this.onLogin( "visitante12", "visitante", 10);
+   }
 
-      if (error.response.status === 404) {
-        // Se o status for 404 (usuário não encontrado), trate aqui
-        this.mostrarMsg("404");
-        console.clear
-      }
-      
-      else if(error.response.status === 406) {
-        this.mostrarMsg("406");
-        console.clear
-      }
-      
-      else if(error.response.status === 403) {
-        this.mostrarMsg("403");
-        console.clear
-      }
-    });
+  onLogin(login:string, senha:string, mesa:number):void{
+    this.loginService.onLogin(login,senha,mesa)
+      .then((response) => {
+        const token = response.data.token;
+        if (token) {
+          this.axiosService.setAuthToken(token);
+          this.verificarUsuario();
+        } 
+      })
+      .catch((error) => {
+
+        if (error.response.status === 404) {
+          // Se o status for 404 (usuário não encontrado), trate aqui
+          this.mostrarMsg("404");
+          console.clear
+        }
+        
+        else if(error.response.status === 406) {
+          this.mostrarMsg("406");
+          console.clear
+        }
+        
+        else if(error.response.status === 403) {
+          this.mostrarMsg("403");
+          console.clear
+        }
+      });
   }
   verificarUsuario():void{
     this.axiosService.request("GET", "/myCredenciais", "").then(
       (response) => {
       const perfil = response.data.perfil.perfil;
       
-      if (perfil === "Cliente") {
+      if (perfil === "Cliente" || perfil === "Visitante") {
 
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/cardapio']); // Rota para clientes
@@ -104,7 +99,7 @@ export class FormLoginComponent implements OnInit {
       } else if (perfil === "Cozinha") {
 
         this.loginService.setLoggedIn(true);
-        this.router.navigate(['/teste']); // Rota para usuários comuns
+        this.router.navigate(['/cozinha']); // Rota para usuários comuns
 
       } else {
         // Rota padrão para outros perfis ou tratamento de erro

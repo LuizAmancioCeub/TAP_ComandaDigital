@@ -40,6 +40,11 @@ export class TabelaComandaComponent implements OnInit {
     this.comandaService.getPedidosEntregues().then(
       (response) => {
         this.dataE = response.data;
+        if(response.data.horarioEntrega != null){
+          this.processarHorarios();
+        }else{
+          response.data.horarioEntrega = ''
+        }
         this.pedidos = true;
         if(response.data == 0){
           this.pedidos = false;
@@ -54,6 +59,23 @@ export class TabelaComandaComponent implements OnInit {
         this.dataF = response.data;
       }
     );
+  }
+
+  processarHorarios(): void {
+    // Iterar pelos pedidos e converter a string de horário para um objeto Date
+    
+    this.dataE.forEach((pedido) => {
+      pedido.horarioEntrega = new Date(pedido.horario_dataEntrega); 
+       // Obtendo horas e minutos do horário
+    const horas = pedido.horarioEntrega.getHours();
+    const minutos = pedido.horarioEntrega.getMinutes();
+
+    // Formatar para exibir conforme necessário (por exemplo, no formato HH:MM)
+    const horarioFormatado = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
+
+    // Armazenar a string formatada de horas e minutos de volta na propriedade
+    pedido.horario_dataEntrega = horarioFormatado;
+    });
   }
 }
 

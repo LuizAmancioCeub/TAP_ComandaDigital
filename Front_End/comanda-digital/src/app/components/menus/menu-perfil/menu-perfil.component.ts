@@ -12,6 +12,8 @@ export class MenuPerfilComponent {
   data:ClienteData[] = [];
   usuario:ClienteData;
 
+  visitante:boolean = false;
+
   constructor(private axiosService:AxiosService){
     this.usuario = {
       login:"",
@@ -34,6 +36,9 @@ export class MenuPerfilComponent {
     this.axiosService.request("GET", "/myCredenciais", "").then(
       (response) => {
         this.usuario = response.data
+        if(this.usuario.perfil.perfil == "Visitante"){
+          this.visitante = true;
+        }
     });
   }
 }

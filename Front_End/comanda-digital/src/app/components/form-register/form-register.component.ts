@@ -42,6 +42,14 @@ export class FormRegisterComponent {
     this.registerService.register(cpf, nome, telefone, senha)
     .then((response) => {
       this.mostrarMsg("cadastrado");
+      this.cpf = ""
+      this.nome = ""
+      this.telefone = ""
+      this.senha = ""
+      this.senhaB = ""
+      setTimeout(() => {
+        this.close;
+      }, 3000);
       // Redirecionar ou fazer outras ações necessárias após o login
     })
     .catch((error) => {

@@ -7,7 +7,16 @@
         <p name="preco" id="preco"><b>Valor: R$ {{preco}}</b></p>
         <hr style="background-color: black">
         <div class="card-footer">
-          <button (click)="openVerticallyCentered(pedido)" class="btn btn-success btnC" data-toggle="modal" data-target="#pedido">Fazer Pedido</button>                    
+          <button
+            (click)="isCliente && openVerticallyCentered(pedido)"
+            [ngClass]="{'btn-success': isCliente, 'btnC': true, 'disabled': !isCliente}"
+            [attr.disabled]="!isCliente ? true : null"
+            class="btn"
+            data-toggle="modal"
+            data-target="#pedido"
+          >
+            Fazer Pedido
+          </button>                   
         </div>
     </div>    
     
@@ -20,3 +29,12 @@
     valor="{{preco}}">
   </app-model-pedido>
 </ng-template>
+
+<!--<ng-template #registrar let-modal>
+  <div style="display: flex; justify-content: center;">
+    <a (click)="login()" style="margin: 0.5rem;">Login</a>
+    <a (click)="registro()" style="margin: 0.5rem;">Registro</a>
+  </div>
+  <app-form-register *ngIf="reg"></app-form-register>
+  <app-form-login *ngIf="log"></app-form-login>
+</ng-template>-->

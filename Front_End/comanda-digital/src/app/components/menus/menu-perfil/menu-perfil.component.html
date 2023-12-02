@@ -3,7 +3,9 @@
     <button class="dropbtn"><i style="font-size:22px" class="bi bi-person"></i></button>
     <div class="dropdown-content">
     <span  style="font-size:15px; width: 100%;padding: 0;" class="btn btn-secondary">{{usuario.nome}}</span>
-    <span style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{usuario.mesa.id}}</span>
+    <ng-container *ngIf="!visitante">
+      <span style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{usuario.mesa.id}}</span>
+    </ng-container>
     <hr style="margin: .2rem;">
     <a>Ver Comanda</a>
     <a>Alterar Dados</a>

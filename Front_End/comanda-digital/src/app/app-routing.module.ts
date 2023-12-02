@@ -5,6 +5,7 @@ import { CardapioComponent } from './pages/cardapio/cardapio.component';
 import { ComandaComponent } from './pages/comanda/comanda.component';
 import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { AuthGuard } from './services/AuthGuard';
+import { CozinhaComponent } from './pages/cozinha/cozinha.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,12 @@ const routes: Routes = [
   {
     path:'cardapio/comanda',
     component: ComandaComponent,
-   // canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
+  },
+  {
+    path:'cozinha',
+    component: CozinhaComponent,
+    //canActivate: [AuthGuard]
   },
   {
     path:'teste',

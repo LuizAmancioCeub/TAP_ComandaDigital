@@ -14,6 +14,20 @@ export class LoginService {
 
   constructor(private axiosService:AxiosService) { }
 
+  onLogin(login:string, senha:string, mesa:number):Promise<any>{
+    return this.axiosService.request(
+      "POST",
+      "/login",
+      {
+        login: login,
+        senha: senha,
+        mesa: {
+          id: mesa
+        }
+      }
+    );
+  }  
+
   
 
   conferirCampos(login: string, senha: string, mesa: any): String{

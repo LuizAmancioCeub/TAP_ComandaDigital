@@ -1,0 +1,25 @@
+<div class="modal-content" style=" border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">                                             
+    <div class="modal-header">
+      <h3 class="modal-title" style=" font-family: Kalam, cursive;font-weight: normal;">X-Tudo - Mesa 10</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+
+    <input type="hidden" name="idItens" value="<?php echo $row['idItens'] ?>">
+    <input type="hidden" name="idPedido" value="<?php echo $row['idPedido'] ?>">
+
+      <div class="modal-body">
+        <div class='form-row'>
+            <div class='form-group col-md-12'>
+                <h4 style=' margin-top:-10px; margin-bottom:5px'>Motivo do Cancelamento:</h4>
+                <textarea style="font-weight: bolder;background: transparent;border-radius:10px" class="form-control" name ="motivo" id="motivo" rows="1" required></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class='form-row' style="display: flex; justify-content: center;margin-top: 1rem;">                                      
+                  <button class="btn btn-danger" name="cancelarPedido" id="cancelarPedido">Cancelar Pedido</button>
+          </div>   
+        </div>
+      </div>
+
+  </div>

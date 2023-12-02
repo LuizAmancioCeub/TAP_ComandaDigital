@@ -22,13 +22,6 @@ export class ModelPedidoComponent implements OnChanges {
 
   msg: boolean = false;
 
-  tst(){
-    this.close();
-    setTimeout(() => {
-      this.eventService.emitMsg(true, "Pedido Realizado com Sucesso");
-    }, 300);
-  }
-
   onSubmitPedido(){
     if (typeof this.itemId === "string") {
       const parsedItemId = parseInt(this.itemId, 10); // O segundo argumento é a base (radix) para a conversão

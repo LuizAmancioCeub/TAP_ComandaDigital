@@ -1,8 +1,12 @@
 export type PedidosData = {
     id:number
     valor:number
-    quantidade:number,
+    quantidade:number
     observacao:string
+    horario_dataPedido: string
+    horarioPedido: Date | undefined;
+    horario_dataEntrega: string
+    horarioEntrega: Date | undefined;
     item:{
         id:number
         nome:string
@@ -17,12 +21,19 @@ export type PedidosData = {
     status:{
         id:number
         status:string
-    }
-    cliente:{
-        login:string
-        nome:string,
-        mesa:{
-            id:number
+    },
+    comanda:{
+        id:number
+        status:{
+            status:string
+        }
+        cliente:{
+            login:string
+            nome:string,
+            mesa:{
+                id:number
+            }
         }
     }
+    
 }

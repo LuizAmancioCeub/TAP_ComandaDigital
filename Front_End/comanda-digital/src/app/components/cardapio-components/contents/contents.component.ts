@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ItensData } from 'src/app/Models/ItensData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -16,6 +16,8 @@ export class ContentsComponent implements OnInit {
   msg:boolean = false
   txt:string = "";
   show:string=""
+
+  isCliente:boolean = false;
 
   ngOnInit(): void {
     this.categoriaService.categoriaSelecionada$.subscribe((categoriaId) => {
@@ -35,6 +37,8 @@ export class ContentsComponent implements OnInit {
         this.msg = false;
       }, 3000);
     });
+
+    this.verificarUsuario();
   }
   itens:boolean = true;
   loadItems(categoriaId: number): void {
@@ -49,6 +53,24 @@ export class ContentsComponent implements OnInit {
       },
       () => {
         this.isLoading = false; // Marca como não mais carregando em caso de erro
+      }
+    );
+  }
+
+  verificarUsuario():void{
+    this.axiosService.request("GET", "/myCredenciais", "").then(
+      (response) => {
+      const perfil = response.data.perfil.perfil;
+      
+      if (perfil === "Cliente") {
+        this.isCliente = true; 
+
+      } else if (perfil === "Visitante") {
+        this.isCliente = false; 
+
+      } else {
+        this.isCliente = false; 
+      }
       }
     );
   }

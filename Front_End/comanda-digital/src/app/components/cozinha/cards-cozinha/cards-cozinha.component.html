@@ -1,0 +1,46 @@
+<div class="cards">
+
+      <div class="cardi" *ngFor="let pedidos of data">
+        <img src="assets/imagens/{{pedidos.item.imagem}}"/>
+                <h2> {{pedidos.item.nome}} </h2>
+    
+                <div class="row">
+                  <div class="col-md-6">
+                    <span> {{pedidos.comanda.cliente.nome}}</span>
+                  </div>
+                  <div class="col-md-6">
+                    <span>Mesa {{pedidos.comanda.cliente.mesa.id}} </span>
+                  </div>
+                </div>
+    
+                <div class="row" style="margin-top:5px">
+                  <div class="col-md-6">
+                    <span>Horário: {{pedidos.horarioPedido | date: 'HH:mm' }}</span>
+                  </div>
+                  <div class="col-md-6">
+                  <span>Qntd: {{pedidos.quantidade}}</span>
+                  </div>
+                </div><br>
+    
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <textarea style="font-weight: bolder;background: transparent;border-radius:10px" class="form-control" name ="observacao" id="observacao" rows="2" placeholder="{{pedidos.observacao}}"readonly=""></textarea>
+                  </div>
+                </div>
+    
+                <hr>
+                <div style="display: flex;flex-direction: row;justify-content: center;">        
+                    <button (click)="openVerticallyCentered(entregar)" class="btn" data-toggle="modal" data-target="" style="background: transparent;"><i style="font-size: 25px;color:green" class="bi bi-check-lg"></i></button>
+                    <button (click)="openVerticallyCentered(cancelar)" class="btn" data-toggle="modal" data-target="" style="background: transparent;margin-left:30px"><i style="font-size: 20px;color:red" class="bi bi-x-lg"></i></button>   
+                </div>  
+                
+              <ng-template #entregar let-modal>
+                  <app-modal-entregar idPedido="{{pedidos.id}}"></app-modal-entregar>
+              </ng-template>
+              
+              <ng-template #cancelar let-modal>
+                  <app-modal-cancelar></app-modal-cancelar>
+              </ng-template>
+      </div>
+    
+</div>

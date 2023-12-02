@@ -31,7 +31,7 @@
                     <td data-title="Quantidade">{{pedidos.quantidade}}</td>
                     <td data-title="Obs"><textarea rows="1" readonly>{{pedidos.observacao}}</textarea></td>
                     <td data-title="Valor">R$ {{pedidos.valor}}</td>
-                    <td data-title="Horário">21:54</td>
+                    <td data-title="Horário">{{ pedidos.horarioPedido | date: 'HH:mm' }}</td>
                     <td class="editar">
                         <button (click)="openVerticallyCentered(content)" class='btn btn-info' data-toggle='modal' data-target="#alterarPedido">Editar</button>
                     </td>

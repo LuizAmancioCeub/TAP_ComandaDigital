@@ -26,6 +26,10 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ModalUpdateComponent } from './components/comanda-components/modal-update/modal-update.component';
 import { ModalDeleteComponent } from './components/comanda-components/modal-delete/modal-delete.component';
 import { MsgComponent } from './components/msg/msg.component';
+import { CozinhaComponent } from './pages/cozinha/cozinha.component';
+import { CardsCozinhaComponent } from './components/cozinha/cards-cozinha/cards-cozinha.component';
+import { ModalEntregarComponent } from './components/cozinha/modal-entregar/modal-entregar.component';
+import { ModalCancelarComponent } from './components/cozinha/modal-cancelar/modal-cancelar.component';
 
 
 @NgModule({
@@ -50,7 +54,11 @@ import { MsgComponent } from './components/msg/msg.component';
     LoadingComponent,
     ModalUpdateComponent,
     ModalDeleteComponent,
-    MsgComponent
+    MsgComponent,
+    CozinhaComponent,
+    CardsCozinhaComponent,
+    ModalEntregarComponent,
+    ModalCancelarComponent
   ],
   imports: [
     BrowserModule,
