@@ -49,41 +49,53 @@ public class ClienteServiceImplements implements ClienteService {
 	
 	@Override
 	public String login(@RequestBody @Valid ClienteLoginDTO dto) {
-		
+		ClienteModel cliente = (ClienteModel) repository.findByLogin(dto.login());
 		// Validar se existe login
-		if(repository.findByLogin(dto.login()) == null) {
+		if(repository.findByLogin(cliente.getLogin()) == null) {
 			return "LoginNotFound";
 		}
 		
-		Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
-		if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(14)) {
-			return "MesaNotFound";
+		if(cliente.getPerfil().getId() == 1) {
+			Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
+			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(14)) {
+				return "MesaNotFound";
+			}
+			
+			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+			var auth = this.authManager.authenticate(userNameSenha);
+		    
+
+			MesaModel mesa = mesaOptional.get();
+			
+			if (mesa.getStatus().getId() == 11) {
+				 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 11, 12);
+		    }
+			 // Associar número da mesa ao cliente durante o login
+	        setarMesaCliente(dto.login(), mesa.getId());
+	    
+	        
+	     // Criar comanda para o cliente se n tiver comanda ativa   
+	        List<Integer> statusList = Arrays.asList(8, 9);
+	        if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
+	        	 StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+	             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
+	             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
+	             comandaService.register(comandaDTO);
+	        }
+	       
+			
+			return tokenService.generateTokenCliente((ClienteModel)auth.getPrincipal());
+		}
+		else if(cliente.getPerfil().getId() == 2) {
+			// visitante
+			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+			var auth = this.authManager.authenticate(userNameSenha);
+			return tokenService.generateTokenCliente((ClienteModel)auth.getPrincipal());
 		}
 		
-		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
-		var auth = this.authManager.authenticate(userNameSenha);
-	    
-
-		MesaModel mesa = mesaOptional.get();
-		
-		if (mesa.getStatus().getId() == 11) {
-			 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 11, 12);
-	    }
-		 // Associar número da mesa ao cliente durante o login
-        setarMesaCliente(dto.login(), mesa.getId());
-    
-        
-     // Criar comanda para o cliente se n tiver comanda ativa   
-        List<Integer> statusList = Arrays.asList(8, 9);
-        if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
-        	 StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
-             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
-             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
-             comandaService.register(comandaDTO);
-        }
-       
-		
-		return tokenService.generateTokenCliente((ClienteModel)auth.getPrincipal());	
+		else {
+			return null;
+		}
 		 
 	}
 

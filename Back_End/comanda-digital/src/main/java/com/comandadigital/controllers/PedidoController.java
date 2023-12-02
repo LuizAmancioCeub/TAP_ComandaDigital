@@ -42,6 +42,12 @@ public class PedidoController {
 		return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAll());
 	}
 	
+	//Listar pedidos
+		@GetMapping("/pedidosCozinha/{stausId}")
+		public ResponseEntity<List<PedidoModel>> getAllPedidos(@PathVariable List<Integer> stausId){
+			return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findPedidosByStatus(stausId));
+		}
+	
 	// Listar pedido por cpf do cliente
 	@GetMapping("/pedidos/{cpf}")
 	 public ResponseEntity<List<PedidoModel>> getPedidosByCpf(@PathVariable String cpf) {

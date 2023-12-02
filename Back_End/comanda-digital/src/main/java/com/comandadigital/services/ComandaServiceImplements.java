@@ -128,7 +128,7 @@ public class ComandaServiceImplements implements ComandaService {
 	
 	public void updateValor(Integer id,double valor) {
 		ComandaModel comanda = comandaRepository.findById(id).orElseThrow(() -> new RuntimeException("Comanda não encontrado com ID: " + id));
-		comanda.setValorTotal(valor);
+		comanda.setValorTotal(comanda.getValorTotal() + valor);
 		comandaRepository.save(comanda);
 	}
 

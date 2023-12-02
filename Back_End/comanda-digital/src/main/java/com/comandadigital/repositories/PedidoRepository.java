@@ -25,6 +25,9 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	 @Query("SELECT MAX(p.id) FROM PedidoModel p")
 	 Integer findMaxId();
 	 
+	 @Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.status.id IN :statusId")
+		List<PedidoModel>findPedidoByStaus(@Param("statusId")List<Integer> statusList);
+	 
 	 
 	 
 }

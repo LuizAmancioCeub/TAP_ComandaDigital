@@ -3,15 +3,12 @@ package com.comandadigital.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.comandadigital.dtos.ClienteLoginDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
 import com.comandadigital.infra.security.AuthService;
-import com.comandadigital.dtos.AuthDTO;
 import com.comandadigital.services.ClienteServiceImplements;
 
 import jakarta.validation.Valid;

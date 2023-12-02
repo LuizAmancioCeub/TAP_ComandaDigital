@@ -47,14 +47,15 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/login/registrar").permitAll() // qlqr um pode se registrar
 						.requestMatchers(HttpMethod.POST, "/login").permitAll() // qlqr um pode fazer login
-						.requestMatchers(HttpMethod.POST, "/mesa").permitAll() // apenas Gerente
-						.requestMatchers(HttpMethod.GET, "/mesas").authenticated() // lista de quem pode realizar
-						.requestMatchers(HttpMethod.DELETE, "/mesa/*").permitAll()
+						.requestMatchers(HttpMethod.POST, "/visitante/registrar").permitAll() // qlqr um pode fazer login
+						.requestMatchers(HttpMethod.POST, "/mesa").hasAnyRole("GERENTE","CAIXA","GARCOM") // apenas Gerente
+						.requestMatchers(HttpMethod.GET, "/mesas").hasAnyRole("GERENTE","CAIXA","GARCOM") // lista de quem pode realizar
+						.requestMatchers(HttpMethod.DELETE, "/mesa/*").hasAnyRole("GERENTE","CAIXA","GARCOM")
+						.requestMatchers(HttpMethod.GET, "/minhaComanda").hasRole("CLIENTE")
 						.requestMatchers(HttpMethod.POST, "/categorias").authenticated() 
-						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA", "CLIENTE")
-						.requestMatchers(HttpMethod.POST, "/pedido").hasRole("CLIENTE")
-						.requestMatchers(HttpMethod.GET, "/status").permitAll()
-						.requestMatchers(HttpMethod.GET, "/itens").permitAll()
+						.requestMatchers(HttpMethod.GET, "/pedidos").hasAnyRole("GARCOM","GERENTE","CAIXA","COZINHA")
+						.requestMatchers(HttpMethod.GET, "/pedidosCozinha").hasAnyRole("GERENTE","COZINHA")
+						.requestMatchers(HttpMethod.POST, "/pedido").hasAnyRole("CLIENTE","GARCOM","GERENTE")
 						.anyRequest().authenticated()// qualquer outra requisição precisa estar logado
 				)
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // filtro vai acontecer antes do UserNamePassword...

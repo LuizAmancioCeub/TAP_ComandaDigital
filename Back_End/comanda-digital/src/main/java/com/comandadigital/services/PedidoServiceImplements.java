@@ -2,6 +2,7 @@ package com.comandadigital.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -263,6 +264,9 @@ public class PedidoServiceImplements implements PedidoService {
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
 		StatusModel status = statusRepository.findById(statusNovo).orElseThrow(() -> new RuntimeException("Status não encontrado com ID: " + id));
 		pedido.setStatus(status);
+		if(status.getId() == 5) {
+			pedido.setHorarioEntrega(LocalDateTime.now());
+		}
 		pedidoRepository.save(pedido);
 		if(pedido.getStatus().getId() == 5 ) {
 			comandaService.updateValor(pedido.getComanda().getId(), pedido.getValor()); 
@@ -295,6 +299,11 @@ public class PedidoServiceImplements implements PedidoService {
 			return null;
 		}
 		 return pedidoRepository.findPedidoByCpf(cpf);
+	}
+	
+	public List<PedidoModel> findPedidosByStatus(List<Integer> statusId) {
+		
+		 return pedidoRepository.findPedidoByStaus(statusId);
 	}
 
 }
