@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComandaData } from 'src/app/Models/ComandaData';
 import { PedidosData } from 'src/app/Models/PedidosData';
 import { AxiosService } from 'src/app/services/axios.service';
@@ -10,7 +11,7 @@ import { ComandaService } from 'src/app/services/comanda.service';
   styleUrls: ['./tabela-comanda.component.css']
 })
 export class TabelaComandaComponent implements OnInit {
-  constructor(private comandaService:ComandaService){
+  constructor(private comandaService:ComandaService, private modalService:NgbModal){
     this.dataF = {
       id: 0,
       valorTotal: 0,
@@ -39,14 +40,16 @@ export class TabelaComandaComponent implements OnInit {
   getPedidosEntregues(){
     this.comandaService.getPedidosEntregues().then(
       (response) => {
-        this.dataE = response.data;
-        if(response.data.horarioEntrega != null){
-          this.processarHorarios();
-        }else{
-          response.data.horarioEntrega = ''
+        if(response.data !== 0){
+          this.dataE = response.data;
+          if(response.data.horarioEntrega != null){
+            this.processarHorarios();
+          }else{
+            response.data.horarioEntrega = ''
+          }
+          this.pedidos = true;
         }
-        this.pedidos = true;
-        if(response.data == 0){
+        else if(response.data == 0){
           this.pedidos = false;
         }
       }
@@ -76,6 +79,14 @@ export class TabelaComandaComponent implements OnInit {
     // Armazenar a string formatada de horas e minutos de volta na propriedade
     pedido.horario_dataEntrega = horarioFormatado;
     });
+  }
+
+  openVerticallyCentered(content: TemplateRef<any>) {
+		this.modalService.open(content, { centered: true})//,windowClass: 'custom-modal-comanda-item'});
+	}
+
+  close() {
+    this.modalService.dismissAll();
   }
 }
 

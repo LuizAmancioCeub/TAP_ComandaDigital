@@ -34,14 +34,16 @@ export class TabelaPreparoComponent implements OnInit, OnDestroy {
   getPedidosEmPreparo(){
     this.comandaService.getPedidosEmPreparo().then(
       (response) => {
-        this.data = response.data;
-        if(response.data.horarioPedido != null){
-          this.processarHorarios();
-        }else{
-          response.data.horarioPedido = ''
+        if(response.data != 0){
+          this.data = response.data;
+          if(response.data.horarioPedido != null){
+            this.processarHorarios();
+          }else{
+            response.data.horarioPedido = ''
+          }
+          this.pedidos = true;
         }
-        this.pedidos = true;
-        if(response.data == 0){
+        else if(response.data == 0){
           this.pedidos = false;
         }
       }

@@ -19,7 +19,6 @@ export class CardsCozinhaComponent implements OnInit{
 
     // Ouvir o evento de pedido feito
   this.cozinhaService.pedidoAtt$.subscribe((pedidoAtt: boolean) => {
-    console.log("Subscribe")
     if (pedidoAtt) {
       this.getPedidos(); // Atualiza a lista de pedidos
     }

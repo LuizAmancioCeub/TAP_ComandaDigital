@@ -1,7 +1,7 @@
 <h4><b>Pedidos já entregues:</b></h4>  
 
 <ng-container *ngIf="!pedidos">
-   <div style="text-align:center" class="alert alert-warning" role="alert">
+   <div style="text-align:center;padding: .8rem;font-size: 20px;border-radius: .3rem;" class="alert alert-warning" role="alert">
        Ainda sem pedidos entregues!<br><br> Você só poderá fechar sua Comanda quando todos pedidos estiverem entregues
     </div> 
 </ng-container>
@@ -16,6 +16,7 @@
                 <th>Quantidade</th>
                 <th>Observação</th>
                 <th>Valor</th>
+                <th>Horário Pedido</th>
                 <th>Horário Entrega</th>                      
                 <th></th>
             </tr>
@@ -28,14 +29,47 @@
                     <td data-title="Num Pedido">{{pedidos.id}}</td>
                     <td data-title="Pedido">{{pedidos.item.nome}}</td>
                     <td data-title="Quantidade">{{pedidos.quantidade}}</td>
-                    <td data-title="Obs">{{pedidos.observacao}}</td>
+                    <td data-title="Obs"><textarea rows="1" readonly>{{pedidos.observacao}}</textarea></td>
                     <td data-title="Valor">R$ {{pedidos.valor}}</td>
-                    <td data-title="Entrega">28/08/2023 - 21:45</td>
+                    <td data-title="Horário Pedido">{{pedidos.horarioPedido | date: 'HH:mm'}}</td>
+                    <td data-title="Horário Entrega">{{pedidos.horarioEntrega | date: 'HH:mm'}}</td>
                         <td>
-                            <button class="btn btn-info">Ver no cardápio</button>
+                            <button (click)="openVerticallyCentered(item)" class="btn btn-info">Ver no cardápio</button>
+                        </td>
+                        <td>
+                            <button (click)="openVerticallyCentered(avaliar)" style="margin-top: -10px;" class="btn btn-success">Avaliar</button>
                         </td>
                 </tr>
             </tbody> 
+
+            <ng-template #item let-modal>
+                <div class="modal-content"style="border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+                    </div>
+                    <div class="modal-body" style="display: flex; justify-content: center;">
+                        <app-cards
+                            imagem="{{pedidos.item.imagem}}"
+                            descricao="{{pedidos.item.descricao}}"
+                            item="{{pedidos.item.nome}}"
+                            itemId="{{pedidos.item.id}}"
+                            preco="{{pedidos.item.preco}}"
+                            btn="Pedir Novamente"
+                        >
+                        </app-cards>
+                    </div> 
+                </div>
+            </ng-template>
+
+            <ng-template #avaliar let-modal>
+                <app-feedback
+                    imagem="{{pedidos.item.imagem}}"
+                    descricao="{{pedidos.item.descricao}}"
+                    item="{{pedidos.item.nome}}"
+                    itemId="{{pedidos.item.id}}"
+                    preco="{{pedidos.item.preco}}"
+                ></app-feedback>
+            </ng-template>
         </table>
     
     

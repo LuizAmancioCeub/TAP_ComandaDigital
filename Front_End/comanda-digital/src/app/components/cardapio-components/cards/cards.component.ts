@@ -16,6 +16,7 @@ export class CardsComponent implements OnInit {
   @Input()descricao:string="";
   @Input()imagem:string="";
   @Input()preco:number|null|string= null;
+  @Input()btn:string = "Fazer Pedido";
 
   isCliente: boolean = false;
 

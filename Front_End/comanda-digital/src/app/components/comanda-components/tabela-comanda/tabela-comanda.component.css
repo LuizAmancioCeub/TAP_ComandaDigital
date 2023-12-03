@@ -1,5 +1,7 @@
 table{
     width: 100%;
+    max-width: 400px;
+    min-width: 350px;
 }
 table thead th {
     padding: 10px;
@@ -9,16 +11,17 @@ table thead th {
 }
 
 table tbody tr td {
-    display: table-cell;
+    display: block;
+    text-align: right;
     font-weight: 400;
     padding: 10px;
-    text-align: left;
     position: relative;
 }
 
 table tbody tr {    
-    border: none;
-    display: table-row;
+    margin-bottom: 10px;
+        display: block;
+        border: 1px solid #dad6eb;
 }
 
 table tbody tr td button {    
@@ -30,34 +33,56 @@ table tbody tr td button {
     border: none;
     border-radius: 20px;
     color: #fff;
-    font-weight: 700;;
+    font-weight: 700;
     padding: .4rem 0;
 }
 table thead {
-    display: table-header-group;
-    font-weight: 500;
+    display: none;
+}
+textarea{
+    text-align: right;
 }
 
 
 table tbody tr td:before {
-    display: none;
+    content: attr(data-title);
+        position: absolute;
+        left: 15px;
+        display: block;
+        font-weight: 600;
+        font-size: 1em;
 }
 
 table tbody tr td button:hover, table tbody tr td button:focus {
-    background: #a795fe;
     cursor: pointer;
+}
+
+textarea{
+    background: transparent;
+    border: none;
+}
+
+.tabela{
+    overflow: auto; 
+    white-space: nowrap;
+    display: flex;
+    gap: 1rem;
+}
+.pagamento{
+    width: 100%;
 }
 
 @media all and (min-width: 750px){
     .pagamento{
-        width: 30%;
+        margin-top: 1rem;
+        width: 50%;
     }
     #pagamento td button{
         width: 100%;
     }
 }
 
-@media all and (max-width: 950px) {
+@media all and (max-width: 850px) {
     .tabela{
         overflow: auto; 
         white-space: nowrap;
@@ -82,7 +107,7 @@ table tbody tr td button:hover, table tbody tr td button:focus {
     }
 
     table {
-        min-width: 280px;
+        min-width: 300px;
         border: none;
     }
 
@@ -94,6 +119,9 @@ table tbody tr td button:hover, table tbody tr td button:focus {
         margin-bottom: 10px;
         display: block;
         border: 1px solid #dad6eb;
+    }
+    textarea{
+        text-align: right;
     }
 
 

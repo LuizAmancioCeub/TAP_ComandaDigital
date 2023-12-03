@@ -30,6 +30,7 @@ import { CozinhaComponent } from './pages/cozinha/cozinha.component';
 import { CardsCozinhaComponent } from './components/cozinha/cards-cozinha/cards-cozinha.component';
 import { ModalEntregarComponent } from './components/cozinha/modal-entregar/modal-entregar.component';
 import { ModalCancelarComponent } from './components/cozinha/modal-cancelar/modal-cancelar.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { ModalCancelarComponent } from './components/cozinha/modal-cancelar/moda
     CozinhaComponent,
     CardsCozinhaComponent,
     ModalEntregarComponent,
-    ModalCancelarComponent
+    ModalCancelarComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

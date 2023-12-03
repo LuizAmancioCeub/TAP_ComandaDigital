@@ -1,6 +1,8 @@
 
 table{
     width: 100%;
+    max-width: 400px;
+    min-width: 350px;
 }
 table thead th {
     padding: 10px;
@@ -10,16 +12,17 @@ table thead th {
 }
     
 table tbody tr td {
-    display: table-cell;
+    display: block;
+    text-align: right;
     font-weight: 400;
     padding: 10px;
-    text-align: left;
     position: relative;
 }
     
 table tbody tr {    
-    border: none;
-    display: table-row;
+    margin-bottom: 10px;
+    display: block;
+    border: 1px solid #dad6eb;
 }
     
 table tbody tr:nth-child(odd) {    
@@ -27,7 +30,7 @@ table tbody tr:nth-child(odd) {
 }
 
 table tbody tr td button {    
-    display: block;
+    display: inline-block;
     position: initial;
     transform: translate(0);
     width: 100%;
@@ -35,7 +38,7 @@ table tbody tr td button {
     border: none;
     border-radius: 20px;
     color: #fff;
-    font-weight: 700;;
+    font-weight: 700;
     padding: .4rem 0;
 }
 
@@ -45,74 +48,40 @@ textarea{
 }
     
 table thead {    
-    display: table-header-group;
-    font-weight: 500;
+    display: none;
 }
     
     
 table tbody tr td:before {
-    display: none;
+    content: attr(data-title);
+    position: absolute;
+    left: 15px;
+    display: block;
+    font-weight: 600;
+    font-size: 1em;
 }
 
 table tbody tr td button:hover, table tbody tr td button:focus {    
     background: #a795fe;
     cursor: pointer;
 }
+
+.tabela{
+    overflow: auto; 
+    white-space: nowrap;
+    display: flex;
+    gap: 1rem;
+}
+
+.editar{
+    margin-bottom: -1rem;
+}
     
-@media all and (max-width: 950px) {
-    .tabela{
-        overflow: auto; 
-        white-space: nowrap;
-        display: flex;
-        gap: 1rem;
-    }
-    
-    table tbody tr td {
-        display: block;
-        text-align: right;
-    }
-    
-    table tbody tr td:before {
-        content: attr(data-title);
-        position: absolute;
-        left: 15px;
-        display: block;
-        font-weight: 600;
-        font-size: 1em;
-    }
+@media all and (max-width: 750px) {
     
     table {
         border: none;
-        min-width: 280px;
-    }
-    
-    table thead {
-        display: none;
-    }
-    
-    table tbody tr {
-        margin-bottom: 10px;
-        display: block;
-        border: 1px solid #dad6eb;
-    }
-
-    table tbody tr td button {    
-        display: inline-block;
-        position: initial;
-        transform: translate(0);
-        width: 100%;
-    
-        border: none;
-        border-radius: 20px;
-        color: #fff;
-        font-weight: 700;
-        padding: .4rem 0;
-    }
-    .editar{
-        margin-bottom: -1rem;
-    }
-    textarea{
-        text-align: right;
+        min-width: 300px;
     }
     
 }
