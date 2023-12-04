@@ -265,11 +265,13 @@ public class PedidoServiceImplements implements PedidoService {
 		StatusModel status = statusRepository.findById(statusNovo).orElseThrow(() -> new RuntimeException("Status não encontrado com ID: " + id));
 		pedido.setStatus(status);
 		if(status.getId() == 5) {
-			pedido.setHorarioEntrega(LocalDateTime.now());
-		}
+			pedido.setHorarioEntrega(LocalDateTime.now());	}
 		pedidoRepository.save(pedido);
 		if(pedido.getStatus().getId() == 5 ) {
-			comandaService.updateValor(pedido.getComanda().getId(), pedido.getValor()); 
+			var valor = pedido.getValor();
+			BigDecimal v = BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_EVEN);
+			valor = v.doubleValue();
+			comandaService.updateValor(pedido.getComanda().getId(), valor); 
 		}
 	}
 	

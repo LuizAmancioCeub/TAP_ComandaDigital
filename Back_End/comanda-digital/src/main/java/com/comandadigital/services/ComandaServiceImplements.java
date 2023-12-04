@@ -3,6 +3,8 @@ package com.comandadigital.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -128,7 +130,12 @@ public class ComandaServiceImplements implements ComandaService {
 	
 	public void updateValor(Integer id,double valor) {
 		ComandaModel comanda = comandaRepository.findById(id).orElseThrow(() -> new RuntimeException("Comanda não encontrado com ID: " + id));
-		comanda.setValorTotal(comanda.getValorTotal() + valor);
+		
+		var valorTotal = comanda.getValorTotal() + valor;
+		BigDecimal v = BigDecimal.valueOf(valorTotal).setScale(2, RoundingMode.HALF_EVEN);
+		valorTotal = v.doubleValue();
+		
+		comanda.setValorTotal(valorTotal);
 		comandaRepository.save(comanda);
 	}
 
