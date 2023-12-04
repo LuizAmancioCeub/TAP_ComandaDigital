@@ -45,6 +45,7 @@ table tbody tr td button {
 textarea{
     background: transparent;
     border: none;
+    text-align: right;
 }
     
 table thead {    

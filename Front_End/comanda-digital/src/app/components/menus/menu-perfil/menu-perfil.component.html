@@ -2,13 +2,13 @@
 <div class="dropdown" *ngIf="usuario">
     <button class="dropbtn"><i style="font-size:22px" class="bi bi-person"></i></button>
     <div class="dropdown-content">
-    <span  style="font-size:15px; width: 100%;padding: 0;" class="btn btn-secondary">{{usuario.nome}}</span>
-    <ng-container *ngIf="!visitante">
-      <span style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{usuario.mesa.id}}</span>
-    </ng-container>
-    <hr style="margin: .2rem;">
-    <a>Ver Comanda</a>
-    <a>Alterar Dados</a>
+      <span  style="font-size:15px; width: 100%;padding: 0;" class="btn btn-secondary">{{usuario.nome}}</span>
+      <ng-container *ngIf="!visitante">
+        <span style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{usuario.mesa.id}}</span>
+      </ng-container>
+      <hr style="margin: .2rem;">
+      <a>Ver Comanda</a>
+      <a>Alterar Dados</a>
     
       <button [routerLink]="['/']" style="margin:1px;margin-top:10px;border-radius:40px; width: 100%;" class="btn btn-danger btn-sm btn-block" name="sair">Sair</button>
 

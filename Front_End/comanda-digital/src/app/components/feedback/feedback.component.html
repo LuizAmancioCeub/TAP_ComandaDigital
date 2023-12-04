@@ -12,22 +12,22 @@
             </div>
         </div>
         <div class="row">
-            <div class="rating">
-                <input type="radio" name="star" id="star1"><i class="bi bi-star"></i>
-                <input type="radio" name="star" id="star2"><i class="bi bi-star"></i>
-                <input type="radio" name="star" id="star3"><i class="bi bi-star"></i>
-                <input type="radio" name="star" id="star4"><i class="bi bi-star-fill"></i>
-                <input type="radio" name="star" id="star5"><i  class="bi bi-star-fill"></i>
+            <div id="{{campo}}" class="rating">
+                <span style="font-size: 30px;color: red;">*</span>
+                <input *ngFor="let star of stars" type="radio" name="star" [value]="star" id="star{{star}}"
+                    [(ngModel)]="selectedStar" >
+                <i (click)="onStarClicked(star)" *ngFor="let star of stars" [class]="star <= selectedStar ? 'bi bi-star-fill' : 'bi bi-star'"></i> 
+               
             </div>
         </div>
         <div class="row">
             <label for="comentario">Seu feedback:</label>
         </div>
         <div class="row" style="display: flex;justify-content: center;">
-            <textarea style="background: transparent; width: 95%;" class="form-control" name="comentario" rows="3"></textarea>
+            <textarea [(ngModel)]="feedback" style="background: transparent; width: 95%;" class="form-control" name="comentario" rows="3" placeholder="Caso queira deixe seu feedback"></textarea>
         </div>
         <div class="row" style="display: flex;justify-content: center;margin-top: .5rem;">
-            <button style="width: 50%;" class="btn btn-success">Enviar</button>
+            <button (click)="submitRating()" style="width: 50%;" class="btn btn-success">Enviar</button>
         </div>
     </div>
          

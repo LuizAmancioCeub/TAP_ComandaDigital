@@ -6,6 +6,7 @@ import { ComandaComponent } from './pages/comanda/comanda.component';
 import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { AuthGuard } from './services/AuthGuard';
 import { CozinhaComponent } from './pages/cozinha/cozinha.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path:'cozinha',
     component: CozinhaComponent,
+    //canActivate: [AuthGuard]
+  },
+  {
+    path:'loading',
+    component: LoadingComponent,
     //canActivate: [AuthGuard]
   },
   {

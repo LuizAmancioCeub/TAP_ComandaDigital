@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { AxiosService } from 'src/app/services/axios.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-cardapio',
@@ -13,6 +14,7 @@ export class CardapioComponent implements OnInit{
   constructor(private axiosService:AxiosService){}
   ngOnInit(): void {
    this.verificarUsuario();
+   
   }
 
   verificarUsuario():void{

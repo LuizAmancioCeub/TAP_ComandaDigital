@@ -3,6 +3,7 @@ import { ItensData } from 'src/app/Models/ItensData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { EventsService } from 'src/app/services/events.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-contents',
@@ -10,16 +11,17 @@ import { EventsService } from 'src/app/services/events.service';
   styleUrls: ['./contents.component.css']
 })
 export class ContentsComponent implements OnInit {
-  constructor(private axiosService:AxiosService ,private categoriaService: CategoriaService, private eventService:EventsService) { }
-  isLoading:boolean = true;
+  constructor(private axiosService:AxiosService ,private categoriaService: CategoriaService, private eventService:EventsService,public loadService:LoaderService) { }
   data:ItensData[] = [];
   msg:boolean = false
   txt:string = "";
   show:string=""
 
+
   isCliente:boolean = false;
 
   ngOnInit(): void {
+
     this.categoriaService.categoriaSelecionada$.subscribe((categoriaId) => {
       if (categoriaId !== null) {
         this.loadItems(categoriaId);
@@ -46,13 +48,9 @@ export class ContentsComponent implements OnInit {
       (response) => {
         this.data = response.data;
         this.itens = true;
-        this.isLoading = false;
         if(response.data == 0){
           this.itens = false;
         }
-      },
-      () => {
-        this.isLoading = false; // Marca como não mais carregando em caso de erro
       }
     );
   }
