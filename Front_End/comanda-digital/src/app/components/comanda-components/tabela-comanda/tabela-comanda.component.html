@@ -1,4 +1,9 @@
-<h4><b>Pedidos já entregues:</b></h4>  
+<ng-container *ngIf="load">
+    <app-loading></app-loading>
+</ng-container>
+
+<ng-container *ngIf="!load">
+    <h4><b>Pedidos já entregues:</b></h4>  
 
 <ng-container *ngIf="!pedidos">
    <div style="text-align:center;padding: .8rem;font-size: 20px;border-radius: .3rem;" class="alert alert-warning" role="alert">
@@ -89,5 +94,8 @@
         </tbody> 
     </table>
 </ng-container>
+</ng-container>
+
+
 
 

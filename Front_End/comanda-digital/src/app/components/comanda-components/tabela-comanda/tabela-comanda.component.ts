@@ -32,6 +32,8 @@ export class TabelaComandaComponent implements OnInit {
   
   pedidos:boolean = false;
 
+  load:boolean = true;
+
   ngOnInit(): void {
     this.getPedidosEntregues();
     this.getComanda();
@@ -40,7 +42,7 @@ export class TabelaComandaComponent implements OnInit {
   getPedidosEntregues(){
     this.comandaService.getPedidosEntregues().then(
       (response) => {
-        if(response.data !== 0){
+        if(response.data != 0){
           this.dataE = response.data;
           if(response.data.horarioEntrega != null){
             this.processarHorarios();
@@ -60,6 +62,7 @@ export class TabelaComandaComponent implements OnInit {
     this.comandaService.getComanda().then(
       (response) => {
         this.dataF = response.data;
+        this.load = false;
       }
     );
   }

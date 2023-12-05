@@ -17,6 +17,8 @@ export class ContentsComponent implements OnInit {
   txt:string = "";
   show:string=""
 
+  load:boolean = true;
+
 
   isCliente:boolean = false;
 
@@ -48,6 +50,7 @@ export class ContentsComponent implements OnInit {
       (response) => {
         this.data = response.data;
         this.itens = true;
+        this.load = false;
         if(response.data == 0){
           this.itens = false;
         }
