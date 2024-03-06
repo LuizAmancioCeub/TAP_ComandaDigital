@@ -27,7 +27,7 @@ O escopo do projeto compreende o desenvolvimento e a implementação de um siste
 - O Angular CLI é uma ferramenta que pode ser usada para criar, compilar e executar aplicativos Angular. Para instalar o Angular CLI, abra o terminal e execute o seguinte comando:
   > npm install -g @angular/cli@15.2.4
 
-- Após instalação do Angular CLI seguir os passos descritos no [README.md do Front_End/comanda-digital](Front_End/comanda-digital)
+- Após instalação do Angular CLI seguir os passos descritos no [README.md do Front_End/comanda-digital](Front_End/comanda-digital).
 
 ## Configurando Ambiente Spring-Boot 3.1.4
 
