@@ -43,8 +43,10 @@ export class RegisterService {
       return "cpf";
     }else if (!this.validarTelefone(telefone)) {
       return "Telefone";
-    } else if (senha !== senhaB || senha.length < 3 || senha.length > 12) {
-      return "senha";
+    }else if (senha.length < 6 || senha.length > 12) {
+      return "TamanhoSenha"; 
+    }else if (senha !== senhaB) {
+      return "senha"; 
     } else {
       return "ok";
     }

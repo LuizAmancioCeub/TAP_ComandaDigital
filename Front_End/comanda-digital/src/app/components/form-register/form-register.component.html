@@ -18,13 +18,13 @@
 
                 <div class="form-group bmd-form-group">
                     <div class="input-group">
-                      <input [(ngModel)]="cpf" type="text" id="cpf" name="cpf" class="form-control" placeholder="Seu CPF..." maxlength="11" minlength="11">
+                      <input (keypress)="onKeyPress($event)" [(ngModel)]="cpf" type="text" id="cpf" name="cpf" class="form-control" placeholder="Seu CPF..." maxlength="11" minlength="11">
                     </div>
                 </div>
 
                 <div class="form-group bmd-form-group">
                     <div class="input-group">
-                        <input [(ngModel)]="telefone" type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone..." minlength="11" maxlength="11">
+                        <input (keypress)="onKeyPress($event)" [(ngModel)]="telefone" type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone..." minlength="11" maxlength="11">
                     </div>
                 </div>
 

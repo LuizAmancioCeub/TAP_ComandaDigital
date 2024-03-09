@@ -38,6 +38,41 @@ export class FormRegisterComponent {
     }
   }
 
+  formatarCPF() {
+    // Remove todos os caracteres não numéricos do valor do CPF
+    let cpfFormatado = this.cpf.replace(/\D/g, '');
+
+    // Aplica a formatação do CPF (XXX.XXX.XXX-XX)
+    cpfFormatado = cpfFormatado.replace(/(\d{3})(\d)/, '$1.$2');
+    cpfFormatado = cpfFormatado.replace(/(\d{3})(\d)/, '$1.$2');
+    cpfFormatado = cpfFormatado.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    // Atualiza o valor do campo com o CPF formatado
+    this.cpf = cpfFormatado;
+  }
+
+  formatarTelefone() {
+    // Remove todos os caracteres não numéricos do valor do telefone
+    let telefoneFormatado = this.telefone.replace(/\D/g, '');
+
+    // Aplica a formatação do telefone ((xx)xxxxx-xxxx)
+    telefoneFormatado = telefoneFormatado.replace(/(\d{2})(\d)/, '($1)$2');
+    telefoneFormatado = telefoneFormatado.replace(/(\d{5})(\d)/, '$1-$2');
+
+    // Atualiza o valor do campo com o telefone formatado
+    this.telefone = telefoneFormatado;
+  }
+
+  onKeyPress(event: KeyboardEvent) {
+    // Obter o código da tecla pressionada
+    const charCode = event.which || event.keyCode;
+
+    // Permitir apenas números (códigos de tecla de 0 a 9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault(); // Impedir a entrada de caracteres não numéricos
+    }
+  }
+
   registerUser(cpf:string, nome:string,telefone:string, senha:string):void{
     this.registerService.register(cpf, nome, telefone, senha)
     .then((response) => {
@@ -74,50 +109,41 @@ export class FormRegisterComponent {
   
   mostrarMsg(tipo:string):void{
     this.mostrarErro = true;
-    if(tipo == "campos"){
-      this.alert = "warning"
-      this.erro = "Todos os campos devem ser preenchidos"
-      this.icon = "bi bi-exclamation-triangle-fill";
-    } 
-    else if(tipo == "cpf"){
-      this.alert = "warning"
-      this.erro = "Cpf inválido"
-      this.icon = "bi bi-exclamation-triangle-fill";
-
-    }
-    else if(tipo == "nome"){
-      this.alert = "warning"
-      this.erro = "Nome inválido"
-      this.icon = "bi bi-exclamation-triangle-fill";
-
-    }
-    else if(tipo == "telefone"){
-      this.alert = "warning"
-      this.erro = "Telefone inválido"
-      this.icon = "bi bi-exclamation-triangle-fill";
-
-    }
-    else if(tipo == "senha"){
-      this.alert = "warning"
-      this.erro = "Senhas não conferem ou são inválidas"
-      this.icon = "bi bi-exclamation-triangle-fill";
-    }
-    else if(tipo == "406"){
-      this.alert = "warning"
-      this.erro = "Já existe cadastro com o cpf ou telefone informado!!!"
-      this.icon = "bi bi-exclamation-triangle-fill";
-
-    }
-    else if(tipo == "cadastrado"){
-      this.alert = "success"
-      this.erro = "Cadastro efetuado, faça o login para acessar nossos serviços"
-      this.icon = "";
-    }
-     else{
-      this.alert = "danger"
-      this.erro = "Tente novamente mais tarde"
-      this.icon = "bi bi-exclamation-triangle-fill";
-    }
+    this.alert = "warning";
+    this.icon = "bi bi-exclamation-triangle-fill";
+    switch (tipo) {
+      case "campos":
+          this.erro = "Todos os campos devem ser preenchidos";
+          break;
+      case "cpf":
+          this.erro = "Cpf inválido";
+          break;
+      case "nome":
+          this.erro = "Nome inválido";
+          break;
+      case "telefone":
+          this.erro = "Telefone inválido";
+          break;
+      case "TamanhoSenha":
+          this.erro = "Senha deve ter entre 6 à 12 caracteres";
+          break;
+      case "senha":
+          this.erro = "Senhas não conferem ou são inválidas";
+          break;
+      case "406":
+          this.erro = "Já existe cadastro com o cpf ou telefone informado!!!";
+          break;
+      case "cadastrado":
+          this.alert = "success";
+          this.erro = "Cadastro efetuado, faça o login para acessar nossos serviços";
+          this.icon = "";
+          break;
+      default:
+          this.alert = "danger";
+          this.erro = "Tente novamente mais tarde";
+          this.icon = "bi bi-exclamation-triangle-fill";
+          break;
+  }
 
      setTimeout(() => {
       this.mostrarErro = false;
