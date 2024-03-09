@@ -25,5 +25,12 @@ public class PerfilModel implements Serializable{
 	
 	@Column(name = "PERFIL")
 	private String perfil;
+	
+	public static final Integer CLIENTE = 1;
+	public static final Integer VISITANTE = 2;
+	public static final Integer GERENTE = 3;
+	public static final Integer GARCOM = 4;
+	public static final Integer COZINHA = 5;
+	public static final Integer CAIXA = 6;
 
 }

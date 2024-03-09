@@ -48,7 +48,7 @@ public class CozinhaServiceImplements implements CozinhaService {
 			return null;
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha());
-		PerfilModel perfilCliente = perfilRepository.findById(5).orElseThrow(() -> new RuntimeException("Perfil não encontrado"));
+		PerfilModel perfilCliente = perfilRepository.findById(PerfilModel.COZINHA).orElseThrow(() -> new RuntimeException("Perfil não encontrado"));
 		
 		CozinhaModel newCozinha = new CozinhaModel(dto.login(), encryptedPassword, perfilCliente);
 		

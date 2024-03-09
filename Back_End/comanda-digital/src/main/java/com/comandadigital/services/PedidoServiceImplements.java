@@ -112,14 +112,14 @@ public class PedidoServiceImplements implements PedidoService {
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        // verificando comanda
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8, 9));
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO));
 	        if(comandaCliente == null) {
 	        	return null;
 	        }
 	        
 	        // Verificando se os itens do pedido existem e estão disponíveis
 	        ItemModel item = pedidoDTO.item();
-	        var existingItem = itemRepository.findByIdAndStatusId(item.getId(), 1);	
+	        var existingItem = itemRepository.findByIdAndStatusId(item.getId(), StatusModel.ATIVO);	
 				
 			if(existingItem == null) {
 				return null;
@@ -130,7 +130,7 @@ public class PedidoServiceImplements implements PedidoService {
 		     pedidoModel.setObservacao(pedidoDTO.observacao());
 		     pedidoModel.setValor(existingItem.getPreco() * pedidoModel.getQuantidade());
 		     // Setando status inicial do pedido
-		     StatusModel statusInicial = statusRepository.findById(3).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
+		     StatusModel statusInicial = statusRepository.findById(StatusModel.EM_PREPARACAO).orElseThrow(() -> new RuntimeException("Status não encontrado")); 
 		     pedidoModel.setStatus(statusInicial);
 		     									
 		     CozinhaModel cozinha = cozinhaRepository.findById(1).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
@@ -192,7 +192,8 @@ public class PedidoServiceImplements implements PedidoService {
 	}
 	
 	public List<PedidoModel> findMyPedidosEmPreparo(){
-		List<Integer> statusList = Arrays.asList(3, 4);
+		List<Integer> statusList = Arrays.asList(
+				StatusModel.EM_PREPARACAO, StatusModel.PRONTO_ENTREGA);
 		// Obtém o contexto de segurança
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 	    // Obtém a autenticação do contexto de segurança
@@ -215,7 +216,7 @@ public class PedidoServiceImplements implements PedidoService {
 	}
 	
 	public List<PedidoModel> findMyPedidosEntregues(){
-		List<Integer> statusList = Arrays.asList(5);
+		List<Integer> statusList = Arrays.asList(StatusModel.ENTREGUE);
 		// Obtém o contexto de segurança
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 	    // Obtém a autenticação do contexto de segurança
@@ -243,7 +244,7 @@ public class PedidoServiceImplements implements PedidoService {
 	public PedidoModel update(Integer id, PedidoRecordUpdateDTO dto) {
 		PedidoModel pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
 		
-		if(pedido.getStatus().getId() == 3) {
+		if(pedido.getStatus().getId().equals(StatusModel.EM_PREPARACAO)) {
 			  if (!Objects.equals(dto.quantidade(), pedido.getQuantidade()) && !Objects.equals(dto.valor(), pedido.getValor())) {
 			        pedido.setValor(dto.valor());
 			        pedido.setQuantidade(dto.quantidade());
@@ -267,7 +268,7 @@ public class PedidoServiceImplements implements PedidoService {
 		if(status.getId() == 5) {
 			pedido.setHorarioEntrega(LocalDateTime.now());	}
 		pedidoRepository.save(pedido);
-		if(pedido.getStatus().getId() == 5 ) {
+		if(pedido.getStatus().getId().equals(StatusModel.ENTREGUE)) {
 			var valor = pedido.getValor();
 			BigDecimal v = BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_EVEN);
 			valor = v.doubleValue();

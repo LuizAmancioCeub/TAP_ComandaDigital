@@ -57,7 +57,7 @@ public class ClienteServiceImplements implements ClienteService {
 		
 		if(cliente.getPerfil().getId() == 1) {
 			Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
-			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(14)) {
+			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(StatusModel.INDISPONIVEL)) {
 				return "MesaNotFound";
 			}
 			
@@ -67,17 +67,17 @@ public class ClienteServiceImplements implements ClienteService {
 
 			MesaModel mesa = mesaOptional.get();
 			
-			if (mesa.getStatus().getId() == 11) {
-				 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), 11, 12);
+			if (mesa.getStatus().getId().equals(StatusModel.LIVRE)) {
+				 mesaService.atualizarStatusMesa(mesaOptional.get().getId(), StatusModel.LIVRE, StatusModel.OCUPADA);
 		    }
 			 // Associar número da mesa ao cliente durante o login
 	        setarMesaCliente(dto.login(), mesa.getId());
 	    
 	        
 	     // Criar comanda para o cliente se n tiver comanda ativa   
-	        List<Integer> statusList = Arrays.asList(8, 9);
+	        List<Integer> statusList = Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO);
 	        if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
-	        	 StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+	        	 StatusModel defaultStatus = statusRepository.findById(StatusModel.ABERTA).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 	             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
 	             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
 	             comandaService.register(comandaDTO);
@@ -86,7 +86,7 @@ public class ClienteServiceImplements implements ClienteService {
 			
 			return tokenService.generateTokenCliente((ClienteModel)auth.getPrincipal());
 		}
-		else if(cliente.getPerfil().getId() == 2) {
+		else if(cliente.getPerfil().getId() == PerfilModel.VISITANTE) {
 			// visitante
 			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
 			var auth = this.authManager.authenticate(userNameSenha);

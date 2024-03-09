@@ -29,4 +29,19 @@ public class StatusModel extends RepresentationModel<CategoriaModel> implements 
 	
 	@Column(name = "STATUS", nullable = false)
 	private String status;
+	
+	public static final Integer ATIVO = 1;
+	public static final Integer INATIVO = 2;
+	public static final Integer EM_PREPARACAO = 3;
+	public static final Integer PRONTO_ENTREGA = 4;
+	public static final Integer ENTREGUE = 5;
+	public static final Integer CANCELADO = 6;
+	public static final Integer EM_PROCESSAMENTO = 7;
+	public static final Integer ABERTA = 8;
+	public static final Integer AGUARDANDO_PAGAMENTO = 9;
+	public static final Integer PAGA = 10;
+	public static final Integer LIVRE = 11;
+	public static final Integer OCUPADA = 12;
+	public static final Integer RESERVADA = 13;
+	public static final Integer INDISPONIVEL = 14;
 }

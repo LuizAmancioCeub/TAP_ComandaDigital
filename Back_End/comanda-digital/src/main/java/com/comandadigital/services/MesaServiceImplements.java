@@ -64,7 +64,7 @@ public class MesaServiceImplements implements MesaService {
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
 		
 		// consultando o status inicial do item
-		StatusModel defaultStatus = statusRepository.findById(11).orElse(null);
+		StatusModel defaultStatus = statusRepository.findById(StatusModel.LIVRE).orElse(null);
 		
 		mesaModel.setStatus(defaultStatus); // salvando o item já com status = 9(Livre)
 		mesaModel.setQr_code("comanda-digital.com/"+mesaModel.getId()); // passando link para gerar QrCode

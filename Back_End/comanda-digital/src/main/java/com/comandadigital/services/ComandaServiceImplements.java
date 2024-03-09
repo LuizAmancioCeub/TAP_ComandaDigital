@@ -66,7 +66,7 @@ public class ComandaServiceImplements implements ComandaService {
 		BeanUtils.copyProperties(comandaDTO, comandaModel);
 		
 		// consultando o status inicial do item
-		StatusModel defaultStatus = statusRepository.findById(8).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+		StatusModel defaultStatus = statusRepository.findById(StatusModel.ABERTA).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 		comandaModel.setStatus(defaultStatus);
 		// valor incial da comanda
 		comandaModel.setValorTotal(0.0);
@@ -115,7 +115,7 @@ public class ComandaServiceImplements implements ComandaService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(8));
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA));
 	        if(comandaCliente == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }

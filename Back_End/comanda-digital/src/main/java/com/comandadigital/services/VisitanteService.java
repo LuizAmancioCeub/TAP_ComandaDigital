@@ -26,7 +26,7 @@ public class VisitanteService {
 			return null;
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
-		PerfilModel perfilCliente = perfilRepository.findById(2).orElseThrow(() -> new RuntimeException("Perfil não encontrado")); // passando perfil
+		PerfilModel perfilCliente = perfilRepository.findById(PerfilModel.VISITANTE).orElseThrow(() -> new RuntimeException("Perfil não encontrado")); // passando perfil
 		
 		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),perfilCliente);
 		

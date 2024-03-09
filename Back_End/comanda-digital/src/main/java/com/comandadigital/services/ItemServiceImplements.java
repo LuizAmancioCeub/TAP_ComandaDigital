@@ -115,7 +115,7 @@ public class ItemServiceImplements implements ItemService{
 		BeanUtils.copyProperties(itemDTO, itemModel);
 		
 		// consultando o status inicial do item
-		StatusModel defaultStatus = statusRepository.findById(1).orElse(null);
+		StatusModel defaultStatus = statusRepository.findById(StatusModel.ATIVO).orElse(null);
 		itemModel.setStatus(defaultStatus); // salvando o item já com status = 1(Ativo)
 		
 		try {
