@@ -55,7 +55,7 @@ public class ClienteServiceImplements implements ClienteService {
 			return "LoginNotFound";
 		}
 		
-		if(cliente.getPerfil().getId() == 1) {
+		if(cliente.getPerfil().getId() == PerfilModel.CLIENTE) {
 			Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
 			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(StatusModel.INDISPONIVEL)) {
 				return "MesaNotFound";

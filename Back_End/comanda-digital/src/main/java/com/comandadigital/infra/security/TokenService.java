@@ -13,6 +13,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
+import com.comandadigital.models.GerenteModel;
 
 
 @Service
@@ -29,6 +30,10 @@ public class TokenService {
     // Criando token para CozinhaModel
     public String generateTokenCozinha(CozinhaModel cozinha) {
         return generateToken(cozinha.getLogin(), "COZINHA");
+    }
+    // Criando token para GerenteModel
+    public String generateTokenGerente(GerenteModel gerente) {
+    	return generateToken(gerente.getLogin(), "GERENTE");
     }
 	
 	// criando token

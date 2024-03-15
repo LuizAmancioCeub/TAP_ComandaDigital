@@ -96,6 +96,9 @@ public class MesaServiceImplements implements MesaService {
 		if(mesa0.isEmpty()) {
 			throw new RuntimeException("Mesa não encontrada");
 		}
+		if(mesa0.get().getStatus().getId().equals(StatusModel.OCUPADA)) {
+			throw new RuntimeException("Mesa Ocupada, tente novamente quando estiver Livre");
+		}
 		MesaModel mesaDelete = mesa0.get();
 		mesaRepository.delete(mesaDelete);
 		return "Mesa "+mesaDelete.getId()+"deletado";

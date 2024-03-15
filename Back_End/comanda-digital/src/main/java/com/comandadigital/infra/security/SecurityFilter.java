@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
+import com.comandadigital.repositories.GerenteRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,6 +27,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 	ClienteRepository clienteRepository;
 	@Autowired
 	CozinhaRepository cozinhaRepository;
+	@Autowired
+	GerenteRepository gerenteRepository;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -40,7 +43,9 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (login != null) {
                 if (login.startsWith("CLIENTE")) {
                     userDetails = clienteRepository.findByLogin(login.substring("CLIENTE".length())); // subtraindo a string que verifica o tipo de usuário
-                } else if (login.startsWith("COZINHA")) {
+                }else if (login.startsWith("GERENTE")) {
+                    userDetails = gerenteRepository.findByLogin(login.substring("GERENTE".length()));
+                }else if (login.startsWith("COZINHA")) {
                     userDetails = cozinhaRepository.findByLogin(login.substring("COZINHA".length()));
                 }
             }

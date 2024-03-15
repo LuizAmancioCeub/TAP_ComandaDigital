@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
+import com.comandadigital.models.GerenteModel;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
+import com.comandadigital.repositories.GerenteRepository;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -19,12 +21,19 @@ public class AuthService implements UserDetailsService {
 	ClienteRepository clienteRepository;
 	@Autowired
 	CozinhaRepository cozinhaRepository;
+	@Autowired
+	GerenteRepository gerenteRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserDetails cliente = clienteRepository.findByLogin(username);
         if (cliente != null) {
             return cliente;
+        }
+
+        UserDetails gerente = gerenteRepository.findByLogin(username);
+        if (gerente != null) {
+        	return gerente;
         }
 
         UserDetails cozinha = cozinhaRepository.findByLogin(username);
@@ -44,6 +53,11 @@ public class AuthService implements UserDetailsService {
 	        ClienteModel cliente = (ClienteModel) clienteRepository.findByLogin(login);
 	        if (cliente != null) {
 	            return cliente;
+	        }
+
+	        GerenteModel gerente = (GerenteModel) gerenteRepository.findByLogin(login);
+	        if (gerente != null) {
+	        	return gerente;
 	        }
 	        CozinhaModel cozinha = (CozinhaModel) cozinhaRepository.findByLogin(login);
 	        if (cozinha != null) {
