@@ -53,7 +53,19 @@ export class LoginService {
     this.isLoggedIn = false;
   }
 
-
+  getUserRole():Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.axiosService.request("GET", "/myCredenciais", "").then(
+        (response) => {
+          const perfil = response.data.perfil.perfil;
+          resolve(perfil);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
 
   
 }

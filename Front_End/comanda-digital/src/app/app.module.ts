@@ -31,6 +31,8 @@ import { CardsCozinhaComponent } from './components/cozinha/cards-cozinha/cards-
 import { ModalEntregarComponent } from './components/cozinha/modal-entregar/modal-entregar.component';
 import { ModalCancelarComponent } from './components/cozinha/modal-cancelar/modal-cancelar.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { GerenteComponent } from './pages/gerente/gerente.component';
+import { HomeGerenteComponent } from './components/gerente/home-gerente/home-gerente.component';
 
 
 @NgModule({
@@ -60,7 +62,9 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     CardsCozinhaComponent,
     ModalEntregarComponent,
     ModalCancelarComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    GerenteComponent,
+    HomeGerenteComponent
   ],
   imports: [
     BrowserModule,

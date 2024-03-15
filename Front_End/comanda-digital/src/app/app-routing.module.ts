@@ -7,6 +7,8 @@ import { TesteContentComponent } from './testesAPI/teste-content/teste-content.c
 import { AuthGuard } from './services/AuthGuard';
 import { CozinhaComponent } from './pages/cozinha/cozinha.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { GerenteComponent } from './pages/gerente/gerente.component';
+import { RoleGuard } from './services/RoleGuard';
 
 const routes: Routes = [
   {
@@ -21,11 +23,19 @@ const routes: Routes = [
   {
     path:'cardapio/comanda',
     component: ComandaComponent,
+    canActivate: [RoleGuard], data: { allowedRoles: ['Cliente'] }
+    //canActivate: [AuthGuard]
+  },
+  {
+    path:'gerente',
+    component: GerenteComponent,
+    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
     //canActivate: [AuthGuard]
   },
   {
     path:'cozinha',
     component: CozinhaComponent,
+    canActivate: [RoleGuard], data: { allowedRoles: ['Cozinha', 'Gerente'] }
     //canActivate: [AuthGuard]
   },
   {
@@ -34,7 +44,7 @@ const routes: Routes = [
     //canActivate: [AuthGuard]
   },
   {
-    path:'teste',
+    path:'mesas',
     component: TesteContentComponent,
     canActivate: [AuthGuard]
   }

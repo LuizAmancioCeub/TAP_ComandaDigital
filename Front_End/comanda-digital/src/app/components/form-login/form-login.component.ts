@@ -96,10 +96,16 @@ export class FormLoginComponent implements OnInit {
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/cardapio']); // Rota para clientes
 
-      } else if (perfil === "Cozinha") {
+      }else if (perfil === "Gerente") {
 
         this.loginService.setLoggedIn(true);
-        this.router.navigate(['/cozinha']); // Rota para usuários comuns
+        this.router.navigate(['/gerente']); // Rota para usuários gerentes
+
+      }
+       else if (perfil === "Cozinha") {
+
+        this.loginService.setLoggedIn(true);
+        this.router.navigate(['/cozinha']); // Rota para cozinha
 
       } else {
         // Rota padrão para outros perfis ou tratamento de erro
