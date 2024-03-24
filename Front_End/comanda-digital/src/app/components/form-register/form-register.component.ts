@@ -30,7 +30,7 @@ export class FormRegisterComponent {
     // Verificar se as senhas são iguais
     const campos = this.registerService.conferirCampos(this.cpf, this.nome, this.telefone, this.senha, this.senhaB)
     if (campos !== "ok") {
-     this.mostrarMsg(campos)
+     this.mostrarMsg(campos,"")
     } 
     else {
       this.mostrarErro = false; // Limpar mensagem de erro se já estiver sendo exibida
@@ -76,7 +76,7 @@ export class FormRegisterComponent {
   registerUser(cpf:string, nome:string,telefone:string, senha:string):void{
     this.registerService.register(cpf, nome, telefone, senha)
     .then((response) => {
-      this.mostrarMsg("cadastrado");
+      this.mostrarMsg("cadastrado","");
       this.cpf = ""
       this.nome = ""
       this.telefone = ""
@@ -88,10 +88,11 @@ export class FormRegisterComponent {
       // Redirecionar ou fazer outras ações necessárias após o login
     })
     .catch((error) => {
-      if (error.response && error.response.status === 406) {
-        this.mostrarMsg("406");
+      if (error.response && error.response.status === 400) {
+        const errorDetail = error.response.data.detail;
+        this.mostrarMsg("400",errorDetail);
       } else {
-        this.mostrarMsg("fail");
+        this.mostrarMsg("fail","");
       }
     });
   }
@@ -107,7 +108,7 @@ export class FormRegisterComponent {
   }  
   
   
-  mostrarMsg(tipo:string):void{
+  mostrarMsg(tipo:string, mensagem:string):void{
     this.mostrarErro = true;
     this.alert = "warning";
     this.icon = "bi bi-exclamation-triangle-fill";
@@ -130,8 +131,8 @@ export class FormRegisterComponent {
       case "senha":
           this.erro = "Senhas não conferem ou são inválidas";
           break;
-      case "406":
-          this.erro = "Já existe cadastro com o cpf ou telefone informado!!!";
+      case "400":
+          this.erro = mensagem;
           break;
       case "cadastrado":
           this.alert = "success";

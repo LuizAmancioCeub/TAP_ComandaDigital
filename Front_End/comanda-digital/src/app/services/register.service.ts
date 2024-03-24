@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AxiosService } from './axios.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+//import * as bcrypt from 'bcryptjs'; // Importa a biblioteca bcrypt.js
 
 function validatePhone(control: FormControl): { [key: string]: any } | null {
   const phoneRegex = /^[0-9]{11}$/; // Verifica se o número tem 11 dígitos
@@ -20,8 +21,16 @@ export class RegisterService {
     });
    }
 
+  /* Função para criptografar a senha
+  encryptPassword(password: string): string {
+    const saltRounds = 10; // Número de rounds de hashing
+    const salt = bcrypt.genSaltSync(saltRounds);
+    return bcrypt.hashSync(password, salt);
+  }
+*/
 
    register(cpf:string, nome:string,telefone:string, senha:string):Promise<any>{
+   // const encryptedPassword = this.encryptPassword(senha);
     return this.axiosService.request(
        "POST",
        "/login/registrar",

@@ -20,7 +20,8 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB05_Garcom`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB05_Garcom` (
-  `MATRICULA` INT NOT NULL AUTO_INCREMENT,
+  `NU_GARCOM`  INT NOT NULL AUTO_INCREMENT,
+  `MATRICULA` VARCHAR(10) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `SENHA` TEXT(155) NOT NULL,
@@ -53,7 +54,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB07_Mesa` (
   `NU_MESA` INT NOT NULL,
   `QR_CODE` VARCHAR(145) NOT NULL,
-  `NU_GARCOM` INT NULL,
+  `NU_GARCOM` Long NULL,
   `NU_STATUS` INT NOT NULL,
   PRIMARY KEY (`NU_MESA`),
   INDEX `fk_Mesa_Garcom1_idx` (`NU_GARCOM` ASC) ,
@@ -234,7 +235,8 @@ ENGINE = InnoDB;
 -- Table `comanda-digital`.`TB02_Gerente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB02_Gerente` (
-  `NU_GERENTE` INT NOT NULL AUTO_INCREMENT,
+  `NU_GERENTE`  INT NOT NULL AUTO_INCREMENT,
+  `MATRICULA` VARCHAR(10) NOT NULL,
   `NOME` VARCHAR(45) NOT NULL,
   `CPF` VARCHAR(11) NOT NULL,
   `SENHA` TEXT(155) NOT NULL,

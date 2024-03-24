@@ -38,10 +38,10 @@ export class FormLoginComponent implements OnInit {
   onSubmitLogin():void{
    const campos = this.loginService.conferirCampos(this.login, this.senha, this.mesa)
    if(campos == "campos"){
-    this.mostrarMsg("campos")
+    this.mostrarMsg("campos","")
    }
    else if(campos == "fail"){
-    this.mostrarMsg("fail")
+    this.mostrarMsg("fail","")
    }
    else if(campos == "ok"){
     if(typeof this.mesa == "string"){
@@ -68,21 +68,14 @@ export class FormLoginComponent implements OnInit {
         } 
       })
       .catch((error) => {
-
-        if (error.response.status === 404) {
-          // Se o status for 404 (usuário não encontrado), trate aqui
-          this.mostrarMsg("404");
-          console.clear
-        }
-        
-        else if(error.response.status === 406) {
-          this.mostrarMsg("406");
-          console.clear
-        }
-        
-        else if(error.response.status === 403) {
-          this.mostrarMsg("403");
-          console.clear
+        if (error.response.status === 400) {
+          // Se o status for 400 (regra de negocio), trate aqui
+          const errorDetail = error.response.data.detail;
+          this.mostrarMsg("400",errorDetail);
+        }else if(error.response.status === 403){
+          this.mostrarMsg("403","");
+        } else{
+          this.mostrarMsg("","");
         }
       });
   }
@@ -130,24 +123,17 @@ export class FormLoginComponent implements OnInit {
 		this.modalService.open(content, { centered: true });
 	}
 
-  mostrarMsg(tipo:string):void{
+  mostrarMsg(tipo:string, mensagem:string):void{
     if(tipo == "campos"){
       this.mostrarErro = true;
       this.alert = "warning"
       this.erro = "Todos os campos devem ser preenchidos"
       this.icon = "bi bi-exclamation-triangle-fill";
     } 
-    else if(tipo == "404"){
+    else if(tipo == "400"){
       this.mostrarErro = true;
       this.alert = "warning"
-      this.erro = "Usuário ainda não cadastrado"
-      this.icon = "bi bi-exclamation-triangle-fill";
-
-    }
-    else if(tipo == "406"){
-      this.mostrarErro = true;
-      this.alert = "warning"
-      this.erro = "Mesa Indisponível"
+      this.erro = mensagem;
       this.icon = "bi bi-exclamation-triangle-fill";
 
     }
@@ -158,13 +144,6 @@ export class FormLoginComponent implements OnInit {
       this.icon = "bi bi-exclamation-triangle-fill";
 
     }
-    else if(tipo == "logado"){
-      this.mostrarErro = true;
-      this.alert = "success"
-      this.erro = "Bem-Vindo"
-      this.icon = "";
-
-    } 
      else{
       this.mostrarErro = true;
       this.alert = "danger"
