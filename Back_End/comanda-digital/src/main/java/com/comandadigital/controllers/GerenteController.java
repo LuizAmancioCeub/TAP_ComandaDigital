@@ -1,7 +1,6 @@
 package com.comandadigital.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,9 +24,6 @@ public class GerenteController {
 		@PostMapping("gerente/registrar")
 		public ResponseEntity register(@RequestBody @Valid GerenteRegisterDTO dto) {
 			var gerente0 = gerenteService.register(dto);
-			if(gerente0 == null) {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Já existe Gerente cadastrada com essas credenciais!!!");
-			}
-			return ResponseEntity.ok().body("Cadastro do Gerente efetuado, faça o login para acessar os serviços");
+			return ResponseEntity.ok().body("Cadastro do Gerente efetuado, faça o login para acessar os serviços"+ "\nMatricula: "+gerente0.getLogin());
 		}
 }

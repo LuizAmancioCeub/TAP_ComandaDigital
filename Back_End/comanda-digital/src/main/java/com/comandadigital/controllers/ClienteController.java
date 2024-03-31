@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.ClienteRegisterDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.AuthService;
 import com.comandadigital.services.ClienteServiceImplements;
 
@@ -23,14 +24,7 @@ public class ClienteController {
 	// Registrar
 	@PostMapping("/login/registrar")
 	public ResponseEntity register(@RequestBody @Valid ClienteRegisterDTO dto) {
-		
-		var cliente0 = clienteService.register(dto);
-		
-		if(cliente0 == null) {
-			
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Já existe cadastro com o cpf ou telefone informado!!!");
-		}
-		
+		clienteService.register(dto);
 		return ResponseEntity.ok().body("Cadastro efetuado, faça o login para acessar nossos serviços");
 	}
 	

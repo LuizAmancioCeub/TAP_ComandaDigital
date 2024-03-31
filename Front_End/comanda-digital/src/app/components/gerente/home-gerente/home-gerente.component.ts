@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-gerente.component.css']
 })
 export class HomeGerenteComponent {
-  nome:string = 'Luiz';
+
 }

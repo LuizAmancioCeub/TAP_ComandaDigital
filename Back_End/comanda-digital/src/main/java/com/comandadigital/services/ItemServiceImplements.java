@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comandadigital.controllers.CategoriaController;
 import com.comandadigital.controllers.ItemController;
@@ -17,6 +18,7 @@ import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ItemRecordDTO;
 import com.comandadigital.dtos.ItemUpdateRecordDTO;
 import com.comandadigital.dtos.myValidations.CustomUniqueConstraintViolationException;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
 import com.comandadigital.models.StatusModel;
@@ -110,8 +112,12 @@ public class ItemServiceImplements implements ItemService{
 	}
 
 	@Override
+	@Transactional
 	public ItemModel register( ItemRecordDTO itemDTO) {
 		var itemModel = new ItemModel();
+		if(existsByNome(itemDTO.nome(),"")) {
+			throw new CustomUniqueConstraintViolationException("Item já existe no cardápio");
+		}
 		BeanUtils.copyProperties(itemDTO, itemModel);
 		
 		// consultando o status inicial do item
@@ -123,41 +129,59 @@ public class ItemServiceImplements implements ItemService{
 			
 		} catch (DataIntegrityViolationException e) {
 	    
-	        	throw new CustomUniqueConstraintViolationException("O nome do item já está em uso no cardápio");
+	        	throw new CustomUniqueConstraintViolationException("Situação não esperada: "+e.getMessage());
 	        }
 		
 	}
 
 	@Override
+	@Transactional
 	public ItemModel update(Integer id, ItemUpdateRecordDTO itemDTO) {
 		Optional<ItemModel> item0 = itemRepository.findById(id);
-		
 		if(item0.isEmpty()) {
-			return null;
+			throw new NegocioException("Item não encontrado");
 		}
 		
 		CategoriaModel categoria = itemDTO.categoria();
 		Optional<CategoriaModel> existingCategoria = categoriaRepository.findById(categoria.getId());
 		if (existingCategoria.isEmpty()) {
 		    // Categoria não encontrada, retorne uma resposta com status 404 e uma mensagem informativa
-			return null;
+			throw new NegocioException("Categoria não encontrada");
 		}
-
+		
+		if(existsByNome(itemDTO.nome(), item0.get().getNome())) {
+			 throw new CustomUniqueConstraintViolationException("Já existe Item cadastrado com o nome informado");
+		}
 		 var ItemModel = item0.get();
 
 		 BeanUtils.copyProperties(itemDTO, ItemModel); // convertendo dto para model
 		 
 		 // validando nome do item
 		 try {
-	            return itemRepository.save(ItemModel);
+			 	ItemModel save = itemRepository.save(ItemModel);
+	            return save;
 	            
 	        } catch (DataIntegrityViolationException e) {
-	           
-	        	throw new CustomUniqueConstraintViolationException("O nome do item já está em uso no cardápio");
+	        	throw new CustomUniqueConstraintViolationException("Situação não esperada: "+e.getMessage());
 	        }
 	}
-
+	
+	@Transactional
+	public ItemModel updateStatusItem(Integer id, Integer statusId) {
+		Optional<ItemModel> item0 = itemRepository.findById(id);
+		if(item0.isEmpty()) {
+			throw new NegocioException("Item não existe");
+		}
+		
+		var item = item0.get();
+		StatusModel newStatus = statusRepository.findById(statusId).orElseThrow(() -> new NegocioException("Status não encontrado"));
+		item.setStatus(newStatus);
+		
+	    return itemRepository.save(item);
+	}
+	
 	@Override
+	@Transactional
 	public String delete(Integer id) {
 		Optional<ItemModel> item0 = itemRepository.findById(id);
 		
@@ -169,13 +193,16 @@ public class ItemServiceImplements implements ItemService{
  		String name = itemDelete.getNome();
  		
  		itemRepository.delete(itemDelete);
- 		return "Categoria "+name+" deletada com Sucesso";
+ 		return "Item "+name+" deletado com Sucesso";
 	}
 
 
 	@Override
-	public boolean existsByNome(String nome) {
-		return itemRepository.existsByNome(nome);
+	public boolean existsByNome(String novoNome, String nomeAtual) {
+		if(novoNome.toUpperCase().equals(nomeAtual.toUpperCase())) {
+			return false;
+		}
+		return itemRepository.existsByNome(novoNome);
 	}
 
 }

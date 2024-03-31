@@ -1,22 +1,31 @@
 
     <div class="cardi h-100">   
-      <input type="hidden" name="id" value="{{itemId}}">          
+      <input type="hidden" name="id" [value]="itemId">          
         <img name="imagem" id="imagem" src="assets/imagens/{{imagem}}"/>
         <h4 name="item" id="item">{{item}}</h4>
         <textarea class="form-control" rows="4" name="descricao" id="descricao" readonly>{{descricao}}</textarea>
         <p name="preco" id="preco"><b>Valor: R$ {{preco}}</b></p>
         <hr style="background-color: black">
         <div class="card-footer">
-          <button
-            (click)="isCliente && openVerticallyCentered(pedido)"
-            [ngClass]="{'btn-success': isCliente, 'btnC': true, 'disabled': !isCliente}"
-            [attr.disabled]="!isCliente ? true : null"
-            class="btn"
-            data-toggle="modal"
-            data-target="#pedido"
-          >
-            {{btn}}
-          </button>                   
+          <ng-container *ngIf="isCliente || isVisitante">
+            <button
+              (click)="isCliente && openVerticallyCentered(pedido)"
+              [ngClass]="{'btn-success': isCliente, 'btnC': true, 'disabled': isVisitante}"
+              [attr.disabled]="!isCliente ? true : null"
+              class="btn"
+              data-toggle="modal"
+              data-target="#pedido"
+            >
+              {{btn}}
+            </button>   
+          </ng-container>      
+
+          <ng-container *ngIf="isGerente">
+            <div style="padding: .5rem;">
+              <button (click)="openVerticallyCentered(editarItem)" title="Editar item" style='border-radius:30px;margin-right:.5rem;font-size: 150%;color: blue;' class='btn' type='button'  data-toggle="modal" data-target="#editarItem"><i class='bi bi-pencil'></i></button>
+              <button (click)="openVerticallyCentered(inativarItem)" title="Inativar item" style='border-radius:30px;color: red;font-size: 150%;' class='btn' type='button' data-toggle="modal" data-target="#inativarItem"><i class='bi bi-x-octagon'></i></button>   
+            </div>
+          </ng-container>                  
         </div>
     </div>    
     
@@ -28,6 +37,22 @@
     imagem="{{imagem}}"
     valor="{{preco}}">
   </app-model-pedido>
+</ng-template>
+
+<ng-template #editarItem let-modal>
+  <app-model-editar-item
+    [nomeItem]="item"
+    [itemId]="itemId"
+    [categoria]="categoria"
+    [descricao]="descricao"
+    [imagemSet]="imagem"
+    [statusIdItem]="statusIdItem"
+    [preco]="preco">
+  </app-model-editar-item>
+</ng-template>
+
+<ng-template #inativarItem let-modal>
+  <app-model-inativar-item [itemId]="itemId" [nomeItem]="item"></app-model-inativar-item>
 </ng-template>
 
 <!--<ng-template #registrar let-modal>

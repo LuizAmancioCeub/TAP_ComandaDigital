@@ -12,34 +12,39 @@ export class CardsComponent implements OnInit {
  
   
   @Input()item:string="";
-  @Input()itemId:string = "";
+  @Input()itemId:number|null = null;
   @Input()descricao:string="";
   @Input()imagem:string="";
   @Input()preco:number|null|string= null;
   @Input()btn:string = "Fazer Pedido";
+  @Input()perfil:number=0;
+  @Input()categoria:number=0;
+  @Input()statusIdItem:number=0;
 
+  statusAtivo:number = 1;
+  statusInativo:number = 2;
   isCliente: boolean = false;
+  isGerente:boolean = false;
+  isVisitante:boolean = false;
+  isGarcom:boolean = false;
 
   ngOnInit(): void {
    this.verificarUsuario()
   }
 
   verificarUsuario():void{
-    this.axiosService.request("GET", "/myCredenciais", "").then(
-      (response) => {
-      const perfil = response.data.perfil.perfil;
-      
-      if (perfil === "Cliente") {
+      if (this.perfil == 1) {
         this.isCliente = true; 
 
-      } else if (perfil === "Visitante") {
-        this.isCliente = false; 
+      } else if (this.perfil == 2) {
+        this.isVisitante = true; 
 
-      } else {
-        this.isCliente = false; 
+      } else if (this.perfil == 3) {
+        this.isGerente = true; 
+
+      } else if (this.perfil == 4) {
+        this.isGarcom = true; 
       }
-      }
-    );
   }
 /*
   log:boolean = false;
@@ -57,6 +62,6 @@ export class CardsComponent implements OnInit {
 */
 
   openVerticallyCentered(content: TemplateRef<any>) {
-		this.modalService.open(content, { centered: true });
+		this.modalService.open(content, { centered: true,windowClass:'custom'});
 	}
 }

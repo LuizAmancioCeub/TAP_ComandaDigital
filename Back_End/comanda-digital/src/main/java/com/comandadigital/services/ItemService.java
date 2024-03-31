@@ -10,7 +10,7 @@ import com.comandadigital.models.ItemModel;
 
 public interface ItemService {
 	
-	boolean existsByNome(String nome);
+	boolean existsByNome(String novoNome, String nomeAtual);
 	
 	List<ItemModel> findItemByCategoria(CategoriaModel categoria);
 	

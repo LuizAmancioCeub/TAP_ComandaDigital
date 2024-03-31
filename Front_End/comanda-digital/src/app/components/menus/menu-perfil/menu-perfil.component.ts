@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ClienteData } from 'src/app/Models/ClienteData';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { AxiosService } from 'src/app/services/axios.service';
@@ -9,36 +9,16 @@ import { AxiosService } from 'src/app/services/axios.service';
   styleUrls: ['./menu-perfil.component.css']
 })
 export class MenuPerfilComponent {
-  data:ClienteData[] = [];
-  usuario:ClienteData;
+  @Input()perfil:number = 0;
+  @Input()nome:string='';
+  @Input()mesa:string='';
+  
+ 
 
-  visitante:boolean = false;
-
-  constructor(private axiosService:AxiosService){
-    this.usuario = {
-      login:"",
-      nome:"",
-      telefone:"",
-      mesa:{
-        id:0
-      },
-      perfil:{
-        perfil:""
-      }
-
-    }
-  }
+  constructor(private axiosService:AxiosService){ }
   ngOnInit(): void {
-   this.verificarUsuario();
+  // this.verificarUsuario();
   }
 
-  verificarUsuario():void{
-    this.axiosService.request("GET", "/myCredenciais", "").then(
-      (response) => {
-        this.usuario = response.data
-        if(this.usuario.perfil.perfil == "Visitante"){
-          this.visitante = true;
-        }
-    });
-  }
+ 
 }

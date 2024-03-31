@@ -46,7 +46,7 @@ const routes: Routes = [
   {
     path:'mesas',
     component: TesteContentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
   }
 ];
 

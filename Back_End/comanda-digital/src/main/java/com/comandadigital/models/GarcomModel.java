@@ -26,12 +26,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TB05_GARCOM")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class GarcomModel extends RepresentationModel<GarcomModel> implements Serializable, UserDetails {
 	private static final long serialVersionUID = -3130915992537078226L;
 	
 	@jakarta.persistence.Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // id é auto increment e chave primaria
+	@EqualsAndHashCode.Include
 	@Column(name="MATRICULA", nullable = false, unique = true)
 	@Setter(AccessLevel.NONE)
 	private Integer id;

@@ -71,6 +71,12 @@ public class ItemController {
 	         return ResponseEntity.status(HttpStatus.OK).body(updateItem);
 		}
 		
+		@PutMapping("/item/{id}/{statusId}")
+		public ResponseEntity<Object> updateStatusItem(@PathVariable(value="id") Integer id, @PathVariable(value="statusId")Integer statusId){
+			ItemModel updateItem = itemServiceImplements.updateStatusItem(id, statusId);
+			return ResponseEntity.status(HttpStatus.OK).body(updateItem);
+		} 
+		
 		// deletar pelo id
 	 	@DeleteMapping("/item/{id}")
 	 	public ResponseEntity<Object> deleteItem(@PathVariable(value="id")Integer id){

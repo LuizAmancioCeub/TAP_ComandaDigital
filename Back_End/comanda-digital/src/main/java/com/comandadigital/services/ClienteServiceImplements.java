@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.comandadigital.dtos.ClienteLoginDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
 import com.comandadigital.dtos.ComandaRecordDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.TokenService;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.MesaModel;
@@ -52,13 +53,13 @@ public class ClienteServiceImplements implements ClienteService {
 		ClienteModel cliente = (ClienteModel) repository.findByLogin(dto.login());
 		// Validar se existe login
 		if(repository.findByLogin(cliente.getLogin()) == null) {
-			return "LoginNotFound";
+			throw new NegocioException("Usuário não encontrado");
 		}
 		
 		if(cliente.getPerfil().getId() == PerfilModel.CLIENTE) {
 			Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
 			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(StatusModel.INDISPONIVEL)) {
-				return "MesaNotFound";
+				throw new NegocioException("Mesa indisponível");
 			}
 			
 			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
@@ -101,11 +102,12 @@ public class ClienteServiceImplements implements ClienteService {
 
 	@Override
 	public ClienteModel register(@RequestBody @Valid ClienteRegisterDTO dto) {
+		validarCampos(dto);
 		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null) {
-			return null;
+			throw new NegocioException("Já existe cadastro com o CPF ou Telefone informados");
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
-		PerfilModel perfilCliente = perfilRepository.findById(1).orElseThrow(() -> new RuntimeException("Perfil não encontrado")); // passando perfil
+		PerfilModel perfilCliente = perfilRepository.findById(1).orElseThrow(() -> new NegocioException("Perfil não encontrado para cadastrar cliente")); // passando perfil
 		
 		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),perfilCliente);
 		
@@ -118,11 +120,15 @@ public class ClienteServiceImplements implements ClienteService {
 		
 		if(clienteDetails  != null) {
 			 ClienteModel cliente = (ClienteModel) clienteDetails; // Converter UserDetails para ClienteModel
-			 MesaModel mesaCliente = mesaRepository.findById(nuMesa).orElseThrow(() -> new RuntimeException("Mesa não encontrada"));
+			 MesaModel mesaCliente = mesaRepository.findById(nuMesa).orElseThrow(() -> new NegocioException("Mesa não encontrada"));
 			 
 			 cliente.setMesa(mesaCliente); // Associar a mesa ao cliente
 	         repository.save(cliente);
 		}
+	}
+	
+	public void validarCampos(ClienteRegisterDTO dto) {
+		
 	}
 
 }

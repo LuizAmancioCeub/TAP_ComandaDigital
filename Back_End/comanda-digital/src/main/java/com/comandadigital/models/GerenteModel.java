@@ -41,8 +41,11 @@ private static final long serialVersionUID = -3130915992537078226L;
 	@Setter(AccessLevel.NONE)
 	private Integer id;
 	
-	@Column(name = "CPF", nullable = false, unique = true)
+	@Column(name = "MATRICULA", nullable = false, unique = true)
 	private String login;
+	
+	@Column(name = "CPF", nullable = false, unique = true)
+	private String cpf;
 	
 	@Column(name = "NOME", nullable = false)
 	 private String nome;
@@ -57,10 +60,11 @@ private static final long serialVersionUID = -3130915992537078226L;
 	@JoinColumn(name = "NU_PERFIL", nullable = false)
 	private PerfilModel perfil;
 	
-	public GerenteModel(String nome, String telefone,String login, String senha, PerfilModel perfil) {
+	public GerenteModel(String nome, String telefone,String login, String cpf, String senha, PerfilModel perfil) {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.login = login;
+		this.cpf = cpf;
 		this.senha = senha;
 		this.perfil = perfil;
 	}

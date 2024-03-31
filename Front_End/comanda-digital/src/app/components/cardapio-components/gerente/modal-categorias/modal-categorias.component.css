@@ -1,0 +1,46 @@
+.addCat{
+    text-align: right;
+    padding: .8rem;
+}
+.bi-plus-lg{
+    cursor: pointer;
+    border-radius:30px;
+    margin-left:1rem; 
+    margin-right: .3rem ;
+    font-size: 160%;
+    border: 1px solid rgb(197, 197, 197);
+    padding: .5rem;
+    color: blue;
+}
+
+.bi-plus-lg:hover{
+    top:-4px;box-shadow:0 4px 4px #afafaf;
+    transition: all .2s ease-in-out;
+}
+
+li > i{
+    cursor: pointer;
+}
+
+li > i:hover{
+    border-radius: 15px;
+    padding: .5rem;
+    top:-4px;box-shadow:0 4px 4px #afafaf;
+    transition: all .1s ease-in-out;
+}
+
+.campo-error {
+    /* Estilo para indicar erro */
+    border: 1px solid red;
+    color: red;
+    animation: tremer .2s;
+    animation-iteration-count: 4;
+}
+
+@keyframes tremer {
+    0% {margin-left: 0;}
+    25% {margin-left: 7px;}
+    50% {margin-left: 0;}
+    75% {margin-left: -7px;}
+    100% {margin-left: 0;}
+}

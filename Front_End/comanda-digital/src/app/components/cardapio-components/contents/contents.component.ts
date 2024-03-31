@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ItensData } from 'src/app/Models/ItensData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -11,21 +12,21 @@ import { LoaderService } from 'src/app/services/loader.service';
   styleUrls: ['./contents.component.css']
 })
 export class ContentsComponent implements OnInit {
-  constructor(private axiosService:AxiosService ,private categoriaService: CategoriaService, private eventService:EventsService,public loadService:LoaderService) { }
+  constructor(private axiosService:AxiosService ,private categoriaService: CategoriaService, private eventService:EventsService,public loadService:LoaderService, private modalService:NgbModal) { }
   data:ItensData[] = [];
   msg:boolean = false
   txt:string = "";
   show:string=""
+  categoria:number=0;
 
   load:boolean = true;
-
-
-  isCliente:boolean = false;
+  @Input()perfil:number = 0;
 
   ngOnInit(): void {
 
     this.categoriaService.categoriaSelecionada$.subscribe((categoriaId) => {
       if (categoriaId !== null) {
+        this.categoria = categoriaId;
         this.loadItems(categoriaId);
       }
     });
@@ -41,8 +42,6 @@ export class ContentsComponent implements OnInit {
         this.msg = false;
       }, 3000);
     });
-
-    this.verificarUsuario();
   }
   itens:boolean = true;
   loadItems(categoriaId: number): void {
@@ -58,21 +57,9 @@ export class ContentsComponent implements OnInit {
     );
   }
 
-  verificarUsuario():void{
-    this.axiosService.request("GET", "/myCredenciais", "").then(
-      (response) => {
-      const perfil = response.data.perfil.perfil;
-      
-      if (perfil === "Cliente") {
-        this.isCliente = true; 
+  openVerticallyCentered(content: TemplateRef<any>) {
+      this.modalService.open(content, { centered: true,windowClass:'custom' });
+	}
 
-      } else if (perfil === "Visitante") {
-        this.isCliente = false; 
-
-      } else {
-        this.isCliente = false; 
-      }
-      }
-    );
-  }
+  
 }

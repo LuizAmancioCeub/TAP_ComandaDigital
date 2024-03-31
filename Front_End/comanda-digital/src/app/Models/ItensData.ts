@@ -9,6 +9,7 @@ export type ItensData = {
         categoria:string
     }
     status:{
+        id:number
         status:string
     }
 }

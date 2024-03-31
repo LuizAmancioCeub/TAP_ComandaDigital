@@ -88,9 +88,18 @@ export class FormRegisterComponent {
       // Redirecionar ou fazer outras ações necessárias após o login
     })
     .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        const errorDetail = error.response.data.detail;
-        this.mostrarMsg("400",errorDetail);
+      const responseData = error.response.data;
+      
+      if (responseData && responseData.status === 400) {
+        if(responseData.fields){
+          const errorFields = responseData.fields;
+          const fieldName = Object.keys(errorFields)[0];
+          const fieldError = errorFields[fieldName];
+          this.mostrarMsg("400",fieldError);
+        }else{
+          const errorDetail = responseData.detail;
+          this.mostrarMsg("400",errorDetail);
+        }
       } else {
         this.mostrarMsg("fail","");
       }

@@ -1,0 +1,62 @@
+<!-- MODAL para incluir itens -->
+      <form class="form" (ngSubmit)="onSubmitItem()" #ItemForm="ngForm">
+        <div class="modal-header">
+          <h3 class="modal-title">Adicionar Item</h3>
+          <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+        </div>
+
+          <div class="modal-body">
+            <ng-container *ngIf="mostrarErro">
+              <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+          </ng-container>
+            <div class='row'>
+              <div class="form-group col-md-12">
+                <label for="item">Item</label>
+                <input [(ngModel)]="nomeItem" class="form-control" type="text" name="item" id="item" placeholder="Nome do Item" required>
+              </div>
+            </div>
+  
+            <div class='row'>
+              <div class="form-group col-6 col-sm-6">
+                <label for="categoria">Categoria do Item</label>
+                <select [(ngModel)]="categoria" class="form-control" type="text" name="categoria" id="categoria" required>
+                  <option selected disabled value="0">Selecione</option>
+                  <option *ngFor="let categoria of data" [value]="categoria.id">{{ categoria.categoria }}</option>
+                </select>
+              </div>
+  
+              <div class="form-group col-6 col-sm-6">
+                <label for="valor">Valor do Item</label>
+                <input (keypress)="onKeyPress($event)" [(ngModel)]="preco" class="form-control" type="text" name="preco" id="preco" placeholder="R$" required="">
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-12">
+                <label for="imagem">Imagem</label>
+                 <!-- <input [(ngModel)]="imagem" class="form-control" type="file" name="imagem" id="imagem" required>-->
+                <input (change)="previewImage($event)" class="form-control" type="file" name="imagem" id="imagem" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12 col-sm-12" style="display: flex;justify-content: center;">
+                <img [src]="imagemPreview" *ngIf="imagemPreview" alt="{{imagemSet}}" title="{{imagemSet}}" width="220" height="150" style="border-radius: 10px;margin-top: 1rem;">
+              </div>
+            </div>  
+  
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label for="descricao">Descrição:</label>
+                <textarea [(ngModel)]="descricao" class="form-control" placeholder="Acrescente uma descrição" name="descricao" id="descricao" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+  
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" name="incluirItem" id="incluirItem">Adicionar Item</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+          </div>
+      </form>
+
+
+  

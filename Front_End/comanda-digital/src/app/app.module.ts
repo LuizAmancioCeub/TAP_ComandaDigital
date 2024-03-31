@@ -33,6 +33,10 @@ import { ModalCancelarComponent } from './components/cozinha/modal-cancelar/moda
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { GerenteComponent } from './pages/gerente/gerente.component';
 import { HomeGerenteComponent } from './components/gerente/home-gerente/home-gerente.component';
+import { ModelAdicionarItemComponent } from './components/cardapio-components/gerente/model-adicionar-item/model-adicionar-item.component';
+import { ModelEditarItemComponent } from './components/cardapio-components/gerente/model-editar-item/model-editar-item.component';
+import { ModelInativarItemComponent } from './components/cardapio-components/gerente/model-inativar-item/model-inativar-item.component';
+import { ModalCategoriasComponent } from './components/cardapio-components/gerente/modal-categorias/modal-categorias.component';
 
 
 @NgModule({
@@ -64,7 +68,11 @@ import { HomeGerenteComponent } from './components/gerente/home-gerente/home-ger
     ModalCancelarComponent,
     FeedbackComponent,
     GerenteComponent,
-    HomeGerenteComponent
+    HomeGerenteComponent,
+    ModelAdicionarItemComponent,
+    ModelEditarItemComponent,
+    ModelInativarItemComponent,
+    ModalCategoriasComponent
   ],
   imports: [
     BrowserModule,

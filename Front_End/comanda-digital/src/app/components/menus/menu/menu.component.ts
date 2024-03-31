@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriaData } from 'src/app/Models/CategoriaData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,12 +11,17 @@ import { CategoriaService } from 'src/app/services/categoria.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  constructor(private axiosService:AxiosService, private categoriaService: CategoriaService){}
+  constructor(private axiosService:AxiosService, private eventService:EventsService, private categoriaService: CategoriaService,private modalService:NgbModal){}
  
   ngOnInit(): void {
     this.getCategorias();
+
+    this.eventService.categoria$.subscribe(() => {
+      this.getCategorias();
+    });
   }
   data: CategoriaData[] = [];
+  @Input()perfil:number=0;
  
   getCategorias(): void {
     this.axiosService.request("GET", "/categorias", "").then((response) => {
@@ -52,5 +59,8 @@ export class MenuComponent implements OnInit {
     this.categoriaService.setCategoriaSelecionada(categoriaId);
   }
 
+  openVerticallyCentered(content: TemplateRef<any>) {
+    this.modalService.open(content, { centered: true , windowClass:'custom'});
+}
   
 }

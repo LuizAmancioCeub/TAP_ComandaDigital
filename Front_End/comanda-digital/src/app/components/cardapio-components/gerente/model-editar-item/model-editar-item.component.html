@@ -1,0 +1,55 @@
+<form class="form" (ngSubmit)="onSubmitEditarItem()" #ItemForm="ngForm">
+        <div class="modal-header">
+          <h3 name="item" id="item">{{nomeItem}}</h3>
+          <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+        </div>
+          <input type="hidden" name="idItem" id="idItem" [value]="itemId">
+          <div class="modal-body">
+            <ng-container *ngIf="mostrarErro">
+              <div style="text-align: center;" class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+            </ng-container>
+            <div class="row">
+                <div class="form-group col-12 col-sm-12" style="display: flex;justify-content: center;">
+                    <img [src]="imagemPreview" *ngIf="imagemPreview" alt="{{imagemSet}}" title="{{imagemSet}}" width="300" height="150" style="border-radius: 10px;">
+                    <img src="assets/imagens/{{imagemSet}}" *ngIf="!imagemPreview" alt="{{imagemSet}}" title="{{imagemSet}}" width="300" height="150" style="border-radius: 10px;">
+                  </div>
+              </div>
+              <div class="row">
+                <div class=" col-md-12 col-sm-12">
+                    <label for="item">Nome do Item</label>
+                    <input class="form-control" type="text" name="nomeItem" id="nomeItem" [(ngModel)]="nomeItem">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-sm-6">
+                    <label for="categoria">Categoria</label>
+                    <select [(ngModel)]="categoria" class="form-control" type="text" name="categoria" id="categoria">
+                        <option *ngFor="let categoria of data" [value]="categoria.id">{{ categoria.categoria }}</option>
+                    </select>
+                </div>
+
+                <div class="col-6 col-sm-6">
+                    <label for="valor">Preço</label>
+                    <input (keypress)="onKeyPress($event)" class="form-control" type="text" name="preco" id="preco" [(ngModel)]="preco">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class=" col-md-12 col-sm-12">
+                    <label for="imagem">Imagem</label>
+                    <input (change)="previewImage($event)" class="form-control" type="file" name="imagem" id="imagem" required>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label for="descricao">Descrição:</label>
+                <textarea class="form-control" name="descricao" id="descricao" [(ngModel)]="descricao" maxlength="105" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" name="alterarItem" id="alterarItem">Alterar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+          </div>
+</form>

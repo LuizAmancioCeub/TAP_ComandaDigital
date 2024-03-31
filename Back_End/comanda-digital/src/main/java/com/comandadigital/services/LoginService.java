@@ -8,6 +8,7 @@ import com.comandadigital.dtos.ClienteLoginDTO;
 import com.comandadigital.dtos.CozinhaLoginDTO;
 import com.comandadigital.dtos.GerenteLoginDTO;
 import com.comandadigital.dtos.LoginDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.TokenService;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
@@ -53,7 +54,7 @@ public class LoginService {
 		}
 		
 		// Validar se existe login
-			return "LoginNotFound";	
+			throw new NegocioException("Usuário não encontrado");
 		 
 	}
 }

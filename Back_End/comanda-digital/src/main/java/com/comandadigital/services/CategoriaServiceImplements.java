@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.comandadigital.dtos.CategoriaRecordDTO;
 import com.comandadigital.dtos.myValidations.CategoriaUnique;
+import com.comandadigital.dtos.myValidations.CustomUniqueConstraintViolationException;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.repositories.CategoriaRepository;
 
@@ -70,8 +72,11 @@ public class CategoriaServiceImplements implements CategoriaService {
 		
 		CategoriaModel categoriaDelete = categoria0.get();
  		String name = categoriaDelete.getCategoria();
- 		
- 		categoriaRepository.delete(categoria0.get());
+ 		try {
+ 			categoriaRepository.delete(categoria0.get());
+ 		}catch (DataIntegrityViolationException e) {
+ 			throw new CustomUniqueConstraintViolationException("Categoria não pode ser excluída, existem itens vinculados");
+		}
  		return "Categoria "+name+" deletada com Sucesso";
 	}
 

@@ -23,10 +23,13 @@ div.scrollmenu a {
 }
 div.scrollmenu a.active{
     background-color: #ecf5fd;
-    color: #009ef7;
     border-radius:  20px;
+    top:-4px;box-shadow:0 4px 4px #999;
 }
 
+#teste{position:relative;top:0}
+#teste:hover{top:-4px;box-shadow:0 4px 4px #999;
+   transition: all .2s ease-in-out}
 
 @keyframes table-in {
     0% {
@@ -64,4 +67,10 @@ div.scrollmenu a.active{
 div.scrollmenu a:hover {
     background-color: #f3eee8;
     border-radius: 20px;
+    top:-4px;box-shadow:0 4px 4px #999;
+    transition: all .2s ease-in-out
+  }
+
+  button{
+    border-radius:30px;margin-left:1rem; margin-right: .3rem ;font-size: 150%;border: 1px solid gray;
   }

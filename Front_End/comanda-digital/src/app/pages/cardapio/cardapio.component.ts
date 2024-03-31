@@ -11,6 +11,10 @@ import { LoaderService } from 'src/app/services/loader.service';
 export class CardapioComponent implements OnInit{
   data:CredencialsData[] = [];
 
+  perfil:number = 0;
+  nomeUser:string='';
+  mesa:string='';
+
   constructor(private axiosService:AxiosService){}
   ngOnInit(): void {
    this.verificarUsuario();
@@ -21,6 +25,19 @@ export class CardapioComponent implements OnInit{
     this.axiosService.request("GET", "/myCredenciais", "").then(
       (response) => {
         this.data = response.data
+        this.nomeUser = response.data.nome;
+        const perfil = response.data.perfil.perfil;
+      
+      if (perfil === "Cliente") {
+        this.perfil = 1; 
+        this.mesa =  response.data.mesa.id;
+      } else if (perfil === "Visitante") {
+        this.perfil = 2; 
+      } else if (perfil === "Gerente") {
+        this.perfil = 3; 
+      }else if (perfil === "Garcom") {
+        this.perfil = 4; 
+      }
     });
   }
 }

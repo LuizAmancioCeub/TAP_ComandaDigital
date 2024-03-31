@@ -27,8 +27,9 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB05_Garcom` (
   `SENHA` TEXT(155) NOT NULL,
   `TELEFONE` VARCHAR(11) NOT NULL,
   `NU_PERFIL` INT NOT NULL,
-  PRIMARY KEY (`MATRICULA`),
+  PRIMARY KEY (`NU_GARCOM`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
+ UNIQUE INDEX `matricula_UNIQUE` (`MATRICULA` ASC) ,
   INDEX `fk_Garcom_Perfil1_idx` (`NU_PERFIL` ASC) ,
   CONSTRAINT `fk_Garcom_Perfil1`
     FOREIGN KEY (`NU_PERFIL`)
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB07_Mesa` (
   UNIQUE INDEX `QR_CODE_UNIQUE` (`QR_CODE` ASC) ,
   CONSTRAINT `fk_Mesa_Garcom1`
     FOREIGN KEY (`NU_GARCOM`)
-    REFERENCES `comanda-digital`.`TB05_Garcom` (`MATRICULA`)
+    REFERENCES `comanda-digital`.`TB05_Garcom` (`NU_GARCOM`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Mesa_Status1`
@@ -244,6 +245,7 @@ CREATE TABLE IF NOT EXISTS `comanda-digital`.`TB02_Gerente` (
   `NU_PERFIL` INT NOT NULL,
   PRIMARY KEY (`NU_GERENTE`),
   UNIQUE INDEX `cpf_UNIQUE` (`CPF` ASC) ,
+ UNIQUE INDEX `matricula_UNIQUE` (`MATRICULA` ASC) ,
   INDEX `fk_Gerente_Perfil1_idx` (`NU_PERFIL` ASC) ,
   CONSTRAINT `fk_Gerente_Perfil1`
     FOREIGN KEY (`NU_PERFIL`)

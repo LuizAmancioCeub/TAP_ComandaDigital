@@ -1,5 +1,16 @@
 
-<div class="scrollmenu">
-    <a *ngFor="let categoria of data" [ngClass]="{ 'active': categoria.active }"  (click)="activateCategory(categoria)" > {{ categoria.categoria }}</a>
-     
-</div>
+
+    <div class="scrollmenu">
+        <a *ngFor="let categoria of data" [ngClass]="{ 'active': categoria.active }"  (click)="activateCategory(categoria)" > {{ categoria.categoria }}</a>
+        <ng-container *ngIf="perfil == 3">
+            <button id="teste" title="Editar Categorias" class='btn' type='button'  data-toggle="modal" data-target="#categorias" (click)="openVerticallyCentered(categorias)"><i class='bi bi-pencil'></i></button>
+
+            <ng-template #categorias let-modal>
+                <app-modal-categorias [data]="data"></app-modal-categorias>
+            </ng-template>
+
+        </ng-container>
+    </div>
+
+    
+

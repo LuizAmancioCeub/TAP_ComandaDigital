@@ -1,7 +1,15 @@
-<app-menu-perfil></app-menu-perfil>
-<app-slider></app-slider>
-<app-menu></app-menu>
 
-<app-contents></app-contents>
+<app-menu-perfil [perfil]="perfil" [mesa]="mesa" [nome]="nomeUser" ></app-menu-perfil>
+<ng-container *ngIf="perfil == 3">
+    <div>
+        <a class="btn" [routerLink]="['/gerente']"><i style="font-size: 20px;" class="bi bi-arrow-left-circle"></i> Home</a>
+    </div>
+</ng-container>
+
+<app-slider></app-slider>
+<app-menu [perfil]="perfil"></app-menu>
+
+<app-contents [perfil]="perfil">
+</app-contents>
 <app-footer></app-footer>
 

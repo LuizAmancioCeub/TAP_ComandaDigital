@@ -1,0 +1,33 @@
+<div class="modal-header" style="margin-bottom: .8rem;">
+    <h4 name="item" id="item">Categorias</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+  </div>
+  <ng-container *ngIf="mostrarErro">
+    <div style="text-align: center;" class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+    </ng-container>
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+        <input [class.campo-error]="campoAddError" [(ngModel)]="novaCategoria" placeholder="Adicionar Categoria" style="width: 70%;background: transparent;border-radius: 10px; padding: .3rem;" type="text" name="" id=""><i (click)="adicionarCategoria(novaCategoria)" title="Adicionar" class="bi bi-plus-lg"></i>
+    </div>
+   
+  </div>
+<div class="row"style="margin-top: 1.5rem;">
+        <div class="col-12 col-sm-12" style="text-align: center;">
+            <div class="categorias">
+                <ul>
+                    <li style="margin-top: .6rem;" *ngFor="let categoria of data">
+                        <input style="background: transparent;border-radius: 10px; padding: .3rem;" [class.campo-error]="campoError[categoria.id]" type="text" [disabled]="!isEdit(categoria.id)" [value]="categoria.categoria" (input)="verificarEdicao(categoria.id, $event)">
+                        <input type="hidden" [value]="categoria.id">
+                        <i title="editar" (click)="editar(categoria.id)" style="margin-left: .5rem;font-size: 20px;color: blue;" class="bi bi-pencil"></i>
+                        <i title="salvar" (click)="salvar(categoria.id)" class="bi bi-check-lg" style="margin-left: 1.2rem;font-size: 22px;color: green;" *ngIf="mostrarBotaoSalvar(categoria.id)"></i>
+                        <i title="excluir" (click)="excluir(categoria.id)" style="margin-left: 1.2rem;font-size: 20px;color: red;" class="bi bi-trash3"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>
+    
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+    </div>

@@ -20,3 +20,17 @@ img{
     }
     
 }
+
+input, select, textarea{
+    background: #f8f3e8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input:hover, select:hover, textarea:hover{
+    top:-4px;box-shadow:0 4px 4px #999;
+    transition: all .2s ease-in-out
+}
+
+input:focus, select:focus, textarea:focus{
+    background: #f8f3e8;
+}

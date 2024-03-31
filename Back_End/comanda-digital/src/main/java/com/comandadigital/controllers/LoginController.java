@@ -30,15 +30,6 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody @Valid LoginDTO dto) {
 		String token = loginService.login(dto);
-		
-		if(token.equals("MesaNotFound")) {
-				
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Mesa Indisponível");
-				
-		}else if(token.equals("LoginNotFound")){
-				
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário ainda não cadastrado");
-		}
 			
 		return ResponseEntity.ok(new AuthDTO(token));
 	}

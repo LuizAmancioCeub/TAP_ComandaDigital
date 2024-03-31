@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.comandadigital.dtos.ClienteResumeDTO;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
 import com.comandadigital.models.GerenteModel;
