@@ -67,3 +67,10 @@ button:hover{
     border: none;
     padding: .5rem;
   }
+  textarea:focus{
+    background: transparent;
+  }
+
+  .desativado{
+    opacity: 0.5;
+  }

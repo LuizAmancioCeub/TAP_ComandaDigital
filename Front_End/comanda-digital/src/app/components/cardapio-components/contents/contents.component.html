@@ -33,6 +33,19 @@
                 [categoria]="categoria">
             </app-cards>  
         </ng-container>
+
+        <ng-container *ngIf="itens && perfil == 3">
+            <app-cards *ngFor="let itens of dataDesativados"
+                item="{{itens.nome}}"
+                [itemId]= "itens.id"
+                descricao="{{itens.descricao}}"
+                [statusIdItem]="itens.status.id"
+                imagem="{{itens.imagem}}"
+                preco= {{itens.preco}}
+                [perfil]="perfil"
+                [categoria]="categoria">
+            </app-cards>  
+        </ng-container>
     </div>
     
     <ng-container *ngIf="msg">

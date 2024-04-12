@@ -1,6 +1,9 @@
 import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AxiosService } from 'src/app/services/axios.service';
+import { CategoriaService } from 'src/app/services/categoria.service';
+import { EventsService } from 'src/app/services/events.service';
+import { GerenteService } from 'src/app/services/gerente.service';
 
 @Component({
   selector: 'app-cards',
@@ -8,7 +11,7 @@ import { AxiosService } from 'src/app/services/axios.service';
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent implements OnInit {
-  constructor(private axiosService:AxiosService, private modalService:NgbModal){}
+  constructor(private axiosService:AxiosService, private modalService:NgbModal,private gerenteservice:GerenteService, private eventService:EventsService,private categoriaService:CategoriaService){}
  
   
   @Input()item:string="";
@@ -27,9 +30,12 @@ export class CardsComponent implements OnInit {
   isGerente:boolean = false;
   isVisitante:boolean = false;
   isGarcom:boolean = false;
+  desativado:boolean = false;
+  excluirItem:boolean = false;
 
   ngOnInit(): void {
-   this.verificarUsuario()
+   this.verificarUsuario();
+   this.verificarStatusItem();
   }
 
   verificarUsuario():void{
@@ -45,6 +51,30 @@ export class CardsComponent implements OnInit {
       } else if (this.perfil == 4) {
         this.isGarcom = true; 
       }
+  }
+
+  verificarStatusItem():void{
+    if(this.statusIdItem == 2){
+      this.desativado = true;
+    }
+  }
+
+  onSubmitAtivar(){
+    this.gerenteservice.updateStatusItem(this.itemId, this.statusAtivo)
+      .then((response) => {
+        this.categoriaService.setCategoriaSelecionada(this.categoria);
+        setTimeout(() => {
+          this.eventService.emitMsg(true, "Item ativado com Sucesso");
+        }, 100);
+      }).catch((error) => {
+        const errorDetail = error.response.data.detail;
+        this.eventService.emitMsg(true, errorDetail);
+        console.clear;
+      });
+  }
+
+  excluiItem(){
+    this.excluirItem = true;
   }
 /*
   log:boolean = false;

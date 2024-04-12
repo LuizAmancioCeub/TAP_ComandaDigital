@@ -14,6 +14,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 export class ContentsComponent implements OnInit {
   constructor(private axiosService:AxiosService ,private categoriaService: CategoriaService, private eventService:EventsService,public loadService:LoaderService, private modalService:NgbModal) { }
   data:ItensData[] = [];
+  dataDesativados:ItensData[] = [];
   msg:boolean = false
   txt:string = "";
   show:string=""
@@ -28,6 +29,11 @@ export class ContentsComponent implements OnInit {
       if (categoriaId !== null) {
         this.categoria = categoriaId;
         this.loadItems(categoriaId);
+        if(this.perfil == 3){
+          this.loadItemsDesativados(categoriaId);
+        }
+      }else{
+        this.load = false;
       }
     });
 
@@ -51,6 +57,18 @@ export class ContentsComponent implements OnInit {
         this.itens = true;
         this.load = false;
         if(response.data == 0){
+          this.itens = false;
+        }
+      }
+    );
+  }
+  loadItemsDesativados(categoriaId: number): void {
+    this.axiosService.request("GET", `/categoria/${categoriaId}/itensDesativados`, "").then(
+      (response) => {
+        this.dataDesativados = response.data;
+        this.itens = true;
+        this.load = false;
+        if(response.dataDesativados == 0){
           this.itens = false;
         }
       }

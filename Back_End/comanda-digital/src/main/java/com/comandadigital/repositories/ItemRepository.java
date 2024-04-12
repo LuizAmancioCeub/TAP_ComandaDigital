@@ -18,6 +18,9 @@ public interface ItemRepository extends JpaRepository<ItemModel, Integer>{
 	@Query("SELECT item FROM ItemModel item WHERE item.categoria = :categoria AND item.status.id = 1")
 	List<ItemModel> findItemByCategoria(@Param("categoria") CategoriaModel categoria);
 	
+	@Query("SELECT item FROM ItemModel item WHERE item.categoria = :categoria AND item.status.id = 2")
+	List<ItemModel> findItemByCategoriaDesativados(@Param("categoria") CategoriaModel categoria);
+	
 	// query para verificar se item existe com o status devido
 	@Query("SELECT item FROM ItemModel item WHERE item.id = :id AND item.status.id = :statusId")
 	ItemModel findByIdAndStatusId(@Param("id") Integer id, @Param("statusId") Integer statusId);

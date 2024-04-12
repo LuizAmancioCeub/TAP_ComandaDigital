@@ -56,7 +56,7 @@ export class GerenteService {
       )
     }
   
-  excluirItem(idItem:number):Promise<any>{
+  excluirItem(idItem:number|null):Promise<any>{
     return this.axiosService.request(
       "DELETE",
       `/item/${idItem}`,

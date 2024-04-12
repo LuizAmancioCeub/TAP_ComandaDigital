@@ -65,6 +65,10 @@ public class ItemServiceImplements implements ItemService{
 		}
 		return itens;
 	}
+	public List<ItemModel> findItemDesativadosByCategoria(CategoriaModel categoria) {
+		List<ItemModel> itens = itemRepository.findItemByCategoriaDesativados(categoria);
+		return itens;
+	}
 
 	@Override
 	public Optional<ItemModel> findById(Integer id) {

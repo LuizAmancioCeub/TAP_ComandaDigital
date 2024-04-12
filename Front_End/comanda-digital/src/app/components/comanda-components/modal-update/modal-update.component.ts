@@ -50,9 +50,12 @@ export class ModalUpdateComponent implements OnChanges {
   }
 }
 
-add(): void {
-  this.quantidade = this.converterParaNumero(this.quantidade) + 1;
-  this.calcularValorTotal();
+add(){
+  this.quantidade = this.converterParaNumero(this.quantidade);
+  if(this.quantidade < 10){
+    this.quantidade++
+    this.calcularValorTotal();
+  }
 }
 
 diminuir(): void {

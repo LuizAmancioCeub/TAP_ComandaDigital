@@ -4,7 +4,7 @@
   </div>
   <ng-container *ngIf="mostrarErro">
     <div style="text-align: center;" class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
-    </ng-container>
+  </ng-container>
   <div class="row">
     <div class="col-12" style="text-align: center;">
         <input [class.campo-error]="campoAddError" [(ngModel)]="novaCategoria" placeholder="Adicionar Categoria" style="width: 70%;background: transparent;border-radius: 10px; padding: .3rem;" type="text" name="" id=""><i (click)="adicionarCategoria(novaCategoria)" title="Adicionar" class="bi bi-plus-lg"></i>

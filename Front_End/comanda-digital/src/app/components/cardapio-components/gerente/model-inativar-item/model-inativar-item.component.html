@@ -1,4 +1,4 @@
-
+        
             <div class="modal-header">
                 <h3 class="modal-title" style="font-family: Kalam,cursive;font-weight:600;color:#e7880c;text-align:center">{{nomeItem}}</h3>
                 <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
@@ -8,12 +8,12 @@
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="col-md-12">
-                            <h4 style="text-align:center; margin-top:-10px; margin-bottom:20px">Inativar {{nomeItem}} do cardápio?</h4>
+                            <h4 style="text-align:center; margin-top:-10px; margin-bottom:20px">{{acao}} {{nomeItem}} do cardápio?</h4>
                         </div>
                     </div>
                     <div class="row d-flex justify-content-center">
                         <div class="form-row" style="text-align: center;">
-                            <button (click)="onSubmitInativar()" class="btn btn-success" name="excluirItem" id="excluirItem">SIM</button>
+                            <button  (click)="onSubmitInativar()" class="btn btn-success" name="excluirItem" id="excluirItem">SIM</button>
                             <button style="margin-left:10px" type="button" class="btn btn-danger" (click)="close()">NÃO</button>
                         </div>
                        

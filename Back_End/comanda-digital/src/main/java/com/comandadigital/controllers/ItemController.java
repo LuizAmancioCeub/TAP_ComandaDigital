@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.ItemRecordDTO;
 import com.comandadigital.dtos.ItemUpdateRecordDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.CategoriaModel;
 import com.comandadigital.models.ItemModel;
 import com.comandadigital.services.CategoriaServiceImplements;
@@ -94,13 +95,29 @@ public class ItemController {
 			Optional<CategoriaModel> categoria = categoriaServiceImplements.findById(categoriaId);
 			
 			if (categoria.isEmpty()) {
-		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+				throw new NegocioException("Catgoria não encontrada");
 		    }
 			
 			List<ItemModel> itens = itemServiceImplements.findItemByCategoria(categoria.get());
 			
 
 		    return ResponseEntity.status(HttpStatus.OK).body(itens);
+		}
+		
+		// Consultar Item desativados por categoria
+		@GetMapping("/categoria/{categoriaId}/itensDesativados")
+		public ResponseEntity<List<ItemModel>> getItensDesativadosByCategoria(@PathVariable("categoriaId") Integer categoriaId) {
+			
+			Optional<CategoriaModel> categoria = categoriaServiceImplements.findById(categoriaId);
+			
+			if (categoria.isEmpty()) {
+				throw new NegocioException("Catgoria não encontrada");
+			}
+			
+			List<ItemModel> itens = itemServiceImplements.findItemDesativadosByCategoria(categoria.get());
+			
+			
+			return ResponseEntity.status(HttpStatus.OK).body(itens);
 		}
 		
 }
