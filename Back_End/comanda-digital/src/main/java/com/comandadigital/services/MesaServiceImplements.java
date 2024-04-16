@@ -3,17 +3,22 @@ package com.comandadigital.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comandadigital.controllers.MesaController;
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.MesaUnique;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
+import com.comandadigital.models.ClienteModel;
+import com.comandadigital.models.ClienteProjection;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.StatusModel;
 import com.comandadigital.repositories.MesaRepository;
@@ -52,13 +57,14 @@ public class MesaServiceImplements implements MesaService {
 	public Optional<MesaModel> findById(Integer id) {
 		Optional<MesaModel> mesa = mesaRepository.findById(id);
 		if(mesa.isEmpty()) {
-			return null;
+			throw new NegocioException("Mesa não encontrada");
 		}
 		mesa.get().getStatus().add(linkTo(methodOn(StatusController.class).getAllStatus()).withSelfRel());
 		return mesa;
 	}
 
 	@Override
+	@Transactional
 	public MesaModel register(@MesaUnique MesaRecordDTO mesaDTO) {
 		var mesaModel = new MesaModel();
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
@@ -73,7 +79,8 @@ public class MesaServiceImplements implements MesaService {
 	}
 
 	@Override
-	public MesaModel update(Integer id, MesaRecordDTO mesaDTO) {
+	@Transactional
+	public MesaModel update(Integer id, MesaRecordDTO mesaDTO) throws Exception {
 		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
 		
 		if(mesa0.isEmpty()) {
@@ -86,18 +93,22 @@ public class MesaServiceImplements implements MesaService {
 		}
 		var mesaModel = mesa0.get();
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
-		
-		return mesaRepository.save(mesaModel);
+		try {
+			return mesaRepository.save(mesaModel);
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	@Override
+	@Transactional
 	public String delete(Integer id) {
 		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
 		if(mesa0.isEmpty()) {
 			throw new RuntimeException("Mesa não encontrada");
 		}
-		if(mesa0.get().getStatus().getId().equals(StatusModel.OCUPADA)) {
-			throw new RuntimeException("Mesa Ocupada, tente novamente quando estiver Livre");
+		if(mesa0.get().getStatus().getId().equals(StatusModel.OCUPADA)||mesa0.get().getStatus().getId().equals(StatusModel.RESERVADA)) {
+			throw new NegocioException("Mesa "+id+" ocupada, tente novamente quando estiver com status LIVRE");
 		}
 		MesaModel mesaDelete = mesa0.get();
 		mesaRepository.delete(mesaDelete);
@@ -109,15 +120,38 @@ public class MesaServiceImplements implements MesaService {
 		return mesaRepository.existsById(id);
 	}
 	
-	 public void atualizarStatusMesa(Integer mesaId, Integer nuStatusAntigo, Integer nuStatusNovo) {
+	@Transactional
+	 public void atualizarStatusMesa(Integer mesaId, Integer nuStatusAntigo, Integer nuStatusNovo) throws Exception {
 	        Optional<MesaModel> mesaOptional = mesaRepository.findById(mesaId);
-
-	        if (mesaOptional.isPresent() && mesaOptional.get().getStatus().getId() == nuStatusAntigo) {
+	        if (mesaOptional.isPresent() && mesaOptional.get().getStatus().getId().equals(nuStatusAntigo)) {
 	            // Lógica de atualização da mesa para o status desejado 
+	        	if(nuStatusNovo.equals(StatusModel.INDISPONIVEL) &&
+	        			(nuStatusAntigo.equals(StatusModel.OCUPADA) || nuStatusAntigo.equals(StatusModel.RESERVADA))) {
+	        		throw new NegocioException("Mesa "+mesaId+" ocupada, tente novamente quando estiver com status LIVRE");
+	        	}
 	            StatusModel novoStatus = statusRepository.findById(nuStatusNovo).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 	            mesaOptional.get().setStatus(novoStatus);
-
-	            mesaRepository.save(mesaOptional.get());
+	            try {
+	            	mesaRepository.save(mesaOptional.get());
+	            }catch (Exception e) {
+					throw new Exception(e.getMessage());
+				}
 	        }
 	 }
+	
+	public List<ClienteProjection> findClientesMesa(Integer id) {
+		List<ClienteModel> clienteMesa = mesaRepository.findClienteByMesa(id);
+		List<ClienteProjection> clienteMesa0 = new ArrayList<>();
+		if(!clienteMesa.isEmpty()) {
+			for (ClienteModel cliente : clienteMesa) {
+				ClienteProjection projection = new ClienteProjection();
+				projection.setNome(cliente.getNome());
+				projection.setTelefone(cliente.getTelefone());
+				projection.setLogin(cliente.getLogin());
+				clienteMesa0.add(projection);
+			}
+			return clienteMesa0;
+		}
+		throw new NegocioException("Mesa sem clientes");
+	}
 }

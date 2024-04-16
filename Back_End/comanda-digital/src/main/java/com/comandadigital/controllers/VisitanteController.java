@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comandadigital.dtos.AuthDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
+import com.comandadigital.dtos.LoginDTO;
 import com.comandadigital.services.VisitanteService;
 
 import jakarta.validation.Valid;
@@ -16,6 +18,15 @@ import jakarta.validation.Valid;
 public class VisitanteController {
 	@Autowired
 	VisitanteService visitanteService;
+	
+	// Login
+		@PostMapping("visitante/login")
+		public ResponseEntity login(@RequestBody @Valid LoginDTO dto) throws Exception {
+			String token = visitanteService.login(dto);
+				
+			return ResponseEntity.ok(new AuthDTO(token));
+		}
+		
 	// Registrar
 		@PostMapping("/visitante/registrar")
 		public ResponseEntity register(@RequestBody @Valid ClienteRegisterDTO dto) {

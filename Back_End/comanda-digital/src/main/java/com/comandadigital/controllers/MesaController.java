@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.MesaRecordDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
+import com.comandadigital.models.ClienteModel;
+import com.comandadigital.models.ClienteProjection;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.services.MesaServiceImplements;
 
@@ -46,7 +49,7 @@ public class MesaController {
 	}
 	
 	@PutMapping("/mesa/{id}")
-	public ResponseEntity<Object> updateMesa(@PathVariable(value="id") Integer id, @RequestBody @Valid MesaRecordDTO dto){
+	public ResponseEntity<Object> updateMesa(@PathVariable(value="id") Integer id, @RequestBody @Valid MesaRecordDTO dto) throws Exception{
 		MesaModel updateMesa = mesaServiceImplements.update(id, dto);
 		
 		if(updateMesa == null) {
@@ -56,9 +59,24 @@ public class MesaController {
 		return ResponseEntity.status(HttpStatus.OK).body(updateMesa);
 	}
 	
+	@PutMapping("/mesa/{id}/{statusId}")
+	public ResponseEntity<Object> updateStatusMesa(@PathVariable(value="id") Integer id, @PathVariable(value="statusId")Integer statusId) throws Exception{
+		
+		Optional<MesaModel> mesa = mesaServiceImplements.findById(id);
+		Integer statusAntigo = mesa.get().getStatus().getId();
+		mesaServiceImplements.atualizarStatusMesa(id,statusAntigo ,statusId);
+		return ResponseEntity.status(HttpStatus.OK).body(mesa);
+	}
+	
 	@DeleteMapping("mesa/{id}")
 	public ResponseEntity<Object> deleteMesa(@PathVariable(value="id")Integer id){
 		return ResponseEntity.status(HttpStatus.OK).body(mesaServiceImplements.delete(id));
+	}
+	
+	@GetMapping("/mesa/{id}/clientes")
+	public ResponseEntity<Object> getclientesMesa(@PathVariable(value="id")Integer id) {
+		List<ClienteProjection> clientes = mesaServiceImplements.findClientesMesa(id);
+		return ResponseEntity.status(HttpStatus.OK).body(clientes);
 	}
 
 }

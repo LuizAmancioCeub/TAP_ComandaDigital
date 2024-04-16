@@ -1,0 +1,102 @@
+<div class="background">
+
+    <app-menu-perfil [perfil]="perfil" [nome]="nomeUser"></app-menu-perfil>
+    <ng-container *ngIf="perfil == 3">
+        <div>
+            <a style="color: #ffff;" class="btn" [routerLink]="['/gerente']"><i style="font-size: 20px;color: #ffff;" class="bi bi-arrow-left-circle"></i> Home</a>
+        </div>
+    </ng-container>
+   
+    <br>
+    <div style="margin-top: .2rem;" class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card card-mesas" style="background-color: transparent;">
+                    <div class="card-body">
+                        <!--<div class="card-tittle" style="text-align: center;"><h2>Mesas</h2></div>-->
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
+                            
+                                <div class="card card-add">
+                                    <div class="card-body" style="text-align: center;">
+                                        <form #MesaForm="ngForm" (ngSubmit)="onSubmit()">
+                                            <div class="card-tittle">Adicionar mesas:</div>
+                                            <label>Insira o número da Mesa:</label>
+                                            <ng-container *ngIf="mostrarErro">
+                                                <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+                                            </ng-container>
+                                            <input (keypress)="onKeyPress($event)" class="form-control" type="text" name="mesa" id="mesa" [(ngModel)]="id">
+                                            <button type="submit" class="btn btn-primary" style="width: 60%;margin-top: 1rem;">Adicionar</button>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="lista">
+                                <li *ngFor="let mesa of data">
+                                    <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }} -  {{mesa.status.status}}</p>
+                                    <p>Garçom: {{ mesa.garcom }}</p>
+                                    <p>QR: {{ mesa.qr_code }}</p>
+                                    <hr>
+                                    <div class="icons" style="display: flex; justify-content: end;">
+                                        <i title="Ver Comandas" *ngIf="mesa.status.id == 12" style="color: green; margin-right: .5rem;" class="bi bi-receipt-cutoff"></i>
+                                        <i title="Ver Clientes" (click)="visualizarClientes(mesa.id);openVerticallyCentered(clientes, mesa.id)" data-toggle="modal" data-target="" *ngIf="mesa.status.id == 12 || mesa.status.id == 13" style="margin-right: .5rem;color: purple;" class="bi bi-person-lines-fill"></i>
+                                        <i title="Editar" style="color:blue;margin-right: .5rem;" (click)="editarMesa(mesa.id)" class="bi bi-pencil"></i>
+                                        <i title="Ativar" *ngIf="mesa.status.id == 14" style="color: green;margin-right: .5rem;" (click)="alterarStatusMesa(mesa.id,11)" class="bi bi-check-lg"></i>
+                                        <i title="Excluir" *ngIf="mesa.status.id == 14" style="color: red" (click)="openVerticallyCentered(content, mesa.id)" class="bi bi-trash"></i>
+                                        <i title="Desativar" *ngIf="mesa.status.id != 14" style="color: red" (click)="alterarStatusMesa(mesa.id,14)" class="bi bi-x-circle"></i>
+                                    </div>
+
+                                    <ng-template #clientes let-modal>
+                                        <div class="modal-content" style="border-radius: 1rem;">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Mesa {{mesaSelect}}</h4>
+                                                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                               <p *ngFor="let c of dataClientes">{{c.nome}} || {{c.login}} || {{c.telefone}} </p>
+                                            </div>
+                                        </div>
+                                
+                                    </ng-template>
+                                </li>
+                            
+                        </ul>
+
+                        <div *ngIf="!data || data.length === 0">
+                            <p>Nenhuma mesa encontrada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #content let-modal>
+        <ng-container *ngIf="excluirMesa">
+            <div class="modal-content" style="border-radius: 1rem;">
+                <div class="modal-header">
+                    <h4 class="modal-title">Excluir Mesa {{mesaSelect}} ?</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                </div>
+            
+                <div class="modal-footer justify-content-md-center">
+                    <button (click)="deletarMesas(mesaSelect)" class="btn btn-success">Excluir</button>
+                    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!excluirMesa">
+            <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+            </div>
+        
+        </ng-container>
+    
+    </ng-template>
+</div>

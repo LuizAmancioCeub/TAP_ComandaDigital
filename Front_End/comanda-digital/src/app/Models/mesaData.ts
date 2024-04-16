@@ -5,6 +5,13 @@ export type MesaData = {
         nome:string
     }
     status:{
+        id:number
         status:string
     }
+}
+
+export type ClientesMesaData = {
+    nome:string
+    login:string
+    telefone:string
 }

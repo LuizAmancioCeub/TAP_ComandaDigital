@@ -28,6 +28,20 @@ export class LoginService {
     );
   }  
 
+  onLoginVisitante(login:string, senha:string, mesa:number):Promise<any>{
+    return this.axiosService.request(
+      "POST",
+      "visitante/login",
+      {
+        login: login,
+        senha: senha,
+        mesa: {
+          id: mesa
+        }
+      }
+    );
+  }  
+
   
 
   conferirCampos(login: string, senha: string, mesa: any): String{

@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
+import { MesaData } from 'src/app/Models/mesaData';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class FormLoginComponent implements OnInit {
   
   
   ngOnInit(): void {
+    this.getMesas()
   }
 
   @Output() onSubmitLoginEvent = new EventEmitter();
@@ -55,11 +57,33 @@ export class FormLoginComponent implements OnInit {
   }
 
   onSubmitLoginVisitante():void{
-      this.onLogin( "visitante12", "visitante", 10);
+      this.onLoginVisitante( "visitante12", "visitante", 10);
    }
 
   onLogin(login:string, senha:string, mesa:number):void{
     this.loginService.onLogin(login,senha,mesa)
+      .then((response) => {
+        const token = response.data.token;
+        if (token) {
+          this.axiosService.setAuthToken(token);
+          this.verificarUsuario();
+        } 
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          // Se o status for 400 (regra de negocio), trate aqui
+          const errorDetail = error.response.data.detail;
+          this.mostrarMsg("400",errorDetail);
+        }else if(error.response.status === 403){
+          this.mostrarMsg("403","");
+        } else{
+          this.mostrarMsg("","");
+        }
+      });
+  }
+
+  onLoginVisitante(login:string, senha:string, mesa:number):void{
+    this.loginService.onLoginVisitante(login,senha,mesa)
       .then((response) => {
         const token = response.data.token;
         if (token) {
@@ -155,6 +179,16 @@ export class FormLoginComponent implements OnInit {
      setTimeout(() => {
       this.mostrarErro = false;
     }, 2000);
+  }
+
+  dataMesas:MesaData[] = [];
+  getMesas():void{
+    this.axiosService.request("GET", "/mesas", "").then(
+      (response) => {
+      console.log(response);
+      this.dataMesas = response.data;
+      }
+    );
   }
 
   

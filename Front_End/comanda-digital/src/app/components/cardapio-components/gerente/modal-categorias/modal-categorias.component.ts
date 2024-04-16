@@ -74,8 +74,16 @@ export class ModalCategoriasComponent implements OnInit {
         }
       )
       .catch((error) => {
-        const errorDetail = error.response.data.detail;
-        this.mostrarMsg(errorDetail)
+        const responseData = error.response.data;
+        if(responseData.fields){
+          const errorFields = responseData.fields;
+          const fieldName = Object.keys(errorFields)[0];
+          const errorDetail = errorFields[fieldName];
+          this.mostrarMsg(errorDetail)
+        }  else{
+          const errorDetail = responseData.detail;
+          this.mostrarMsg(errorDetail)
+        }
       })
     }else{
       this.campoError[categoriaId] = "campo-error"
@@ -109,8 +117,16 @@ adicionarCategoria(nomeCategoria:string):void{
       this.eventService.updateCategoria();
     })
     .catch((error) => {
-      const errorDetail = error.response.data.detail;
-      this.mostrarMsg(errorDetail)
+      const responseData = error.response.data;
+        if(responseData.fields){
+          const errorFields = responseData.fields;
+          const fieldName = Object.keys(errorFields)[0];
+          const errorDetail = errorFields[fieldName];
+          this.mostrarMsg(errorDetail)
+        }  else{
+          const errorDetail = responseData.detail;
+          this.mostrarMsg(errorDetail)
+        }
     })
   }else{
     this.campoAddError = "campo-error"

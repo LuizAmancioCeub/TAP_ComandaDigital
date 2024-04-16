@@ -33,7 +33,7 @@ public class LoginService {
 	@Autowired
 	private GerenteService gerenteService;
 	
-	public String login(@RequestBody @Valid LoginDTO dto) {
+	public String login(@RequestBody @Valid LoginDTO dto) throws Exception {
 		
 		if(clienteRepository.findByLogin(dto.login()) != null) {
 			ClienteLoginDTO clienteDTO = new ClienteLoginDTO(dto.login(), dto.senha(), dto.mesa());

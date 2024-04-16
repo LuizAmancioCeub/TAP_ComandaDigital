@@ -47,9 +47,9 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/login/registrar").permitAll() // qlqr um pode se registrar
 						.requestMatchers(HttpMethod.POST, "/login").permitAll() // qlqr um pode fazer login
-						.requestMatchers(HttpMethod.POST, "/visitante/registrar").permitAll() // qlqr um pode fazer login
+						.requestMatchers(HttpMethod.POST, "/visitante/login").permitAll() // qlqr um pode fazer login
 						.requestMatchers(HttpMethod.POST, "/mesa").hasAnyRole("GERENTE","CAIXA","GARCOM") // apenas Gerente
-						.requestMatchers(HttpMethod.GET, "/mesas").hasAnyRole("GERENTE","CAIXA","GARCOM") // lista de quem pode realizar
+						.requestMatchers(HttpMethod.GET, "/mesas").permitAll() // lista de quem pode realizar
 						.requestMatchers(HttpMethod.DELETE, "/mesa/*").hasAnyRole("GERENTE","CAIXA","GARCOM")
 						.requestMatchers(HttpMethod.GET, "/minhaComanda").hasRole("CLIENTE")
 						.requestMatchers(HttpMethod.POST, "/categorias").authenticated() 

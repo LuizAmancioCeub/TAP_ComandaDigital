@@ -19,7 +19,6 @@ import { MenuComponent } from './components/menus/menu/menu.component';
 import { MenuPerfilComponent } from './components/menus/menu-perfil/menu-perfil.component';
 import { ContentsComponentComanda } from './components/comanda-components/contents/contents.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { FormRegisterComponent } from './components/form-register/form-register.component';
 import { ModelPedidoComponent } from './components/cardapio-components/model-pedido/model-pedido.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -37,6 +36,7 @@ import { ModelAdicionarItemComponent } from './components/cardapio-components/ge
 import { ModelEditarItemComponent } from './components/cardapio-components/gerente/model-editar-item/model-editar-item.component';
 import { ModelInativarItemComponent } from './components/cardapio-components/gerente/model-inativar-item/model-inativar-item.component';
 import { ModalCategoriasComponent } from './components/cardapio-components/gerente/modal-categorias/modal-categorias.component';
+import { MesaComponent } from './components/mesa/mesa.component';
 
 
 @NgModule({
@@ -55,7 +55,6 @@ import { ModalCategoriasComponent } from './components/cardapio-components/geren
     ContentsComponentComanda,
     MenuComponent,
     MenuPerfilComponent,
-    TesteContentComponent,
     FormRegisterComponent,
     ModelPedidoComponent,
     LoadingComponent,
@@ -72,7 +71,8 @@ import { ModalCategoriasComponent } from './components/cardapio-components/geren
     ModelAdicionarItemComponent,
     ModelEditarItemComponent,
     ModelInativarItemComponent,
-    ModalCategoriasComponent
+    ModalCategoriasComponent,
+    MesaComponent
   ],
   imports: [
     BrowserModule,

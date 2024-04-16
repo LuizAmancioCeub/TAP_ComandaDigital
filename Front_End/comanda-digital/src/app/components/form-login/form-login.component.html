@@ -9,9 +9,7 @@
         <div class="inputBox">
             <select name="mesa" id="mesa" [(ngModel)]="mesa" required="required">
                 <option selected disabled value="null">Sua Mesa</option> 
-                <option value="10">Mesa 10</option>
-                <option value="11">Mesa 11</option>
-                <option value="12">Mesa 12</option>
+                <option *ngFor="let mesa of dataMesas" [value]="mesa.id">Mesa {{mesa.id}}</option>
             </select>
         </div> 
             <div class="input">

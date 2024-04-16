@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CredencialsData } from 'src/app/Models/CredencialsData';
+import { AxiosService } from 'src/app/services/axios.service';
 
 @Component({
   selector: 'app-home-gerente',
@@ -6,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-gerente.component.css']
 })
 export class HomeGerenteComponent {
-
+  constructor(private axiosService:AxiosService){}
+  
 }

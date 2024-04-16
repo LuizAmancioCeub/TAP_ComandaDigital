@@ -6,7 +6,7 @@ import com.comandadigital.models.ClienteModel;
 
 public interface ClienteService {
 	
-	 String login(ClienteLoginDTO dto);
+	 String login(ClienteLoginDTO dto) throws Exception;
 	 
 	 ClienteModel register(ClienteRegisterDTO dto);
 }

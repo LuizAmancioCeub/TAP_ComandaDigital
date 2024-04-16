@@ -16,7 +16,7 @@ public interface MesaService {
 	
 	MesaModel register(MesaRecordDTO mesaDTO);
 	
-	MesaModel update(Integer id, MesaRecordDTO mesaDTO);
+	MesaModel update(Integer id, MesaRecordDTO mesaDTO) throws Exception;
 	
 	String delete(Integer id);
 	

@@ -1,52 +1,53 @@
-
-<div style="text-align:right;margin:10px">
-    <button [routerLink]="['/']" class="btn btn-danger" name="sair" id="sair">Sair</button>
+<div class="background">
+	<div style="text-align:right;margin:10px">
+		<button [routerLink]="['/']" class="btn btn-danger" name="sair" id="sair">Sair</button>
+	</div>
+	
+	<div class="text">
+		<h1>Bem-Vindo</h1>
+	</div>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<section class="hero-section">
+		<div class="card-grid">
+			<a class="card"  [routerLink]="['/cardapio']">
+				<div class="card__background" style="background-image: url(assets/imagens/cardapio.jpg)"></div>
+				<div class="card__content">
+					<p class="card__category">Cardápio</p>
+					<h3 class="card__heading">Gerencie nosso cardápio</h3>
+				</div>
+			</a>
+	
+			<a class="card" href="#">
+				<div class="card__background" style="background-image: url(assets/imagens/comanda.jpg)"></div>
+				<div class="card__content">
+					<p class="card__category">Comandas</p>
+					<h3 class="card__heading">Gerencie Comandas</h3>
+				</div>
+			</a>
+	
+			<a class="card"[routerLink]="['/cozinha']">
+				<div class="card__background" style="background-image: URL(assets/imagens/cozinha.jpg)"></div>
+				<div class="card__content">
+					<p class="card__category">Cozinha</p>
+					<h3 class="card__heading">Gerencie os Pedidos</h3>
+				</div>
+			</a>
+	
+			<a class="card" [routerLink]="['/mesas']">
+				<div class="card__background" style="background-image: url(assets/imagens/mesas.jpg)"></div>
+				<div class="card__content">
+					<p class="card__category">Mesas</p>
+					<h3 class="card__heading">Gerencie as Mesas</h3>
+				</div>
+			</a>
+	
+			<a class="card" href="#">
+				<div class="card__background" style="background-image: url(assets/imagens/mesas.jpg)"></div>
+				<div class="card__content">
+					<p class="card__category">Funcionários</p>
+					<h3 class="card__heading">Gerencie os Funcionários</h3>
+				</div>
+			</a>
+		</div>
+	</section>
 </div>
-
-<div class="text">
-    <h1>Bem-Vindo</h1>
-</div>
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-<section class="hero-section">
-    <div class="card-grid">
-        <a class="card"  [routerLink]="['/cardapio']">
-			<div class="card__background" style="background-image: url(assets/imagens/cardapio.jpg)"></div>
-			<div class="card__content">
-				<p class="card__category">Cardápio</p>
-				<h3 class="card__heading">Gerencie nosso cardápio</h3>
-			</div>
-		</a>
-
-        <a class="card" href="#">
-			<div class="card__background" style="background-image: url(assets/imagens/comanda.jpg)"></div>
-			<div class="card__content">
-				<p class="card__category">Comandas</p>
-				<h3 class="card__heading">Gerencie Comandas</h3>
-			</div>
-		</a>
-
-        <a class="card"[routerLink]="['/cozinha']">
-			<div class="card__background" style="background-image: URL(assets/imagens/cozinha.jpg)"></div>
-			<div class="card__content">
-				<p class="card__category">Cozinha</p>
-				<h3 class="card__heading">Gerencie os Pedidos</h3>
-			</div>
-		</a>
-
-        <a class="card" [routerLink]="['/mesas']">
-			<div class="card__background" style="background-image: url(assets/imagens/mesas.jpg)"></div>
-			<div class="card__content">
-				<p class="card__category">Mesas</p>
-				<h3 class="card__heading">Gerencie as Mesas</h3>
-			</div>
-		</a>
-
-        <a class="card" href="#">
-			<div class="card__background" style="background-image: url(assets/imagens/mesas.jpg)"></div>
-			<div class="card__content">
-				<p class="card__category">Funcionários</p>
-				<h3 class="card__heading">Gerencie os Funcionários</h3>
-			</div>
-		</a>
-    </div>
-</section>

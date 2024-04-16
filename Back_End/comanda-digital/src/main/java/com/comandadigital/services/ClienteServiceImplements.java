@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comandadigital.dtos.ClienteLoginDTO;
@@ -49,7 +50,8 @@ public class ClienteServiceImplements implements ClienteService {
 	private StatusRepository statusRepository;
 	
 	@Override
-	public String login(@RequestBody @Valid ClienteLoginDTO dto) {
+	@Transactional
+	public String login(@RequestBody @Valid ClienteLoginDTO dto) throws Exception {
 		ClienteModel cliente = (ClienteModel) repository.findByLogin(dto.login());
 		// Validar se existe login
 		if(repository.findByLogin(cliente.getLogin()) == null) {
@@ -101,6 +103,7 @@ public class ClienteServiceImplements implements ClienteService {
 	}
 
 	@Override
+	@Transactional
 	public ClienteModel register(@RequestBody @Valid ClienteRegisterDTO dto) {
 		validarCampos(dto);
 		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null) {

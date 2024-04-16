@@ -28,7 +28,7 @@ public class LoginController {
 	
 	// Login
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody @Valid LoginDTO dto) {
+	public ResponseEntity login(@RequestBody @Valid LoginDTO dto) throws Exception {
 		String token = loginService.login(dto);
 			
 		return ResponseEntity.ok(new AuthDTO(token));

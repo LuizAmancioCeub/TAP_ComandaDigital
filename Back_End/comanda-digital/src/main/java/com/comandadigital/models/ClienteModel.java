@@ -71,6 +71,11 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 		this.nome = nome;
 		this.telefone = telefone;
 	}
+	public ClienteModel(String login, String nome,String telefone) {
+		this.login = login;
+		this.nome = nome;
+		this.telefone = telefone;
+	}
 	
 	// verificar quais roles esse usuario tem
 	@Override

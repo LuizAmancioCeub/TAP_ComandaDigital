@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { CardapioComponent } from './pages/cardapio/cardapio.component';
 import { ComandaComponent } from './pages/comanda/comanda.component';
-import { TesteContentComponent } from './testesAPI/teste-content/teste-content.component';
 import { AuthGuard } from './services/AuthGuard';
 import { CozinhaComponent } from './pages/cozinha/cozinha.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { GerenteComponent } from './pages/gerente/gerente.component';
 import { RoleGuard } from './services/RoleGuard';
+import { MesaComponent } from './components/mesa/mesa.component';
 
 const routes: Routes = [
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
   },
   {
     path:'mesas',
-    component: TesteContentComponent,
+    component: MesaComponent,
     canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
   }
 ];
