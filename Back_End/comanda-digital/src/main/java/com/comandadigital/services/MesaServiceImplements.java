@@ -18,9 +18,9 @@ import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.MesaUnique;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
-import com.comandadigital.models.ClienteProjection;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.StatusModel;
+import com.comandadigital.models.projection.ClienteProjection;
 import com.comandadigital.repositories.MesaRepository;
 import com.comandadigital.repositories.StatusRepository;
 
@@ -84,17 +84,19 @@ public class MesaServiceImplements implements MesaService {
 		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
 		
 		if(mesa0.isEmpty()) {
-			throw new RuntimeException("Mesa não encontrada");
+			throw new NegocioException("Mesa não encontrada");
 		}
 		StatusModel status = mesaDTO.status();
 		Optional<StatusModel> existingMesa = statusRepository.findById(status.getId());
 		if(existingMesa.isEmpty()) {
-			throw new RuntimeException("Mesa não encontrada");
+			throw new NegocioException("Mesa não encontrada");
 		}
 		var mesaModel = mesa0.get();
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
 		try {
 			return mesaRepository.save(mesaModel);
+		}catch (NegocioException e) {
+			throw new NegocioException(e.getMessage());
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -133,7 +135,9 @@ public class MesaServiceImplements implements MesaService {
 	            mesaOptional.get().setStatus(novoStatus);
 	            try {
 	            	mesaRepository.save(mesaOptional.get());
-	            }catch (Exception e) {
+	            }catch (NegocioException e) {
+	    			throw new NegocioException(e.getMessage());
+	    		}catch (Exception e) {
 					throw new Exception(e.getMessage());
 				}
 	        }

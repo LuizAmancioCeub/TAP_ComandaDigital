@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.comandadigital.repositories.CaixaRepository;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
+import com.comandadigital.repositories.GarcomRepository;
 import com.comandadigital.repositories.GerenteRepository;
 
 import jakarta.servlet.FilterChain;
@@ -29,6 +31,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 	CozinhaRepository cozinhaRepository;
 	@Autowired
 	GerenteRepository gerenteRepository;
+	@Autowired
+	GarcomRepository garcomRepository;
+	@Autowired
+	CaixaRepository caixaRepository;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,6 +53,10 @@ public class SecurityFilter extends OncePerRequestFilter {
                     userDetails = gerenteRepository.findByLogin(login.substring("GERENTE".length()));
                 }else if (login.startsWith("COZINHA")) {
                     userDetails = cozinhaRepository.findByLogin(login.substring("COZINHA".length()));
+                }else if (login.startsWith("GARCOM")) {
+                    userDetails = garcomRepository.findByLogin(login.substring("GARCOM".length()));
+                }else if (login.startsWith("CAIXA")) {
+                    userDetails = caixaRepository.findByLogin(login.substring("CAIXA".length()));
                 }
             }
 			

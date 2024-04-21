@@ -37,6 +37,14 @@ import { ModelEditarItemComponent } from './components/cardapio-components/geren
 import { ModelInativarItemComponent } from './components/cardapio-components/gerente/model-inativar-item/model-inativar-item.component';
 import { ModalCategoriasComponent } from './components/cardapio-components/gerente/modal-categorias/modal-categorias.component';
 import { MesaComponent } from './components/mesa/mesa.component';
+import { FormatarCpfPipe } from './Models/Pipers/FormatarPipes';
+import { FormatarTelefonePipe } from './Models/Pipers/FormatarPipes';
+import { ModalClientesComponent } from './components/mesa-components/modal-clientes/modal-clientes.component';
+import { ManterFuncionariosComponent } from './components/gerente/manter-funcionarios/manter-funcionarios.component';
+import { MenuFuncionariosComponent } from './components/menus/menu-funcionarios/menu-funcionarios.component';
+import { ModalAddFuncionarioComponent } from './components/gerente/modal-add-funcionario/modal-add-funcionario.component';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
 
 
 @NgModule({
@@ -72,16 +80,23 @@ import { MesaComponent } from './components/mesa/mesa.component';
     ModelEditarItemComponent,
     ModelInativarItemComponent,
     ModalCategoriasComponent,
-    MesaComponent
+    MesaComponent,
+    FormatarCpfPipe,
+    FormatarTelefonePipe,
+    ModalClientesComponent,
+    ManterFuncionariosComponent,
+    MenuFuncionariosComponent,
+    ModalAddFuncionarioComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMaskDirective,
   ],
-  providers: [],
+  providers: [provideNgxMask({})],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

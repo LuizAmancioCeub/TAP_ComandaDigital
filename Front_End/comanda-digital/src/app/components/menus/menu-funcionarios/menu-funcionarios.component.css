@@ -1,0 +1,76 @@
+div.scrollmenu {
+    overflow: auto; 
+    white-space: nowrap;
+    background-color: #FFFAF0;
+    border-radius: 5px;
+    position: sticky;
+    top: 20px;
+    z-index: 10;
+    margin: .5rem;
+    box-shadow: -1px 6px 22px -5px rgba(0,0,0,0.59);
+-webkit-box-shadow: -1px 6px 22px -5px rgba(0,0,0,0.59);
+-moz-box-shadow: -1px 6px 22px -5px rgba(0,0,0,0.59);
+}
+
+div.scrollmenu a {
+    display: inline-block;
+    color: rgb(133, 130, 130);
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+div.scrollmenu a.active{
+    background-color: #ecf5fd;
+    border-radius:  20px;
+    top:-4px;box-shadow:0 4px 4px #999;
+}
+
+#teste{position:relative;top:0}
+#teste:hover{top:-4px;box-shadow:0 4px 4px #999;
+   transition: all .2s ease-in-out}
+
+@keyframes table-in {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+@keyframes table-out{
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    div.scrollmenu {
+        margin: 0 auto;
+        width: max-content;
+        background-color: #FFFAF0;
+        border-radius: 10px;
+        padding-bottom: .2rem; padding-top: .2rem;
+        position: sticky;
+        top: 20px;
+        z-index: 1000;
+        margin-top: .5rem; margin-bottom: 1.5rem;
+    }
+    div.scrollmenu a {
+       font-size: 18px;
+    }
+}
+div.scrollmenu a:hover {
+    background-color: #f3eee8;
+    border-radius: 20px;
+    top:-4px;box-shadow:0 4px 4px #999;
+    transition: all .2s ease-in-out
+  }
+
+  button{
+    border-radius:30px;margin-left:1rem; margin-right: .3rem ;font-size: 150%;border: 1px solid gray;
+  }

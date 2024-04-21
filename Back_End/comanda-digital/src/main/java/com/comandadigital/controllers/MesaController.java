@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
-import com.comandadigital.models.ClienteProjection;
 import com.comandadigital.models.MesaModel;
+import com.comandadigital.models.projection.ClienteProjection;
 import com.comandadigital.services.MesaServiceImplements;
 
 import jakarta.validation.Valid;

@@ -43,3 +43,9 @@ h2{
     background: #f8f3e8;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
   }
+
+  .customMesa .modal-content{
+    border-radius:20px;
+    background: #f5f3f0;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+  }

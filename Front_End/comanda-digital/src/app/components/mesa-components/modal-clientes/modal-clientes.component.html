@@ -1,0 +1,73 @@
+<div class="modal-header">
+    <h4 class="modal-title">Mesa {{mesaId}} - Clientes</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+<div class="modal-body">
+    <div *ngIf="client">
+        <table class="table table-hover table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of dataClientes">
+                    <td>{{c.nome}} </td>
+                    <td>{{c.login | formatarCpf}}</td>
+                    <td>{{c.telefone | formatarTelefone}}</td>
+                    <td>  <i (click)="verComanda(c.login)" title="Ver Comanda" style="color: green; margin-right: .5rem;font-size: 23px;cursor: pointer;" class="bi bi-receipt-cutoff"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="comanda">
+        <i (click)="visualizarClientes(mesaId)" class="bi bi-arrow-left-circle" style="font-size: 23px; margin-top: -20px;cursor: pointer;"></i>
+        <div class="rolagem" style="max-height: 400px;overflow-y: auto;">
+            <table class="table" >
+                <thead>
+                    <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{dataComandaCliente.cliente.nome}}</td>
+                        <td>{{dataComandaCliente.cliente.login | formatarCpf}}</td>
+                        <td>{{dataComandaCliente.valorTotal}}</td>
+                        <td>{{dataComandaCliente.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Item</th>
+                    <th style="text-align: center;" scope="col">Quantidade</th>
+                    <th style="text-align: center;" scope="col">Valor</th>
+                    <th style="text-align: center;" scope="col">Hora do Pedido</th>
+                    <th style="text-align: center;" scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of dataComandaCliente.pedidos">
+                        <td>{{p.nomeItem}}</td>
+                        <td style="text-align: center;">{{p.quantidade}}</td>
+                        <td style="text-align: center;">R$ {{p.valor}}</td>
+                        <td style="text-align: center;">{{p.horarioPedido | date: 'dd/MM HH:mm'}}</td>
+                        <td style="text-align: center;">{{p.status.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> 
+    <ng-container *ngIf="mostrarErro">
+        <div [ngClass]="{'animate__bounceIn':mostrarErro}" class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+     </ng-container>   
+</div>

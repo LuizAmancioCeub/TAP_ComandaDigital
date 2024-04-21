@@ -6,7 +6,8 @@ public enum UserRole {
     BAR("ROLE_BAR"),
     COZINHA("ROLE_COZINHA"),
     CAIXA("ROLE_CAIXA"),
-	GERENTE("ROLE_GERENTE");
+	GERENTE("ROLE_GERENTE"),
+	GARCOM("ROLE_GARCOM");
 	
 	private String role;
 	

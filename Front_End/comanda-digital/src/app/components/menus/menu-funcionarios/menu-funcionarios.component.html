@@ -1,0 +1,3 @@
+<div class="scrollmenu">
+    <a *ngFor="let perfil of data" [ngClass]="{ 'active': perfil.active }"  (click)="activateCategory(perfil)" > {{ perfil.perfil }}</a>
+</div>

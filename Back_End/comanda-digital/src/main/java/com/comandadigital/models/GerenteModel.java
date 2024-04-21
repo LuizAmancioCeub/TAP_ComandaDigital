@@ -71,7 +71,7 @@ private static final long serialVersionUID = -3130915992537078226L;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
 		if("Gerente".equals(perfil.getPerfil())) {
 			

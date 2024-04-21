@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,17 @@ import org.springframework.stereotype.Service;
 import com.comandadigital.controllers.PedidoController;
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ComandaRecordDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.ComandaModel;
+import com.comandadigital.models.PedidoModel;
 import com.comandadigital.models.StatusModel;
+import com.comandadigital.models.projection.ClienteProjection;
+import com.comandadigital.models.projection.ComandaProjection;
+import com.comandadigital.models.projection.PedidosProjection;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.ComandaRepository;
+import com.comandadigital.repositories.PedidoRepository;
 import com.comandadigital.repositories.StatusRepository;
 
 @Service
@@ -34,6 +41,8 @@ public class ComandaServiceImplements implements ComandaService {
 	ComandaRepository comandaRepository;
 	@Autowired
 	StatusRepository statusRepository;
+	@Autowired
+	PedidoRepository pedidoRepository;
 	@Autowired
 	ClienteRepository clienteRepository;
 	
@@ -92,12 +101,32 @@ public class ComandaServiceImplements implements ComandaService {
 				" de cpf: "+comandaDelete.getCliente().getLogin()+" deletada com sucesso";
 	}
 	
-	public ComandaModel findComandaByCpf(String cpf, List<Integer> statusId){
+	public ComandaProjection findComandaByCpf(String cpf, List<Integer> statusId){
 		UserDetails clienteDetails  = clienteRepository.findByLogin(cpf);
 		if(clienteDetails == null) {
-			return null;
+			throw new NegocioException("Número de cpf não encontrado");
 		}
-		 return comandaRepository.findComandaByCpf(cpf, statusId);
+		ComandaModel comandaModel = comandaRepository.findComandaByCpf(cpf, statusId);
+		ClienteProjection cliente = new ClienteProjection(comandaModel.getCliente().getNome(), comandaModel.getCliente().getTelefone(), comandaModel.getCliente().getLogin()); 
+		int mesa = comandaModel.getCliente().getMesa().getId();
+		List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpf(cpf);
+		List<PedidosProjection> pedidos0 = new ArrayList<>();
+		if(!pedidos.isEmpty()) {
+			for(PedidoModel pedido : pedidos) {
+				PedidosProjection p = new PedidosProjection();
+				p.setIdItem(pedido.getItem().getId());
+				p.setNomeItem(pedido.getItem().getNome());
+				p.setPrecoItem(pedido.getItem().getPreco());
+				p.setQuantidade(pedido.getQuantidade());
+				p.setValor(pedido.getValor());
+				p.setStatus(pedido.getStatus());
+				p.setHorarioPedido(pedido.getHorarioPedido());
+				pedidos0.add(p);
+			}
+		}
+		ComandaProjection projection = new ComandaProjection(comandaModel.getValorTotal(), comandaModel.getStatus().getStatus(), cliente, mesa,pedidos0);
+		
+		return projection;
 	}
 	
 	// método para retornar comanda do cliente logado

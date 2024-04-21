@@ -9,6 +9,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { GerenteComponent } from './pages/gerente/gerente.component';
 import { RoleGuard } from './services/RoleGuard';
 import { MesaComponent } from './components/mesa/mesa.component';
+import { ManterFuncionariosComponent } from './components/gerente/manter-funcionarios/manter-funcionarios.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
     path:'loading',
     component: LoadingComponent,
     //canActivate: [AuthGuard]
+  },
+  {
+    path:'funcionarios',
+    component: ManterFuncionariosComponent,
+    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
   },
   {
     path:'mesas',

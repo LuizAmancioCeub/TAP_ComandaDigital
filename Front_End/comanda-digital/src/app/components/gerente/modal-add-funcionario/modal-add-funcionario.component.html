@@ -1,0 +1,65 @@
+<form class="form" (ngSubmit)="onSubmitItem()" #ItemForm="ngForm">
+    <div class="modal-header">
+      <h3 class="modal-title">Adicionar Funcionário</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+
+      <div class="modal-body">
+        <ng-container *ngIf="mostrarErro">
+            <div style="padding-left: .5rem;" class="alert alert-{{alert}}">
+                <div style="text-align: right;margin-top: -15px;margin-right: -5px;">
+                    <i style="font-size: 25px;padding: 0; cursor: pointer;" aria-label="Close" (click)="fecharMsg()" class="bi bi-x"></i>
+                </div>
+                <div style="margin-top: -20px;margin-right: 1.5rem;text-align: center;">
+                    <i class="{{icon}}"></i> {{erro}}
+                </div>
+            </div>
+          </ng-container>
+        <div class='row'>
+          <div class="form-group col-6 col-md-6">
+            <label for="item">Nome</label>
+            <input [(ngModel)]="nome" class="form-control" type="text" name="nome" id="nome" placeholder="Nome do Funcionário" required>
+          </div>
+          <div class="form-group col-6 col-md-6">
+            <label for="item">CPF</label>
+            <input (keypress)="onKeyPress($event)" [(ngModel)]="cpf" mask="000.000.000-00" class="form-control" type="text" name="cpf" id="cpf" placeholder="000.000.000-00" required>
+          </div>
+        </div>
+
+        <div class='row'>
+            <div class="form-group col-6 col-sm-6">
+                <label for="valor">Telefone</label>
+                <input mask="(00) 0 0000-0000" (keypress)="onKeyPress($event)" [(ngModel)]="telefone" class="form-control" type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" required="">
+            </div>
+
+          <div class="form-group col-6 col-sm-6">
+            <label for="categoria">Perfil</label>
+            <select [(ngModel)]="perfil" class="form-control" type="text" name="categoria" id="categoria" required>
+              <option selected disabled value="0">Selecione</option>
+              <option *ngFor="let p of data" [value]="p.id">{{ p.perfil }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class='row'>
+            <div class="form-group col-12 col-md-12">
+                <div style="display: flex;">
+                  <input [(ngModel)]="senha" type="password" name="senha" id="senha"  placeholder="Senha de primeiro acesso" class="form-control input__fieldR" minlength="6" maxlength="12">
+                  <span class="input-group-text">
+                    <i (click)="eye()" class="input__iconR ri-eye-off-line"></i>
+                </span> 
+                </div>     
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 col-md-12"> 
+                    <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme a senha..." class="form-control" minlength="6" maxlength="12">
+            </div>
+        </div>    
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" name="incluirFuncionario" id="incluirFuncionario">Adicionar Funcionário</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+      </div>
+  </form>

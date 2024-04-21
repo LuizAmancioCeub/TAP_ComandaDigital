@@ -18,4 +18,5 @@ public interface GerenteRepository extends JpaRepository<GerenteModel, Integer> 
 		
 		@Query("SELECT MAX(CAST(SUBSTRING(g.login, 3) AS INTEGER)) FROM GerenteModel g")
 		Long findMaxMatricula();
+		
 }

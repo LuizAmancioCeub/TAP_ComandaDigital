@@ -11,8 +11,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.comandadigital.models.CaixaModel;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
+import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.GerenteModel;
 
 
@@ -26,14 +28,21 @@ public class TokenService {
     public String generateTokenCliente(ClienteModel cliente) {
         return generateToken(cliente.getLogin(), "CLIENTE");
     }
-
     // Criando token para CozinhaModel
     public String generateTokenCozinha(CozinhaModel cozinha) {
         return generateToken(cozinha.getLogin(), "COZINHA");
     }
+    // Criando token para CaixaModel
+    public String generateTokenCaixa(CaixaModel caixa) {
+    	return generateToken(caixa.getLogin(), "CAIXA");
+    }
     // Criando token para GerenteModel
     public String generateTokenGerente(GerenteModel gerente) {
     	return generateToken(gerente.getLogin(), "GERENTE");
+    }
+    // Criando token para garcomModel
+    public String generateTokenGarcom(GarcomModel garcom) {
+    	return generateToken(garcom.getLogin(), "GARCOM");
     }
 	
 	// criando token

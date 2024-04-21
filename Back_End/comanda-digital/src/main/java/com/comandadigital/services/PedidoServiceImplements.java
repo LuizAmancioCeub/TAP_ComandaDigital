@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.comandadigital.dtos.PedidoRecordDTO;
 import com.comandadigital.dtos.PedidoRecordUpdateDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.ComandaModel;
 import com.comandadigital.models.CozinhaModel;
@@ -299,7 +300,7 @@ public class PedidoServiceImplements implements PedidoService {
 	public List<PedidoModel> findPedidosByCpf(String cpf, List<Integer> statusId) {
 		UserDetails clienteDetails  = clienteRepository.findByLogin(cpf);
 		if(clienteDetails == null) {
-			return null;
+			throw new NegocioException("Cliente não encontrado");
 		}
 		 return pedidoRepository.findPedidoByCpf(cpf);
 	}

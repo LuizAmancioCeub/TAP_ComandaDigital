@@ -1,0 +1,48 @@
+<ng-container *ngIf="load">
+    <app-loading></app-loading>
+</ng-container>
+<ng-container *ngIf="!load">
+    <app-menu-perfil [perfil]="perfil" [nome]="nomeUser" ></app-menu-perfil>
+    <div>
+        <a class="btn" [routerLink]="['/gerente']"><i style="font-size: 20px;" class="bi bi-arrow-left-circle"></i> Home</a>
+    </div>
+    <app-menu-funcionarios></app-menu-funcionarios>
+
+<button (click)="openVerticallyCentered(adicionarItem)" style="margin-left:15px" class="btn btn-info" type="button" data-toggle="modal" data-target="#adicionarItem">Adicionar Funcionário <i class="bi bi-plus-circle"></i></button>  
+    <ng-template #adicionarItem let-modal>
+        <app-modal-add-funcionario></app-modal-add-funcionario>
+    </ng-template>
+
+<ng-container *ngIf="itens">
+    <div class="container">
+        <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Nome</div>
+              <div *ngIf="pessoa" class="col col-2">CPF</div>
+              <div *ngIf="pessoa" class="col col-3">Telefone</div>
+              <div *ngIf="pessoa" class="col col-4">Matrícula</div>
+              <div class="col col-5">Perfil</div>
+              <div class="col col-6">Ações</div>
+            </li>
+            <li class="table-row" *ngFor="let c of dataFunc">
+              <div class="col col-1" data-label="Nome">{{c.nome}}</div>
+              <div *ngIf="pessoa" class="col col-2" data-label="CPF">{{c.cpf | formatarCpf}}</div>
+              <div *ngIf="pessoa" class="col col-3" data-label="Telefone" >{{c.telefone | formatarTelefone}}</div>
+              <div *ngIf="pessoa" class="col col-4" data-label="Matrícula">{{c.matricula}}</div>
+              <div class="col col-5" data-label="Perfil">{{c.perfil.perfil}}</div>
+              <div class="col col-6" data-label="Ações">
+                <i title="Editar" style="color: green; margin-right: 1rem;font-size: 23px;cursor: pointer;" class="bi bi-pencil"></i>
+                <i title="Inativar" style="color: red;font-size: 23px;cursor: pointer;" class="bi bi-x-lg"></i>
+              </div>
+            </li>
+        </ul>
+    </div>
+    
+</ng-container>
+<ng-container *ngIf="!itens">
+    <div class="alert alert-warning" style="text-align: center;margin-top: 5rem;border-radius: 15px;margin-left: .5rem;margin-right: .5rem;">
+        <h3>Perfil sem funcionários</h3>
+    </div>
+</ng-container>
+
+</ng-container>

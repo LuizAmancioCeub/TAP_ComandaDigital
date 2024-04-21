@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comandadigital.dtos.ComandaRecordDTO;
 import com.comandadigital.models.ComandaModel;
 import com.comandadigital.models.StatusModel;
+import com.comandadigital.models.projection.ComandaProjection;
 import com.comandadigital.services.ComandaServiceImplements;
 
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class ComandaController {
 	
 	@GetMapping("consultarComanda/{cpf}")
 	public ResponseEntity<Object> getOneComandaId(@PathVariable(value="cpf") String cpf){
-		ComandaModel comanda0 = comandaService.findComandaByCpf(cpf, Arrays.asList(StatusModel.ABERTA));
+		ComandaProjection comanda0 = comandaService.findComandaByCpf(cpf, Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO, StatusModel.PAGA));
 		
 		return ResponseEntity.status(HttpStatus.OK).body(comanda0);
 	}

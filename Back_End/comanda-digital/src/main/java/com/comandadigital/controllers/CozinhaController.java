@@ -22,8 +22,6 @@ public class CozinhaController {
 	
 	@Autowired
 	CozinhaServiceImplements cozinhaService;
-	@Autowired
-	AuthService authService;
 	
 	// Registrar
 	@PostMapping("cozinha/registrar")

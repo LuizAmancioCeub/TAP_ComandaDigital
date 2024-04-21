@@ -1,11 +1,16 @@
 package com.comandadigital.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.comandadigital.infra.security.roles.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,10 +36,13 @@ public class GarcomModel extends RepresentationModel<GarcomModel> implements Ser
 	private static final long serialVersionUID = -3130915992537078226L;
 	
 	@jakarta.persistence.Id
-	@EqualsAndHashCode.Include
-	@Column(name="MATRICULA", nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // id é auto increment e chave primaria
+	@Column(name="NU_GARCOM", nullable = false, unique = true)
 	@Setter(AccessLevel.NONE)
 	private Integer id;
+	
+	@Column(name = "MATRICULA", nullable = false, unique = true)
+	private String login;
 	
 	@Column(name = "CPF", nullable = false, unique = true)
 	private String cpf;
@@ -51,11 +59,26 @@ public class GarcomModel extends RepresentationModel<GarcomModel> implements Ser
 	@ManyToOne
 	@JoinColumn(name = "NU_PERFIL", nullable = false)
 	private PerfilModel perfil;
+	
+	public GarcomModel(String nome, String telefone,String login, String cpf, String senha, PerfilModel perfil) {
+		this.nome = nome;
+		this.telefone = telefone;
+		this.login = login;
+		this.cpf = cpf;
+		this.senha = senha;
+		this.perfil = perfil;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		
+		if("Garcom".equals(perfil.getPerfil())) {
+			
+			authorities.add(new SimpleGrantedAuthority(UserRole.GARCOM.getRole()));
+		}
+		
+		return authorities;
 	}
 	
 	// verificar quais roles esse usuario tem

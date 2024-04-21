@@ -51,18 +51,6 @@ export class FormRegisterComponent {
     this.cpf = cpfFormatado;
   }
 
-  formatarTelefone() {
-    // Remove todos os caracteres não numéricos do valor do telefone
-    let telefoneFormatado = this.telefone.replace(/\D/g, '');
-
-    // Aplica a formatação do telefone ((xx)xxxxx-xxxx)
-    telefoneFormatado = telefoneFormatado.replace(/(\d{2})(\d)/, '($1)$2');
-    telefoneFormatado = telefoneFormatado.replace(/(\d{5})(\d)/, '$1-$2');
-
-    // Atualiza o valor do campo com o telefone formatado
-    this.telefone = telefoneFormatado;
-  }
-
   onKeyPress(event: KeyboardEvent) {
     // Obter o código da tecla pressionada
     const charCode = event.which || event.keyCode;

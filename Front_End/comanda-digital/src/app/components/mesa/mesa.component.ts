@@ -4,6 +4,8 @@ import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { ClientesMesaData, MesaData } from 'src/app/Models/mesaData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { MesaService } from 'src/app/services/mesa.service';
+import { FormatarCpfPipe } from 'src/app/Models/Pipers/FormatarPipes';
+import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
 
 @Component({
   selector: 'app-mesa',
@@ -24,6 +26,8 @@ export class MesaComponent implements OnInit {
 
   perfil:number = 0;
   nomeUser:string='';
+  comanda:boolean = false;
+  client:boolean=false;
  
    verificarUsuario():void{
      this.axiosService.request("GET", "/myCredenciais", "").then(
@@ -53,7 +57,6 @@ export class MesaComponent implements OnInit {
   mesaSelect:any;
 
   onSubmit(){
-    console.log(this.id)
     this.onRegister({"id": this.id});
   }
 
@@ -83,6 +86,7 @@ export class MesaComponent implements OnInit {
           this.alert = "success"
           this.erro = "Mesa cadastrada com Sucesso"
           this.icon = "bi bi-check-circle";
+          this.id = null
           // Definir um atraso de 3 segundos para limpar a mensagem de erro
             setTimeout(() => {
             this.mostrarErro = false;
@@ -116,7 +120,6 @@ export class MesaComponent implements OnInit {
   getMesas():void{
     this.axiosService.request("GET", "/mesas", "").then(
       (response) => {
-      console.log(response);
       this.data = response.data;
       }
     );
@@ -203,8 +206,12 @@ export class MesaComponent implements OnInit {
 
   openVerticallyCentered(content: any, mesa:any) {
     this.mesaSelect = mesa;
-		this.modalRef = this.modalService.open(content, { centered: true });
-   
+		this.modalRef = this.modalService.open(content, { centered: true,windowClass:'customMesa' });
+	}
+
+  openVerticallyCenteredLG(content: any, mesa:any) {
+    this.mesaSelect = mesa;
+		this.modalRef = this.modalService.open(content, { centered: true,size:'lg',windowClass:'customMesa' });
 	}
 
   onKeyPress(event: KeyboardEvent) {
@@ -216,33 +223,15 @@ export class MesaComponent implements OnInit {
       event.preventDefault(); // Impedir a entrada de caracteres não numéricos
     }
   }
-  dataClientes:ClientesMesaData[] = [];
+  mesaId:number =0;
   visualizarClientes(mesaId:number){
-    this.axiosService.request("GET", `/mesa/${mesaId}/clientes`, "").then(
-      (response) => {
-        this.dataClientes = response.data;
-      },
-      (error) => {
-        const responseData = error.response.data;
-        if(responseData.fields){
-          const errorFields = responseData.fields;
-          const fieldName = Object.keys(errorFields)[0];
-          const fieldError = errorFields[fieldName];
-          this.erro = fieldError
-        }  else{
-          const errorDetail = responseData.detail;
-          this.erro = errorDetail
-        }
-        this.alert = "warning"
-        this.icon = "bi bi-exclamation-triangle-fill";
-        this.mostrarErro = true;
-        // Definir um atraso de 3 segundos para limpar a mensagem de erro
-          setTimeout(() => {
-          this.mostrarErro = false;
-        }, 2000);
-  
-      }
-    )
-    
+    this.mesaId = mesaId;
   }
+
+  close() {
+    this.client = false;
+    this.comanda = false;
+    this.modalService.dismissAll();
+  }
+
 }
