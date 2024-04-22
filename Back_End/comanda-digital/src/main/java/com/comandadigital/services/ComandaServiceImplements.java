@@ -167,5 +167,13 @@ public class ComandaServiceImplements implements ComandaService {
 		comanda.setValorTotal(valorTotal);
 		comandaRepository.save(comanda);
 	}
+	
+	public boolean existsComandaByCpf(String cpf, List<Integer> statusId) {
+		ComandaModel comandaModel = comandaRepository.findComandaByCpf(cpf, statusId);
+		if(comandaModel == null) {
+			return false;
+		}
+		return true;
+	}
 
 }

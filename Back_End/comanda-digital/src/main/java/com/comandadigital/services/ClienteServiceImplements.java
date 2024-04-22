@@ -82,7 +82,7 @@ public class ClienteServiceImplements implements ClienteService {
 	        
 	     // Criar comanda para o cliente se n tiver comanda ativa   
 	        List<Integer> statusList = Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO);
-	        if(comandaService.findComandaByCpf(dto.login(), statusList) == null ) {
+	        if(!comandaService.existsComandaByCpf(dto.login(), statusList)) {
 	        	 StatusModel defaultStatus = statusRepository.findById(StatusModel.ABERTA).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 	             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
 	             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
