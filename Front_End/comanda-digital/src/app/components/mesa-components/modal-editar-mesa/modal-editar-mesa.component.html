@@ -1,0 +1,45 @@
+<form class="form" (ngSubmit)="alterarMesa(mesaId)" #ItemForm="ngForm">
+    <div class="modal-header">
+      <h3 class="modal-title">Mesa {{mesaId}}</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+
+      <div class="modal-body">
+        <ng-container *ngIf="mostrarErro">
+            <div style="padding-left: .5rem;" class="alert alert-{{alert}}">
+                <div style="text-align: right;margin-top: -15px;margin-right: -5px;">
+                    <i style="font-size: 25px;padding: 0; cursor: pointer;" aria-label="Close" (click)="fecharMsg()" class="bi bi-x"></i>
+                </div>
+                <div style="margin-top: -20px;margin-right: 1.5rem;text-align: center;">
+                    <i class="{{icon}}"></i> {{erro}}
+                </div>
+            </div>
+          </ng-container>
+        <div class='row'>
+          <div class="form-group col-6 col-md-6">
+            <label for="item">Garçom</label>
+            <select [(ngModel)]="garcom" class="form-control" type="text" name="categoria" id="categoria">
+                <option *ngFor="let g of dataGarcom" [value]="g.id">{{ g.nome }}</option>
+            </select>
+          </div>
+          <div class="form-group col-6 col-md-6">
+            <label for="item">Status</label>
+            <select [(ngModel)]="status" class="form-control" type="text" name="status" id="status">
+                <option *ngFor="let s of dataStatus" [value]="s.id">{{ s.status }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class='row'>
+            <div class="form-group col-12 col-sm-12">
+                <label for="valor">QrCode</label>
+                <input class="form-control" type="text" [(ngModel)]="qr" name="qr_code" id="qr_code" required="">
+            </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" name="alterarMesa" id="alterarMesa">Alterar mesa</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+      </div>
+  </form>

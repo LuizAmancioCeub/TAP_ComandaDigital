@@ -2,6 +2,7 @@ export type MesaData = {
     id:number
     qr_code:string
     garcom:{
+        id:number
         nome:string
     }
     status:{

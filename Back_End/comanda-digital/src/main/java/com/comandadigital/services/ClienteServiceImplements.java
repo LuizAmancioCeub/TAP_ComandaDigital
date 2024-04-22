@@ -59,6 +59,9 @@ public class ClienteServiceImplements implements ClienteService {
 		}
 		
 		if(cliente.getPerfil().getId() == PerfilModel.CLIENTE) {
+			if(dto.mesa().getId() == null) {
+				throw new NegocioException("Mesa precisa ser preenchida");
+			}
 			Optional<MesaModel> mesaOptional = mesaRepository.findById(dto.mesa().getId());
 			if (!mesaOptional.isPresent()|| mesaOptional.get().getStatus().getId().equals(StatusModel.INDISPONIVEL)) {
 				throw new NegocioException("Mesa indisponível");

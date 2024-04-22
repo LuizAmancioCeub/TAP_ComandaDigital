@@ -5,6 +5,7 @@
     padding: 1rem;
     place-content: center;
 }
+
 .lista li {
     background: #f3f1ec;
     box-shadow: -3px 5px 21px -3px rgba(0,0,0,0.75);
@@ -55,3 +56,5 @@
   .fade-out {
     opacity: 0;
   }
+
+ 

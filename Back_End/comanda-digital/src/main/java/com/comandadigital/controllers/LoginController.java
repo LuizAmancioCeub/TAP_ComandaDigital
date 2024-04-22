@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.AuthDTO;
 import com.comandadigital.dtos.LoginDTO;
+import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.AuthService;
 import com.comandadigital.services.LoginService;
 
@@ -46,7 +47,7 @@ public class LoginController {
 		var usuario = authService.myCredenciais(login,authentication);
 		
 		if(usuario == null) {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Não foi possível encontrar as credenciais!!");
+			throw new NegocioException("Não foi possível encontrar as credenciais");
 		}
 		return ResponseEntity.ok().body(usuario);
 	}

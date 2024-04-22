@@ -6,7 +6,7 @@ import com.comandadigital.models.CozinhaModel;
 
 public interface CozinhaService {
 	
-	String login(CozinhaLoginDTO dto);
+	String login(CozinhaLoginDTO dto) throws Exception;
 	
 	CozinhaModel register(CozinhaRegisterDTO dto);
 }

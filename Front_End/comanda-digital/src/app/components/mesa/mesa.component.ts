@@ -6,6 +6,7 @@ import { AxiosService } from 'src/app/services/axios.service';
 import { MesaService } from 'src/app/services/mesa.service';
 import { FormatarCpfPipe } from 'src/app/Models/Pipers/FormatarPipes';
 import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-mesa',
@@ -13,13 +14,26 @@ import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
   styleUrls: ['./mesa.component.css']
 })
 export class MesaComponent implements OnInit {
-  constructor(private axiosService: AxiosService, private mesaService:MesaService){}
+  constructor(private axiosService: AxiosService, private mesaService:MesaService, private eventService:EventsService){}
   private modalService = inject(NgbModal);
   modalRef:any;
 
   ngOnInit():void{
     this.verificarUsuario();
     this.getMesas();
+
+    this.eventService.msgMesa$.subscribe(({ msg, txt }) => {
+      this.getMesas()
+      this.msg = msg;
+      this.txt = txt;
+      this.show = "show"
+      setTimeout(() => {
+        this.show = "";
+      }, 2000);
+      setTimeout(() => {
+        this.msg = false;
+      }, 2000);
+    });
   }
 
   dataUser:CredencialsData[] = [];
@@ -121,6 +135,7 @@ export class MesaComponent implements OnInit {
     this.axiosService.request("GET", "/mesas", "").then(
       (response) => {
       this.data = response.data;
+        response.data.garcom.nome = ''
       }
     );
   }
@@ -199,18 +214,23 @@ export class MesaComponent implements OnInit {
        }
     );   
   }
+  back: boolean = false;
 
-  editarMesa(id:number):void{
-
+  editarMesa(id: number): void {
+    this.back = !this.back; // Alternar o valor da variável entre true e false
   }
 
   openVerticallyCentered(content: any, mesa:any) {
     this.mesaSelect = mesa;
 		this.modalRef = this.modalService.open(content, { centered: true,windowClass:'customMesa' });
 	}
+  openVerticallyCenteredEdit(content: any, mesa:any) {
+    this.mesaId = mesa;
+		this.modalRef = this.modalService.open(content, { centered: true, windowClass:'custom' });
+	}
 
   openVerticallyCenteredLG(content: any, mesa:any) {
-    this.mesaSelect = mesa;
+    this.mesaId = mesa;
 		this.modalRef = this.modalService.open(content, { centered: true,size:'lg',windowClass:'customMesa' });
 	}
 
@@ -233,5 +253,9 @@ export class MesaComponent implements OnInit {
     this.comanda = false;
     this.modalService.dismissAll();
   }
+
+  msg:boolean = false
+  txt:string = "";
+  show:string=""
 
 }

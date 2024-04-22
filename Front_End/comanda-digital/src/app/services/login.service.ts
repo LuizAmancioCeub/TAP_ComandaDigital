@@ -14,7 +14,7 @@ export class LoginService {
 
   constructor(private axiosService:AxiosService) { }
 
-  onLogin(login:string, senha:string, mesa:number):Promise<any>{
+  onLogin(login:string, senha:string, mesa:number|null):Promise<any>{
     return this.axiosService.request(
       "POST",
       "/login",
@@ -45,7 +45,7 @@ export class LoginService {
   
 
   conferirCampos(login: string, senha: string, mesa: any): String{
-    if(login == "" || senha == "" || mesa == null || login == null || senha == null){
+    if(login == "" || senha == "" || login == null || senha == null){
       return "campos";
     }  
     else{
@@ -71,7 +71,7 @@ export class LoginService {
     return new Promise((resolve, reject) => {
       this.axiosService.request("GET", "/myCredenciais", "").then(
         (response) => {
-          const perfil = response.data.perfil.perfil;
+          const perfil = response.data.perfil.id;
           resolve(perfil);
         },
         (error) => {

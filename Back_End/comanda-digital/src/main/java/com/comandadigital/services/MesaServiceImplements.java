@@ -18,9 +18,11 @@ import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.MesaUnique;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
+import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.StatusModel;
 import com.comandadigital.models.projection.ClienteProjection;
+import com.comandadigital.repositories.GarcomRepository;
 import com.comandadigital.repositories.MesaRepository;
 import com.comandadigital.repositories.StatusRepository;
 
@@ -30,6 +32,8 @@ public class MesaServiceImplements implements MesaService {
 	MesaRepository mesaRepository;
 	@Autowired
 	StatusRepository statusRepository;
+	@Autowired
+	GarcomRepository garcomRepository;
 
 	@Override
 	public List<MesaModel> findAll() {
@@ -40,10 +44,6 @@ public class MesaServiceImplements implements MesaService {
 			for(MesaModel mesa : mesas) {
 				Integer id = mesa.getId();
 				mesa.add(linkTo(methodOn(MesaController.class).getOneMesaId(id)).withSelfRel());
-				
-				//mesa.add(linkTo(methodOn(MesaController.class).updateMesa(id,null)).withRel("editar_mesa"));
-				
-				//mesa.add(linkTo(methodOn(MesaController.class).deleteMesa(id)).withRel("deletar_mesa"));
 				
 				if(mesa.getStatus().getLinks().isEmpty()) {
 					mesa.getStatus().add(linkTo(methodOn(StatusController.class).getAllStatus()).withSelfRel());
@@ -67,6 +67,9 @@ public class MesaServiceImplements implements MesaService {
 	@Transactional
 	public MesaModel register(@MesaUnique MesaRecordDTO mesaDTO) {
 		var mesaModel = new MesaModel();
+		if(existsById(0, mesaDTO.id())) {
+			throw new NegocioException("Mesa já existe");
+		}
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
 		
 		// consultando o status inicial do item
@@ -81,6 +84,9 @@ public class MesaServiceImplements implements MesaService {
 	@Override
 	@Transactional
 	public MesaModel update(Integer id, MesaRecordDTO mesaDTO) throws Exception {
+		if(existsById(id, mesaDTO.id())) {
+			throw new NegocioException("Mesa já existe");
+		}
 		Optional<MesaModel> mesa0 = mesaRepository.findById(id);
 		
 		if(mesa0.isEmpty()) {
@@ -91,7 +97,12 @@ public class MesaServiceImplements implements MesaService {
 		if(existingMesa.isEmpty()) {
 			throw new NegocioException("Mesa não encontrada");
 		}
+		Optional<GarcomModel> garcom = garcomRepository.findById(mesaDTO.garcom().getId());
+		if(garcom.isEmpty() || garcom == null) {
+			throw new NegocioException("Garçom não encontrado");
+		}
 		var mesaModel = mesa0.get();
+		mesaModel.setGarcom(garcom.get());
 		BeanUtils.copyProperties(mesaDTO, mesaModel);
 		try {
 			return mesaRepository.save(mesaModel);
@@ -157,5 +168,16 @@ public class MesaServiceImplements implements MesaService {
 			return clienteMesa0;
 		}
 		throw new NegocioException("Mesa sem clientes");
+	}
+	
+	public boolean existsById(Integer idAtual, Integer idNovo) {
+		if(idAtual.equals(idNovo)) {
+			return false;
+		}
+		Optional<MesaModel> m = mesaRepository.findById(idNovo);
+		if(m.isEmpty() || m == null) {
+			return false;
+		}
+		return true;
 	}
 }

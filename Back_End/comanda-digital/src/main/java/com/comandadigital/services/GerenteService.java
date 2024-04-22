@@ -51,7 +51,7 @@ public class GerenteService {
 	public String login(@RequestBody @Valid GerenteLoginDTO dto) {
 		// Validar se existe login
 		if(gerenteRepository.findByLogin(dto.login().toUpperCase()) == null) {
-			return "LoginNotFound";
+			throw new NegocioException("Usuário não encontrado");
 		}
 		
 		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());

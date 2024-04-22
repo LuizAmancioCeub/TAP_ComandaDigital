@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	
-	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf")
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf ORDER BY pedido.horarioPedido DESC ")
 	List<PedidoModel>findPedidoByCpf(@Param("cpf") String cpf);
 	
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id IN :statusId")

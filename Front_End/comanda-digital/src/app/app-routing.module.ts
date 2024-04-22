@@ -24,19 +24,19 @@ const routes: Routes = [
   {
     path:'cardapio/comanda',
     component: ComandaComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: ['Cliente'] }
+    canActivate: [RoleGuard], data: { allowedRoles: [1] }
     //canActivate: [AuthGuard]
   },
   {
     path:'gerente',
     component: GerenteComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
+    canActivate: [RoleGuard], data: { allowedRoles: [3] }
     //canActivate: [AuthGuard]
   },
   {
     path:'cozinha',
     component: CozinhaComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: ['Cozinha', 'Gerente'] }
+    canActivate: [RoleGuard], data: { allowedRoles: [5, 3] }
     //canActivate: [AuthGuard]
   },
   {
@@ -47,12 +47,12 @@ const routes: Routes = [
   {
     path:'funcionarios',
     component: ManterFuncionariosComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
+    canActivate: [RoleGuard], data: { allowedRoles: [3] }
   },
   {
     path:'mesas',
     component: MesaComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: [ 'Gerente'] }
+    canActivate: [RoleGuard], data: { allowedRoles: [3,4,6] }
   }
 ];
 

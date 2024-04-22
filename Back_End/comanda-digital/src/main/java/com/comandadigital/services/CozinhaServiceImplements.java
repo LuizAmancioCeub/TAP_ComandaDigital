@@ -30,16 +30,21 @@ public class CozinhaServiceImplements implements CozinhaService {
 	private PerfilRepository perfilRepository;
 	
 	@Override
-	public String login(@RequestBody @Valid CozinhaLoginDTO dto) {
-		// Validar se existe login
-		if(cozinhaRepository.findByLogin(dto.login()) == null) {
-			return "LoginNotFound";
+	public String login(@RequestBody @Valid CozinhaLoginDTO dto) throws Exception {
+		try {
+			// Validar se existe login
+			if(cozinhaRepository.findByLogin(dto.login()) == null) {
+				return "LoginNotFound";
+			}
+			
+			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+			var auth = this.authManager.authenticate(userNameSenha);
+			
+			return tokenService.generateTokenCozinha((CozinhaModel)auth.getPrincipal());
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
 		
-		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
-		var auth = this.authManager.authenticate(userNameSenha);
-		
-		return tokenService.generateTokenCozinha((CozinhaModel)auth.getPrincipal());
 	}
 
 	@Override

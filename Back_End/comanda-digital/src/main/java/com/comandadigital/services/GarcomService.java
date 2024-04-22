@@ -1,5 +1,7 @@
 package com.comandadigital.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import com.comandadigital.infra.security.TokenService;
 import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.GerenteModel;
 import com.comandadigital.models.PerfilModel;
+import com.comandadigital.models.projection.Garcomprojection;
 import com.comandadigital.repositories.GarcomRepository;
 import com.comandadigital.repositories.PerfilRepository;
 
@@ -33,16 +36,21 @@ public class GarcomService {
 	@Autowired
 	TokenService tokenService;
 	
-	public String login(@RequestBody @Valid GarcomLoginDTO dto) {
-		// Validar se existe login
-		if(garcomRepository.findByLogin(dto.login().toUpperCase()) == null) {
-			return "LoginNotFound";
+	public String login(@Valid GarcomLoginDTO dto) throws Exception {
+		try {
+			// Validar se existe login
+			if(garcomRepository.findByLogin(dto.login().toUpperCase()) == null) {
+				return "LoginNotFound";
+			}
+			
+			var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+			var auth = this.authManager.authenticate(userNameSenha);
+			
+			return tokenService.generateTokenGarcom((GarcomModel)auth.getPrincipal());
+		}catch (Exception e) {
+			throw new NegocioException(e.getMessage());
 		}
-		
-		var userNameSenha = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
-		var auth = this.authManager.authenticate(userNameSenha);
-		
-		return tokenService.generateTokenGarcom((GarcomModel)auth.getPrincipal());
+	
 	}
 	
 	@Transactional
@@ -82,5 +90,23 @@ public class GarcomService {
 	        String newMatricula = "GA"+maxMatricula;
 
 	        return newMatricula;
+	}
+	
+	public List<Garcomprojection>getAll(){
+		List<GarcomModel> garcom0 = garcomRepository.findAll();
+		List<Garcomprojection> garcom = new ArrayList<>();
+		if(!garcom0.isEmpty()) {
+			for(GarcomModel g : garcom0) {
+				Garcomprojection gar = new Garcomprojection();
+				gar.setId(g.getId());
+				gar.setMatricula(g.getLogin());
+				gar.setCpf(g.getCpf());
+				gar.setNome(g.getNome());
+				gar.setTelefone(g.getTelefone());
+				garcom.add(gar);
+			}
+			return garcom;
+		}
+		return garcom;
 	}
 }

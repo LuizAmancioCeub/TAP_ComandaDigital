@@ -49,7 +49,7 @@ export class FormLoginComponent implements OnInit {
     if(typeof this.mesa == "string"){
       this.mesa = parseFloat(this.mesa);
       this.onLogin( this.login, this.senha, this.mesa);
-    }else if(typeof this.mesa == "number"){
+    }else{
       this.onLogin( this.login, this.senha, this.mesa);
     }
    
@@ -60,7 +60,7 @@ export class FormLoginComponent implements OnInit {
       this.onLoginVisitante( "visitante12", "visitante", 10);
    }
 
-  onLogin(login:string, senha:string, mesa:number):void{
+  onLogin(login:string, senha:string, mesa:number|null):void{
     this.loginService.onLogin(login,senha,mesa)
       .then((response) => {
         const token = response.data.token;
@@ -106,30 +106,51 @@ export class FormLoginComponent implements OnInit {
   verificarUsuario():void{
     this.axiosService.request("GET", "/myCredenciais", "").then(
       (response) => {
-      const perfil = response.data.perfil.perfil;
-      
-      if (perfil === "Cliente" || perfil === "Visitante") {
+      const perfil = response.data.perfil.id;
+      console.log(perfil)
+      if (perfil === 1 || perfil === 2) {
 
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/cardapio']); // Rota para clientes
 
-      }else if (perfil === "Gerente") {
+      }else if (perfil === 3) {
 
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/gerente']); // Rota para usuários gerentes
 
       }
-       else if (perfil === "Cozinha") {
+       else if (perfil === 5) {
 
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/cozinha']); // Rota para cozinha
 
-      } else {
+      } 
+       else if (perfil === 4) {
+
+        this.loginService.setLoggedIn(true);
+        this.router.navigate(['/mesas']); // Rota para cozinha
+       }
+       else if (perfil === 6) {
+
+        this.loginService.setLoggedIn(true);
+        this.router.navigate(['/mesas']); // Rota para cozinha
+       }
+       else {
         // Rota padrão para outros perfis ou tratamento de erro
         this.router.navigate(['/']);
+       }
       }
+    ) .catch((error) => {
+      if (error.response.status === 400) {
+        // Se o status for 400 (regra de negocio), trate aqui
+        const errorDetail = error.response.data.detail;
+        this.mostrarMsg("400",errorDetail);
+      }else if(error.response.status === 403){
+        this.mostrarMsg("403","");
+      } else{
+        this.mostrarMsg("","");
       }
-    );
+    });
   }
   // função para visualizar/ esconder senha
   public eye():void{

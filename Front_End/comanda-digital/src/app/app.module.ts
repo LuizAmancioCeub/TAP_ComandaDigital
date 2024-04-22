@@ -44,6 +44,7 @@ import { ManterFuncionariosComponent } from './components/gerente/manter-funcion
 import { MenuFuncionariosComponent } from './components/menus/menu-funcionarios/menu-funcionarios.component';
 import { ModalAddFuncionarioComponent } from './components/gerente/modal-add-funcionario/modal-add-funcionario.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ModalEditarMesaComponent } from './components/mesa-components/modal-editar-mesa/modal-editar-mesa.component';
 
 
 
@@ -87,6 +88,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     ManterFuncionariosComponent,
     MenuFuncionariosComponent,
     ModalAddFuncionarioComponent,
+    ModalEditarMesaComponent,
   ],
   imports: [
     BrowserModule,

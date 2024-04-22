@@ -91,7 +91,7 @@ List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return cpf;
+		return login;
 	}
 
 	@Override

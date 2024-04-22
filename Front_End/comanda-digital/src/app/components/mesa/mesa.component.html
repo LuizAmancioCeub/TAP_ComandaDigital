@@ -35,21 +35,24 @@
                         </div>
                         <ul class="lista">
                                 <li *ngFor="let mesa of data">
-                                    <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }} -  {{mesa.status.status}}</p>
-                                    <p>Garçom: {{ mesa.garcom }}</p>
-                                    <p>QR: {{ mesa.qr_code }}</p>
-                                    <hr>
-                                    <div class="icons" style="display: flex; justify-content: end;">
-                                        <i title="Ver Clientes" (click)="visualizarClientes(mesa.id);openVerticallyCenteredLG(clientes, mesa.id)" data-toggle="modal" data-target="" *ngIf="mesa.status.id == 12 || mesa.status.id == 13" style="margin-right: .5rem;color: purple;" class="bi bi-person-lines-fill"></i>
-                                        <i title="Editar" style="color:blue;margin-right: .5rem;" (click)="editarMesa(mesa.id)" class="bi bi-pencil"></i>
-                                        <i title="Ativar" *ngIf="mesa.status.id == 14" style="color: green;margin-right: .5rem;" (click)="alterarStatusMesa(mesa.id,11)" class="bi bi-check-lg"></i>
-                                        <i title="Excluir" *ngIf="mesa.status.id == 14" style="color: red" (click)="openVerticallyCentered(content, mesa.id)" class="bi bi-trash"></i>
-                                        <i title="Desativar" *ngIf="mesa.status.id != 14" style="color: red" (click)="alterarStatusMesa(mesa.id,14)" class="bi bi-x-circle"></i>
-                                    </div>
+                                        <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }} -  {{mesa.status.status}}</p>
+                                        <p>Garçom: {{ mesa.garcom?.nome }}</p>
+                                        <p>QR: {{ mesa.qr_code }}</p>
+                                        <hr>
+                                        <div class="icons" style="display: flex; justify-content: end;">
+                                            <i title="Ver Clientes" (click)="visualizarClientes(mesa.id);openVerticallyCenteredLG(clientes, mesa.id)" data-toggle="modal" data-target="" *ngIf="mesa.status.id == 12 || mesa.status.id == 13" style="margin-right: .5rem;color: purple;" class="bi bi-person-lines-fill"></i>
+                                            <i title="Editar" (click)="openVerticallyCenteredEdit(editar,mesa.id)" style="color:blue;margin-right: .5rem;" (click)="editarMesa(mesa.id)" class="bi bi-pencil"></i>
+                                            <i title="Ativar" *ngIf="mesa.status.id == 14" style="color: green;margin-right: .5rem;" (click)="alterarStatusMesa(mesa.id,11)" class="bi bi-check-lg"></i>
+                                            <i title="Excluir" *ngIf="mesa.status.id == 14" style="color: red" (click)="openVerticallyCentered(content, mesa.id)" class="bi bi-trash"></i>
+                                            <i title="Desativar" *ngIf="mesa.status.id != 14" style="color: red" (click)="alterarStatusMesa(mesa.id,14)" class="bi bi-x-circle"></i>
+                                        </div>
 
-                                    <ng-template #clientes let-modal>
-                                        <app-modal-clientes [mesaId]="mesaId"></app-modal-clientes>
-                                    </ng-template>
+                                        <ng-template #clientes let-modal>
+                                            <app-modal-clientes [mesaId]="mesaId"></app-modal-clientes>
+                                        </ng-template>
+                                        <ng-template #editar let-modal>
+                                            <app-modal-editar-mesa [mesaId]="mesaId"></app-modal-editar-mesa>
+                                        </ng-template>
                                 </li>
                         </ul>
 
@@ -60,6 +63,10 @@
                 </div>
             </div>
         </div>
+
+        <ng-container *ngIf="msg">
+            <app-msg txt="{{txt}}" show="{{show}}"></app-msg>
+        </ng-container>
     </div>
 
     <ng-template #content let-modal>

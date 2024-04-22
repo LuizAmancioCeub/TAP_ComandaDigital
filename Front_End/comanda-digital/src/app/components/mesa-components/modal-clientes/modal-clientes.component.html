@@ -3,31 +3,29 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
 </div>
 <div class="modal-body">
-    <div *ngIf="client">
-        <table class="table table-hover table-borderless">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let c of dataClientes">
-                    <td>{{c.nome}} </td>
-                    <td>{{c.login | formatarCpf}}</td>
-                    <td>{{c.telefone | formatarTelefone}}</td>
-                    <td>  <i (click)="verComanda(c.login)" title="Ver Comanda" style="color: green; margin-right: .5rem;font-size: 23px;cursor: pointer;" class="bi bi-receipt-cutoff"></i></td>
-                </tr>
-            </tbody>
-        </table>
+    <div *ngIf="client" style="max-height: 400px;overflow-y: auto;">
+        <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Nome</div>
+              <div class="col col-2">CPF</div>
+              <div class="col col-3">Telefone</div>
+              <div class="col col-4">Ações</div>
+            </li>
+            <li class="table-row" *ngFor="let c of dataClientes">
+              <div class="col col-1" data-label="Nome">{{c.nome}}</div>
+              <div class="col col-2" data-label="CPF">{{c.login | formatarCpf}}</div>
+              <div class="col col-3" data-label="Telefone" >{{c.telefone | formatarTelefone}}</div>
+              <div class="col col-4" data-label="Ações">
+                <i (click)="verComanda(c.login)" title="Ver Comanda" style="color: green; margin-right: .5rem;font-size: 23px;cursor: pointer;" class="bi bi-receipt-cutoff"></i>
+              </div>
+            </li>
+        </ul>
     </div>
 
     <div *ngIf="comanda">
         <i (click)="visualizarClientes(mesaId)" class="bi bi-arrow-left-circle" style="font-size: 23px; margin-top: -20px;cursor: pointer;"></i>
         <div class="rolagem" style="max-height: 400px;overflow-y: auto;">
-            <table class="table" >
+            <table class="table" style="position: sticky;top: 0;" >
                 <thead>
                     <tr>
                     <th scope="col">Nome</th>
@@ -45,26 +43,23 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">Item</th>
-                    <th style="text-align: center;" scope="col">Quantidade</th>
-                    <th style="text-align: center;" scope="col">Valor</th>
-                    <th style="text-align: center;" scope="col">Hora do Pedido</th>
-                    <th style="text-align: center;" scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let p of dataComandaCliente.pedidos">
-                        <td>{{p.nomeItem}}</td>
-                        <td style="text-align: center;">{{p.quantidade}}</td>
-                        <td style="text-align: center;">R$ {{p.valor}}</td>
-                        <td style="text-align: center;">{{p.horarioPedido | date: 'dd/MM HH:mm'}}</td>
-                        <td style="text-align: center;">{{p.status.status}}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <ul class="responsive-table3">
+                <li class="table-header">
+                    <div class="col col-1">Item</div>
+                  <div class="col col-2">Quantidade</div>
+                  <div class="col col-3">Valor</div>
+                  <div class="col col-4">Hora do Pedido</div>
+                  <div class="col col-5">Status</div>
+                </li>
+                <li class="table-row" *ngFor="let p of dataComandaCliente.pedidos">
+                  <div class="col col-1" data-label="Item">{{p.nomeItem}}</div>
+                  <div class="col col-2" data-label="Quantidade">{{p.quantidade}}</div>
+                  <div class="col col-3" data-label="Valor" >R$ {{p.valor}}</div>
+                  <div class="col col-4" data-label="Hora do Pedido">{{p.horarioPedido | date: 'dd/MM HH:mm'}} </div>
+                  <div class="col col-5" data-label="Status"> {{p.status.status}} <i ></i></div>
+                </li>
+            </ul>
         </div>
     </div> 
     <ng-container *ngIf="mostrarErro">
