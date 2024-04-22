@@ -51,7 +51,7 @@ export class RegisterService {
     } else if (!this.validarCPF(cpf)) {
       return "cpf";
     }else if (!this.validarTelefone(telefone)) {
-      return "Telefone";
+      return "telefone";
     }else if (senha.length < 6 || senha.length > 12) {
       return "TamanhoSenha"; 
     }else if (senha !== senhaB) {
