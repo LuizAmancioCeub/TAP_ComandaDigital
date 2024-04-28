@@ -20,6 +20,7 @@
             <label for="item">Garçom</label>
             <select [(ngModel)]="garcom" class="form-control" type="text" name="categoria" id="categoria">
                 <option *ngFor="let g of dataGarcom" [value]="g.id">{{ g.nome }}</option>
+                <option [value]="null">Nenhum</option>
             </select>
           </div>
           <div class="form-group col-6 col-md-6">

@@ -74,7 +74,7 @@ public class MesaController {
 	}
 	
 	@GetMapping("/mesa/{id}/clientes")
-	public ResponseEntity<Object> getclientesMesa(@PathVariable(value="id")Integer id) {
+	public ResponseEntity<Object> getclientesMesa(@PathVariable(value="id")Integer id) throws Exception {
 		List<ClienteProjection> clientes = mesaServiceImplements.findClientesMesa(id);
 		return ResponseEntity.status(HttpStatus.OK).body(clientes);
 	}

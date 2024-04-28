@@ -135,7 +135,6 @@ export class MesaComponent implements OnInit {
     this.axiosService.request("GET", "/mesas", "").then(
       (response) => {
       this.data = response.data;
-        response.data.garcom.nome = ''
       }
     );
   }
@@ -163,7 +162,7 @@ export class MesaComponent implements OnInit {
         // Definir um atraso de 3 segundos para limpar a mensagem de erro
           setTimeout(() => {
           this.mostrarErro = false;
-        }, 2000);
+        }, 3000);
   
       }
     )

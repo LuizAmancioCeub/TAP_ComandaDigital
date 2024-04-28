@@ -82,10 +82,6 @@ export class ModalClientesComponent implements OnInit {
           this.alert = "warning"
           this.icon = "bi bi-exclamation-triangle-fill";
           this.mostrarErro = true;
-          // Definir um atraso de 3 segundos para limpar a mensagem de erro
-            setTimeout(() => {
-            this.mostrarErro = false;
-          }, 2000);
     
         }
       )
