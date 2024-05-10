@@ -14,6 +14,8 @@ import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
 import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.GerenteModel;
+import com.comandadigital.models.projection.ClienteProjection;
+import com.comandadigital.models.projection.UserProjection;
 import com.comandadigital.repositories.CaixaRepository;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
@@ -63,7 +65,7 @@ public class AuthService implements UserDetailsService {
         throw new UsernameNotFoundException("Usuário não encontrado com a identificação: " + username);
 	}
 	
-	public UserDetails myCredenciais(String login, Authentication auth) {
+	public UserProjection myCredenciais(String login, Authentication auth) {
 		
 	    
 	    // Verifica se a autenticação é do tipo UsernamePasswordAuthenticationToken
@@ -71,27 +73,57 @@ public class AuthService implements UserDetailsService {
 	    	
 	        ClienteModel cliente = (ClienteModel) clienteRepository.findByLogin(login);
 	        if (cliente != null) {
-	            return cliente;
+	        	UserProjection user = new UserProjection();
+	        	user.setLogin(cliente.getLogin());
+	        	user.setCpf(cliente.getLogin());
+	        	user.setNome(cliente.getNome());
+	        	user.setTelefone(cliente.getTelefone());
+	        	user.setPerfil(cliente.getPerfil());
+	        	user.setMesa(cliente.getMesa());
+	            return user;
 	        }
-
+	        
 	        GerenteModel gerente = (GerenteModel) gerenteRepository.findByLogin(login);
 	        if (gerente != null) {
-	        	return gerente;
+	        	UserProjection user = new UserProjection();
+	        	user.setLogin(gerente.getLogin());
+	        	user.setCpf(gerente.getCpf());
+	        	user.setNome(gerente.getNome());
+	        	user.setTelefone(gerente.getTelefone());
+	        	user.setPerfil(gerente.getPerfil());
+	            return user;
 	        }
 	        CozinhaModel cozinha = (CozinhaModel) cozinhaRepository.findByLogin(login);
 	        if (cozinha != null) {
-	            return cozinha;
+	        	UserProjection user = new UserProjection();
+	        	user.setLogin(cozinha.getLogin());
+	        	user.setCpf("");
+	        	user.setNome(cozinha.getLogin());
+	        	user.setTelefone("");
+	        	user.setPerfil(cozinha.getPerfil());
+	            return user;
 	        }
 	        
 	        GarcomModel garcom = (GarcomModel) garcomRepository.findByLogin(login);
 	        if (garcom != null) {
-	        	return garcom;
+	        	UserProjection user = new UserProjection();
+	        	user.setLogin(garcom.getLogin());
+	        	user.setCpf(garcom.getCpf());
+	        	user.setNome(garcom.getNome());
+	        	user.setTelefone(garcom.getTelefone());
+	        	user.setPerfil(garcom.getPerfil());
+	            return user;
 	        }
 	        CaixaModel caixa = (CaixaModel) caixaRepository.findByLogin(login);
 	        if (caixa != null) {
-	        	return caixa;
+	        	UserProjection user = new UserProjection();
+	        	user.setLogin(caixa.getLogin());
+	        	user.setCpf("");
+	        	user.setNome(caixa.getLogin());
+	        	user.setTelefone("");
+	        	user.setPerfil(caixa.getPerfil());
+	            return user;
 	        }
-	    
 	    }
 	    
 	    return null;

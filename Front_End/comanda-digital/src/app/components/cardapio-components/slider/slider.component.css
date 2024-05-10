@@ -1,10 +1,9 @@
 .slider{
-    border-radius: 1rem;
-    width: 100%; 
-    margin-bottom: 1rem;
+  display: none;
   }
 @media screen and (max-width: 750px ) {   
     .slider{
+      display: block;
       border-radius: 1rem;
       height: auto;
       width: 100%;

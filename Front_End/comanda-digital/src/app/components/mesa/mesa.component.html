@@ -36,7 +36,7 @@
                         <ul class="lista">
                                 <li *ngFor="let mesa of data">
                                         <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }} -  {{mesa.status.status}}</p>
-                                        <p>Garçom: {{ mesa.garcom?.nome }}</p>
+                                        <p>Garçom: {{ garcom[mesa.id] }}</p>
                                         <p>QR: {{ mesa.qr_code }}</p>
                                         <hr>
                                         <div class="icons" style="display: flex; justify-content: end;">

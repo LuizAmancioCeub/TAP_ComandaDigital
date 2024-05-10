@@ -8,7 +8,9 @@
       <input type="hidden" name="itemId" [(ngModel)]="idItem">
       <div class="container-fluid bd-example-row">
         
-
+        <ng-container *ngIf="mostrarErro">
+          <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+      </ng-container>
         <div class="row qntd" style="margin-top: .5rem;">
           <div class="col-6 col-sm-6" style="display: flex;">
             

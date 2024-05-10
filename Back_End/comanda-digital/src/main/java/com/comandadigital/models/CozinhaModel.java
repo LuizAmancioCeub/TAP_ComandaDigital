@@ -62,9 +62,9 @@ public class CozinhaModel extends RepresentationModel<GarcomModel> implements Se
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
-		if("COZINHA".equals(perfil.getPerfil())) {
+		if("Cozinha".equals(perfil.getPerfil())) {
 			authorities.add(new SimpleGrantedAuthority(UserRole.COZINHA.getRole()));
-		}else if("BAR".equals(perfil.getPerfil())) {
+		}else if("Bar".equals(perfil.getPerfil())) {
 			authorities.add(new SimpleGrantedAuthority(UserRole.BAR.getRole()));
 		}
 		

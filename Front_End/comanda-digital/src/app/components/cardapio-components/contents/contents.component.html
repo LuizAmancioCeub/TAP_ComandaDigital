@@ -1,8 +1,4 @@
 
-<ng-container *ngIf="load">
-    <app-loading></app-loading>
-</ng-container>
-
 <ng-container *ngIf="perfil == 3">
     <button (click)="openVerticallyCentered(adicionarItem)" style="margin-left:15px" class="btn btn-info" type="button" data-toggle="modal" data-target="#adicionarItem">Adicionar item <i class="bi bi-plus-circle"></i></button>  
     
@@ -11,7 +7,7 @@
     </ng-template>
 </ng-container>
 
-<ng-container *ngIf="!load">
+<ng-container>
     <div class="btn_comanda" *ngIf="perfil == 1">
         <a [routerLink]="['comanda']" title="Sua Comanda" class="comanda btn btn-success" style="font-size: 30px;">
           <i class="bi bi-receipt-cutoff"></i> 
@@ -19,32 +15,37 @@
               2 </span>-->
         </a>
     </div>
+    <div *ngIf="load" style="display: flex;justify-content: center;margin-top: 1.5rem;">
+        <img style="width: 200px;" src="assets/imagens/loading2.gif">
+    </div>
     <div class="cards">
-        <ng-container *ngIf="itens">
+        <ng-container *ngIf="!load">
+            <ng-container *ngIf="itens">
     
-            <app-cards *ngFor="let itens of data"
-                item="{{itens.nome}}"
-                [itemId]= "itens.id"
-                descricao="{{itens.descricao}}"
-                [statusIdItem]="itens.status.id"
-                imagem="{{itens.imagem}}"
-                preco= {{itens.preco}}
-                [perfil]="perfil"
-                [categoria]="categoria">
-            </app-cards>  
-        </ng-container>
-
-        <ng-container *ngIf="itens && perfil == 3">
-            <app-cards *ngFor="let itens of dataDesativados"
-                item="{{itens.nome}}"
-                [itemId]= "itens.id"
-                descricao="{{itens.descricao}}"
-                [statusIdItem]="itens.status.id"
-                imagem="{{itens.imagem}}"
-                preco= {{itens.preco}}
-                [perfil]="perfil"
-                [categoria]="categoria">
-            </app-cards>  
+                <app-cards *ngFor="let itens of data"
+                    item="{{itens.nome}}"
+                    [itemId]= "itens.id"
+                    descricao="{{itens.descricao}}"
+                    [statusIdItem]="itens.status.id"
+                    imagem="{{itens.imagem}}"
+                    preco= {{itens.preco}}
+                    [perfil]="perfil"
+                    [categoria]="categoria">
+                </app-cards>  
+            </ng-container>
+    
+            <ng-container *ngIf="itens && perfil == 3">
+                <app-cards *ngFor="let itens of dataDesativados"
+                    item="{{itens.nome}}"
+                    [itemId]= "itens.id"
+                    descricao="{{itens.descricao}}"
+                    [statusIdItem]="itens.status.id"
+                    imagem="{{itens.imagem}}"
+                    preco= {{itens.preco}}
+                    [perfil]="perfil"
+                    [categoria]="categoria">
+                </app-cards>  
+            </ng-container>
         </ng-container>
     </div>
     

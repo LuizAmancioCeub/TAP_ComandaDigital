@@ -32,8 +32,6 @@ export class ContentsComponent implements OnInit {
         if(this.perfil == 3){
           this.loadItemsDesativados(categoriaId);
         }
-      }else{
-        this.load = false;
       }
     });
 
@@ -58,6 +56,7 @@ export class ContentsComponent implements OnInit {
         this.load = false;
         if(response.data == 0){
           this.itens = false;
+          this.load = false;
         }
       }
     );

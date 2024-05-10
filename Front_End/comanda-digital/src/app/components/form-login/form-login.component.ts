@@ -46,6 +46,11 @@ export class FormLoginComponent implements OnInit {
     this.mostrarMsg("fail","")
    }
    else if(campos == "ok"){
+     // Verifica se o campo de login contém '.' ou '-'
+    if (this.login && (this.login.includes('.') || this.login.includes('-'))) {
+      // Remove '.' e '-' do campo de login
+      this.login = this.login.replace(/[.-]/g, '');
+    }
     if(typeof this.mesa == "string"){
       this.mesa = parseFloat(this.mesa);
       this.onLogin( this.login, this.senha, this.mesa);
@@ -107,7 +112,6 @@ export class FormLoginComponent implements OnInit {
     this.axiosService.request("GET", "/myCredenciais", "").then(
       (response) => {
       const perfil = response.data.perfil.id;
-      console.log(perfil)
       if (perfil === 1 || perfil === 2) {
 
         this.loginService.setLoggedIn(true);
@@ -206,7 +210,6 @@ export class FormLoginComponent implements OnInit {
   getMesas():void{
     this.axiosService.request("GET", "/mesas", "").then(
       (response) => {
-      console.log(response);
       this.dataMesas = response.data;
       }
     );

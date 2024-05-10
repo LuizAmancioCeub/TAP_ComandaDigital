@@ -1,6 +1,11 @@
 package com.comandadigital.services;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
+import org.springframework.security.core.token.SecureRandomFactoryBean;
+import org.springframework.security.core.token.Token;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -79,4 +84,24 @@ public class LoginService {
 			throw new NegocioException("Usuário não encontrado");
 		 
 	}
+	
+//	private void createToken() throws Exception {
+//		KeyBasedPersistenceTokenService service = new KeyBasedPersistenceTokenService();
+//		service.setServerSecret("SECRET123");
+//		service.setServerInteger(16);
+//		service.setSecureRandom(new SecureRandomFactoryBean().getObject());
+//		
+//		Token token = service.allocateToken("luizfelipeamancio12@gmail.com");
+//		System.out.println(token.getExtendedInformation());
+//		System.out.println(new Date(token.getKeyCreationTime()));
+//		System.out.println(token.getKey());
+//		
+//	}
+//	
+//	private void readToken() throws Exception{
+//		KeyBasedPersistenceTokenService s = new KeyBasedPersistenceTokenService();
+//		s.setServerSecret("SECRET123");
+//		s.setServerInteger(16);
+//		s.setSecureRandom(new SecureRandomFactoryBean().getObject());
+//	}
 }

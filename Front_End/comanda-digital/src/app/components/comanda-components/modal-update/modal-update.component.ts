@@ -19,21 +19,21 @@ export class ModalUpdateComponent implements OnChanges {
 
 
   @Input() idItem:number|string=""
-  @Input() idPedido:number|string=""
+  @Input() idPedido:number=0
   @Input() item:string=""
   @Input() quantidade:number|string=""
   @Input() observacao:string=""
   @Input() valor:number|string = ""
   valorTotal:number = 0;
+
+  mostrarErro: boolean = false;
+  erro:string = "";
+  alert:string = "";
+  icon:string = "";
   
  qntd:number = this.quantidade = typeof this.quantidade === 'string' ? parseFloat(this.quantidade) : Number(this.quantidade);
 
   onSubmitUpdate(){
-    if (typeof this.idPedido === "string") {
-      const parsedPedido = parseInt(this.idPedido, 10); // O segundo argumento é a base (radix) para a conversão
-      
-      if ( !isNaN(parsedPedido)) {
-        this.idPedido = parsedPedido
         this.comandaService.updatePedido( this.idPedido, this.converterParaNumero(this.quantidade), this.valorTotal, this.observacao)
           .then((response) => {
             // Lidar com a resposta bem-sucedida do servidor (usuário logado)
@@ -44,11 +44,18 @@ export class ModalUpdateComponent implements OnChanges {
             }, 300);
             // Redirecionar ou fazer outras ações necessárias após o login
           }).catch((error) => {
-            console.log(error)
+            const responseData = error.response.data;
+          if(responseData.fields){
+            const errorFields = responseData.fields;
+            const fieldName = Object.keys(errorFields)[0];
+            const fieldError = errorFields[fieldName];
+            this.mostrarMsg(fieldError);
+          }else{
+            const errorDetail = responseData.detail;
+            this.mostrarMsg(errorDetail);
+          }
           });
     }
-  }
-}
 
 add(){
   this.quantidade = this.converterParaNumero(this.quantidade);
@@ -86,4 +93,15 @@ private converterParaNumero(valor: number | string): number {
   close() {
     this.modalService.dismissAll();
   }
+
+  mostrarMsg(mensagem:string):void{
+    this.mostrarErro = true;
+    this.alert = "warning"
+    this.erro = mensagem
+    this.icon = "bi bi-exclamation-triangle-fill";
+   // Definir um atraso de 3 segundos para limpar a mensagem de erro
+   setTimeout(() => {
+    this.mostrarErro = false;
+  }, 3000);
+}
 }

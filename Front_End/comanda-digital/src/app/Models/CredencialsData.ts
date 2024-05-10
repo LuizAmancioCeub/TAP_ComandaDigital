@@ -1,9 +1,13 @@
 export type CredencialsData = {
+    nome:string
     login:string
+    cpf:string
+    telefone:string
     perfil:{
+        id:number
         perfil:string
     }
-    authorities?: {
-        authority?:string
-    }[]
+    mesa: {
+        id:number
+    }
 }

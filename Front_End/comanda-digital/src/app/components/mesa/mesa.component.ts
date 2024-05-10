@@ -40,13 +40,14 @@ export class MesaComponent implements OnInit {
 
   perfil:number = 0;
   nomeUser:string='';
+  garcom: { [id: number]: string } = {}; 
   comanda:boolean = false;
   client:boolean=false;
  
    verificarUsuario():void{
      this.axiosService.request("GET", "/myCredenciais", "").then(
        (response) => {
-         this.data = response.data
+         this.dataUser = response.data
          this.nomeUser = response.data.nome;
          const perfil = response.data.perfil.perfil;
        
@@ -135,6 +136,11 @@ export class MesaComponent implements OnInit {
     this.axiosService.request("GET", "/mesas", "").then(
       (response) => {
       this.data = response.data;
+      for(const mesa of response.data){
+        if(mesa.garcom != null){
+          this.garcom[mesa.id] = mesa.garcom.nome
+        }
+      }
       }
     );
   }

@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size;
 
 public record PedidoRecordDTO(  @NotNull @Positive @Min(value = 1, message = "Quantidade mínima: 1") @Max(value = 15, message = "Quantidade máxima: 15") int quantidade,
 								@NotNull @Positive(message = "Valor precisa ser positivo") @Max(value = 99999, message = "Valor máximo para um pedido atingido") double valor,
-								@Size(max = 105,message = "Limite de caractees atingido {max}") String observacao,
+								@Size(max = 35,message = "Limite de caracteres atingido: {max}") String observacao,
 								@NotNull CozinhaModel cozinha,
 						        @Valid StatusModel status,
 						        @Valid ItemModel item
