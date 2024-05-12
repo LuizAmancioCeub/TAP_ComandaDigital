@@ -17,7 +17,6 @@ export class ModelEditarItemComponent {
   ngOnInit(): void {
     this.getCategorias();
     this.statusAtt = this.statusIdItem === 1 ? 1 : this.statusIdItem === 2 ? 2 : 0;
-    console.log("preço atual: "+this.preco)
   }
   data:CategoriaData[] = [];
 

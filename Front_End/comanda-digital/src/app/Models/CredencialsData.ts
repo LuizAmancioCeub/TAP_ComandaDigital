@@ -8,6 +8,7 @@ export type CredencialsData = {
         perfil:string
     }
     mesa: {
-        id:number
+        numero:number
+        garcom:string
     }
 }

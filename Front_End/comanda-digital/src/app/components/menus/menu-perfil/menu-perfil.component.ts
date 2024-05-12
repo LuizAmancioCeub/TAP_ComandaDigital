@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClienteData } from 'src/app/Models/ClienteData';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { AxiosService } from 'src/app/services/axios.service';
@@ -15,10 +16,14 @@ export class MenuPerfilComponent {
   
  
 
-  constructor(private axiosService:AxiosService){ }
+  constructor(private axiosService:AxiosService, private modalService:NgbModal){ }
   ngOnInit(): void {
   // this.verificarUsuario();
   }
+
+  openVerticallyCentered(content: TemplateRef<any>) {
+		this.modalService.open(content, {size:'lg',centered: true,windowClass:'custom'});
+	}
 
  
 }

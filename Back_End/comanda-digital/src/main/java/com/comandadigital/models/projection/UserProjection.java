@@ -1,6 +1,5 @@
 package com.comandadigital.models.projection;
 
-import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.PerfilModel;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +18,6 @@ public class UserProjection {
 	private String cpf;
 	private String telefone;
 	private PerfilModel perfil;
-	private MesaModel mesa;
+	private MesaProjection mesa;
 	
 }

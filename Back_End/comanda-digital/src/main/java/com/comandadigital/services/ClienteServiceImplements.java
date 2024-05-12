@@ -121,16 +121,34 @@ public class ClienteServiceImplements implements ClienteService {
 		
 	}
 	
-	public void setarMesaCliente(String cpf, Integer nuMesa) {
-		UserDetails clienteDetails  = repository.findByLogin(cpf);
-		
-		if(clienteDetails  != null) {
-			 ClienteModel cliente = (ClienteModel) clienteDetails; // Converter UserDetails para ClienteModel
-			 MesaModel mesaCliente = mesaRepository.findById(nuMesa).orElseThrow(() -> new NegocioException("Mesa não encontrada"));
-			 
-			 cliente.setMesa(mesaCliente); // Associar a mesa ao cliente
-	         repository.save(cliente);
+	public void setarMesaCliente(String cpf, Integer nuMesa) throws Exception {
+		try {
+			UserDetails clienteDetails  = repository.findByLogin(cpf);
+			
+			if(clienteDetails  != null) {
+				 ClienteModel cliente = (ClienteModel) clienteDetails; // Converter UserDetails para ClienteModel
+				 MesaModel mesaCliente = mesaRepository.findById(nuMesa).orElseThrow(() -> new NegocioException("Mesa não encontrada"));
+				 
+				 cliente.setMesa(mesaCliente); // Associar a mesa ao cliente
+		         repository.save(cliente);
+		         if(mesaCliente.getStatus().getId().equals(StatusModel.LIVRE)) {
+		        	 StatusModel status = statusRepository.findById(StatusModel.OCUPADA).orElseThrow(() -> new RuntimeException("Status não encontrado"));
+		        	 mesaCliente.setStatus(status);
+		        	 mesaRepository.save(mesaCliente);
+				 }
+			}
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
+		
+	}
+	
+	@Transactional
+	public void alterarMesa(Integer novaMesa, Integer mesaAtual, String cpf) throws Exception {
+		if(novaMesa.equals(mesaAtual)) {
+			throw new NegocioException("Você ja está vinculado a esta mesa !");
+		}
+		setarMesaCliente(cpf, novaMesa);
 	}
 	
 	public void validarCampos(ClienteRegisterDTO dto) {

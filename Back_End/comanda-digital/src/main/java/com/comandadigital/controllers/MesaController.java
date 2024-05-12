@@ -1,5 +1,7 @@
 package com.comandadigital.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.MesaModel;
+import com.comandadigital.models.StatusModel;
 import com.comandadigital.models.projection.ClienteProjection;
 import com.comandadigital.services.MesaServiceImplements;
 
@@ -76,6 +80,12 @@ public class MesaController {
 	@GetMapping("/mesa/{id}/clientes")
 	public ResponseEntity<Object> getclientesMesa(@PathVariable(value="id")Integer id) throws Exception {
 		List<ClienteProjection> clientes = mesaServiceImplements.findClientesMesa(id);
+		return ResponseEntity.status(HttpStatus.OK).body(clientes);
+	}
+	
+	@GetMapping("/mesasDisponiveis")
+	public ResponseEntity<List<MesaModel>>getMesaByStatus() throws Exception {
+		List<MesaModel> clientes = mesaServiceImplements.findByStatus(Arrays.asList(StatusModel.LIVRE, StatusModel.OCUPADA));
 		return ResponseEntity.status(HttpStatus.OK).body(clientes);
 	}
 

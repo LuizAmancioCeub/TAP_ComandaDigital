@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AxiosService } from './axios.service';
+import { MesaData } from '../Models/mesaData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MesaService {
-
+  camera: boolean = false;
+  alterarMesa: boolean = false;
   constructor(private axiosService:AxiosService) { }
 
    // Endpoints Item
@@ -25,6 +27,34 @@ export class MesaService {
           id:statusId
         }
       }
+    )
+  }
+
+  alterarMesaCliente(cpf:string, novaMesa:number, mesaAtual:number):Promise<any>{
+    return this.axiosService.request(
+      "PUT",
+      "/mesa/alterar",
+      {
+        cpf:cpf,
+        novaMesa:novaMesa,
+        mesaAtual:mesaAtual
+      }
+    )
+  }
+
+  recuperarMesas():Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/mesas`,
+      ''
+    )
+  }
+
+  recuperarById(id:number):Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/mesa/${id}`,
+      ''
     )
   }
 }

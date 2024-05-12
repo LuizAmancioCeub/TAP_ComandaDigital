@@ -45,6 +45,8 @@ import { MenuFuncionariosComponent } from './components/menus/menu-funcionarios/
 import { ModalAddFuncionarioComponent } from './components/gerente/modal-add-funcionario/modal-add-funcionario.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ModalEditarMesaComponent } from './components/mesa-components/modal-editar-mesa/modal-editar-mesa.component';
+import { MeusDadosComponent } from './components/meus-dados/meus-dados.component';
+import { MinhaMesaComponent } from './components/mesa-components/minha-mesa/minha-mesa.component';
 
 
 
@@ -89,6 +91,8 @@ import { ModalEditarMesaComponent } from './components/mesa-components/modal-edi
     MenuFuncionariosComponent,
     ModalAddFuncionarioComponent,
     ModalEditarMesaComponent,
+    MeusDadosComponent,
+    MinhaMesaComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,57 @@
+<div class="minhaMesa">
+    <ng-container *ngIf="mostrarErro">
+        <div style="padding-left: .5rem;" class="alert alert-{{alert}}">
+            <div style="text-align: right;margin-top: -15px;margin-right: -5px;">
+                <i style="font-size: 25px;padding: 0; cursor: pointer;" aria-label="Close" (click)="fecharMsg()" class="bi bi-x"></i>
+            </div>
+            <div style="margin-top: -20px;margin-right: 1.5rem;text-align: center;">
+                <i class="{{icon}}"></i> {{erro}}
+            </div>
+        </div>
+    </ng-container>
+    <div class="row">
+        <h3>Minha mesa</h3>
+    </div>
+    <div class="mesa">
+        <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Mesa</div>
+              <div class="col col-2">Garçom</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" >{{mesaNum}}</div>
+              <div class="col col-2" >{{mesaGarcom}}</div>
+            </li>
+        </ul>
+        <p *ngIf="mesaService.camera" style="font-size: 14px;padding: .5rem;text-align: center;"><span style="color: red;font-size: 20px;">*</span> Para alterar a mesa, é necessário escanear o QrCode da nova mesa.</p>
+    </div>
+</div>
+<div *ngIf="mesaService.alterarMesa" class="novaMesa">
+    <div class="row">
+        <h3>Nova mesa</h3>
+    </div>
+    <div class="mesa">
+        <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Mesa</div>
+              <div class="col col-2">Garçom</div>
+            </li>
+            <li class="table-row">
+              <div class="col col-1" >{{novaMesaNum}}</div>
+              <div class="col col-2" >{{novaMesaGarcom}}</div>
+            </li>
+        </ul>
+        <p *ngIf="mesaService.alterarMesa" style="font-size: 14px;text-align: center;"><span style="color: red;font-size: 20px;">*</span> Todos seus pedidos e sua comanda serão associados à nova mesa.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div style="display: flex;justify-content: center;" class="col-12 col-md-12">
+        <button (click)="openCamera()" *ngIf="!mesaService.camera && !mesaService.alterarMesa" class="btn btn-info">Alterar Mesa</button>
+        <button (click)="salvarMesa(cpf, novaMesaNum, mesaNum)" *ngIf="!mesaService.camera && mesaService.alterarMesa" class="btn btn-success">Salvar Nova Mesa</button>
+        <button class="btn btn-danger" *ngIf="mesaService.camera" (click)="closeCamera()">Fechar Câmera</button>
+    </div>
+    <div *ngIf="mesaService.camera" style="display: flex;justify-content: center;" class="col-12 col-md-12">
+        <video style="width: 90%;border-radius: 1rem;margin-top: .5rem;" #videoElement autoplay></video>
+     </div>
+</div>

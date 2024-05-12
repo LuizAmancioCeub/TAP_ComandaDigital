@@ -49,3 +49,28 @@ h2{
     background: #f5f3f0;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
   }
+
+  .custom .modal-content{
+      input, select, textarea{
+        background: #f8f3e8;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+  
+      input:hover, select:hover, textarea:hover{
+          top:-4px;box-shadow:0 4px 4px #999;
+          transition: all .2s ease-in-out;
+      }
+      
+      input:focus, select:focus, textarea:focus{
+          background: #f8f3e8;
+      }
+      select{
+          cursor: pointer;
+      }
+      h3{
+        font-family: Kalam,cursive;font-weight:600;color:#e7880c;text-align:center
+    }
+    .row{
+        margin-top: .5rem;
+    }
+  }

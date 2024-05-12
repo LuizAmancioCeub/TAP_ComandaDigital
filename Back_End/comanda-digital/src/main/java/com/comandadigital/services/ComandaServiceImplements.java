@@ -130,7 +130,7 @@ public class ComandaServiceImplements implements ComandaService {
 	}
 	
 	// método para retornar comanda do cliente logado
-	public ComandaModel findMyComanda(){
+	public ComandaProjection findMyComanda(){
 		 // Obtém o contexto de segurança
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 
@@ -144,14 +144,14 @@ public class ComandaServiceImplements implements ComandaService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA));
-	        if(comandaCliente == null) {
+	        ComandaProjection comanda = findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO));
+	        if(comanda == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }
 	        // hipermidia para buscar os pedidos
-	        comandaCliente.add(linkTo(methodOn(PedidoController.class).getPedidosByCpf(cpfDoUsuarioAutenticado)).withRel("pedidos"));
-	    
-	        return comandaCliente; // retorna comanda o cliente logado
+	       // comandaCliente.add(linkTo(methodOn(PedidoController.class).getPedidosByCpf(cpfDoUsuarioAutenticado)).withRel("pedidos"));
+	        
+	        return comanda; // retorna comanda o cliente logado
 
 	    }
 	    return null;

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comandadigital.dtos.AlterarMesaDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.AuthService;
@@ -28,7 +30,11 @@ public class ClienteController {
 		return ResponseEntity.ok().body("Cadastro efetuado, faça o login para acessar nossos serviços");
 	}
 	
-	
+	@PutMapping("/mesa/alterar")
+	public ResponseEntity alterarMesa(@RequestBody @Valid AlterarMesaDTO dto) throws Exception {
+		clienteService.alterarMesa( dto.novaMesa(), dto.mesaAtual(), dto.cpf());
+		return ResponseEntity.ok().body("Mesa alterado com sucesso");
+	}
 	
 
 	

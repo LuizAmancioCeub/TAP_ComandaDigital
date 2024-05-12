@@ -39,7 +39,6 @@ export class CardsComponent implements OnInit {
   }
 
   verificarUsuario():void{
-    console.log(this.perfil)
       if (this.perfil == 1) {
         this.isCliente = true; 
 

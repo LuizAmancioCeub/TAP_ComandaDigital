@@ -208,7 +208,7 @@ export class FormLoginComponent implements OnInit {
 
   dataMesas:MesaData[] = [];
   getMesas():void{
-    this.axiosService.request("GET", "/mesas", "").then(
+    this.axiosService.request("GET", "/mesasDisponiveis", "").then(
       (response) => {
       this.dataMesas = response.data;
       }

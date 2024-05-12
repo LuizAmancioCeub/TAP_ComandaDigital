@@ -14,13 +14,18 @@ import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.CozinhaModel;
 import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.GerenteModel;
+import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.projection.ClienteProjection;
+import com.comandadigital.models.projection.Garcomprojection;
+import com.comandadigital.models.projection.MesaProjection;
 import com.comandadigital.models.projection.UserProjection;
 import com.comandadigital.repositories.CaixaRepository;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.CozinhaRepository;
 import com.comandadigital.repositories.GarcomRepository;
 import com.comandadigital.repositories.GerenteRepository;
+import com.comandadigital.services.MesaService;
+import com.comandadigital.services.MesaServiceImplements;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -79,7 +84,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setNome(cliente.getNome());
 	        	user.setTelefone(cliente.getTelefone());
 	        	user.setPerfil(cliente.getPerfil());
-	        	user.setMesa(cliente.getMesa());
+	        	user.setMesa(converterMesa(cliente.getMesa()));
 	            return user;
 	        }
 	        
@@ -127,6 +132,15 @@ public class AuthService implements UserDetailsService {
 	    }
 	    
 	    return null;
+	}
+	
+	private MesaProjection converterMesa(MesaModel mesa){
+		MesaProjection mesa0 = new MesaProjection();
+		mesa0.setNumero(mesa.getId());
+		mesa0.setQr_code(mesa.getQr_code());
+		mesa0.setStatus(mesa.getStatus());
+		mesa0.setGarcom(mesa.getGarcom().getNome());
+		return mesa0;
 	}
 
 }

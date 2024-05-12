@@ -22,6 +22,8 @@ import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.StatusModel;
 import com.comandadigital.models.projection.ClienteProjection;
+import com.comandadigital.models.projection.Garcomprojection;
+import com.comandadigital.models.projection.MesaProjection;
 import com.comandadigital.repositories.GarcomRepository;
 import com.comandadigital.repositories.MesaRepository;
 import com.comandadigital.repositories.StatusRepository;
@@ -217,4 +219,10 @@ public class MesaServiceImplements implements MesaService {
 		
 		return garcom;
 	}
+	
+	public List<MesaModel> findByStatus(List<Integer> status){
+		List<MesaModel> mesas = mesaRepository.findByStatus(status);
+		return mesas;
+	}
+	
 }

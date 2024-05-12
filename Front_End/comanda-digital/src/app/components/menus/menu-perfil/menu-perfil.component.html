@@ -2,9 +2,9 @@
 <div class="dropdown">
     <button class="dropbtn"><i style="font-size:22px" class="bi bi-person"></i></button>
     <div class="dropdown-content">
-      <span  style="font-size:15px; width: 100%;padding: 0;" class="btn btn-secondary">{{nome}}</span>
+      <span style="font-size:15px; width: 100%;padding: 0;" class="btn btn-secondary">{{nome}}</span>
       <ng-container *ngIf="perfil == 1">
-        <span style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{mesa}}</span>
+        <span (click)="openVerticallyCentered(minhaMesa)" style="text-align: center;width: 100%;padding: 0;" class="btn">Mesa {{mesa}}</span>
         <a>Ver Comanda</a>
       </ng-container>
       <ng-container *ngIf="perfil == 3">
@@ -20,9 +20,19 @@
       </ng-container>
       <hr style="margin: .2rem;">
       
-      <a>Meus Dados</a>
+      <a *ngIf="perfil == 1" (click)="openVerticallyCentered(meusDados)">Meus Dados</a>
+      <a *ngIf="perfil != 1">Meus Dados</a>
     
       <button [routerLink]="['/']" style="margin:1px;margin-top:10px;border-radius:40px; width: 100%;" class="btn btn-danger btn-sm btn-block" name="sair">Sair</button>
 
     </div>
 </div>
+
+
+<ng-template #meusDados let-modal>
+  <app-meus-dados></app-meus-dados>
+</ng-template>
+
+<ng-template #minhaMesa let-modal>
+  <app-minha-mesa></app-minha-mesa>
+</ng-template>

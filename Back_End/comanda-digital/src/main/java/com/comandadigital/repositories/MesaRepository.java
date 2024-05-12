@@ -15,4 +15,7 @@ public interface MesaRepository extends JpaRepository<MesaModel, Integer> {
 	
 	@Query("SELECT cliente FROM ClienteModel cliente WHERE cliente.mesa.id = :mesaId")
 	List<ClienteModel> findClienteByMesa(@Param("mesaId") Integer mesaId);
+	
+	@Query("SELECT mesa FROM MesaModel mesa WHERE mesa.status.id in :status ORDER BY mesa.id")
+	List<MesaModel> findByStatus(@Param("status") List<Integer> status);
 }

@@ -1,0 +1,49 @@
+
+<div class="modal-header">
+    <h2>Meus dados</h2>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+<div class="modal-body">
+    <ng-container *ngIf="mostrarErro">
+        <div style="padding-left: .5rem;" class="alert alert-{{alert}}">
+            <div style="text-align: right;margin-top: -15px;margin-right: -5px;">
+                <i style="font-size: 25px;padding: 0; cursor: pointer;" aria-label="Close" (click)="fecharMsg()" class="bi bi-x"></i>
+            </div>
+            <div style="margin-top: -20px;margin-right: 1.5rem;text-align: center;">
+                <i class="{{icon}}"></i> {{erro}}
+            </div>
+        </div>
+    </ng-container>
+    <div *ngIf="!mesaService.camera && !mesaService.alterarMesa" class="dados">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <label for="nome">Nome</label>
+                <input class="form-control" name="nome" id="nome" type="text" [(ngModel)]="nome">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-6">
+                <label for="nome">CPF</label>
+                <input class="form-control" name="cpf" id="cpf" type="text" [(ngModel)]="cpf" mask="000.000.000-00">
+            </div>
+            <div class="col-6 col-md-6">
+                <label for="nome">Telefone</label>
+                <input class="form-control" name="telefone" id="telefone" type="text" [(ngModel)]="telefone" mask="(00) 0 0000-0000">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <label for="nome">Email</label>
+                <input class="form-control" name="nome" id="nome" type="email" value="luizfelipeamancio@gmail.com">
+            </div>
+        </div>
+        <div class="row">
+            <div style="display: flex;justify-content: center;margin-top: .5rem;" class="col-12 col-md-12">
+               <button class="btn btn-info">Alterar</button>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <app-minha-mesa></app-minha-mesa>
+    <hr>
+</div>
