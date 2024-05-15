@@ -29,8 +29,16 @@ export class MeusDadosComponent implements OnInit {
   icon:string = "";
 
   ngOnInit(): void {
-    this.userData = this.userService.getUserData();
-    this.recuperarUser();
+    this.initUserData();
+  }
+
+  async initUserData(): Promise<void> {
+    this.userData = await this.userService.getUserData();
+    if (this.userData !== null) {
+      this.recuperarUser();
+    } else {
+      console.error("Erro ao recuperar dados do usuário");
+    }
   }
   close() {
     this.modalService.dismissAll();

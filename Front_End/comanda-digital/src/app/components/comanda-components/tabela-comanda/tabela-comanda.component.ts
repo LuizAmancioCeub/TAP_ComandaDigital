@@ -1,9 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComandaData } from 'src/app/Models/ComandaData';
+import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { PedidosData } from 'src/app/Models/PedidosData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { ComandaService } from 'src/app/services/comanda.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tabela-comanda',
@@ -11,7 +13,7 @@ import { ComandaService } from 'src/app/services/comanda.service';
   styleUrls: ['./tabela-comanda.component.css']
 })
 export class TabelaComandaComponent implements OnInit {
-  constructor(private comandaService:ComandaService, private modalService:NgbModal){
+  constructor(private comandaService:ComandaService, private modalService:NgbModal, private userService:UserService){
     this.dataF = {
       id: 0,
       valorTotal: 0,
@@ -34,9 +36,26 @@ export class TabelaComandaComponent implements OnInit {
 
   load:boolean = true;
 
+  userData:CredencialsData|null = null;
   ngOnInit(): void {
+    this.initUserData();
     this.getPedidosEntregues();
     this.getComanda();
+  }
+
+  async initUserData(): Promise<void> {
+    this.userData = await this.userService.getUserData();
+    if (this.userData !== null) {
+      this.recuperarUser();
+    } else {
+      console.error("Erro ao recuperar dados do usuário");
+    }
+  }
+perfil:number = 0;
+  recuperarUser(){
+    if(this.userData != null){
+     this.perfil = this.userData.perfil.id;
+    }
   }
 
   getPedidosEntregues(){

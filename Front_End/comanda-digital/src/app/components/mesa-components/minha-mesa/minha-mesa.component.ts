@@ -27,10 +27,19 @@ export class MinhaMesaComponent {
   icon:string = "";
 
   ngOnInit(): void {
-    this.userData = this.userService.getUserData();
-    this.recuperarUser();
+    this.initUserData();
   }
+  async initUserData(): Promise<void> {
+    this.userData = await this.userService.getUserData();
+    if (this.userData !== null) {
+      this.recuperarUser();
+    } else {
+      console.error("Erro ao recuperar dados do usuário");
+    }
+  }
+
   close() {
+    this.closeCamera();
     this.modalService.dismissAll();
     this.mostrarErro = false;
     this.mesaService.camera = false;
@@ -51,6 +60,11 @@ export class MinhaMesaComponent {
   openCamera(): void {
     this.mesaService.camera = true;
     this.cameraLigada = true;
+    const constraints: MediaStreamConstraints = {
+      video: {
+        facingMode: "environment" // Use "user" para a câmera frontal
+      }
+    };
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
         this.videoElement.nativeElement.srcObject = stream;
@@ -102,7 +116,7 @@ export class MinhaMesaComponent {
           this.closeCamera();
           this.cameraLigada = false;
           this.verificarNovaMesa(qrCodeContent)
-        } 
+        }
       }
   
       // Continua verificando enquanto a câmera estiver ligada

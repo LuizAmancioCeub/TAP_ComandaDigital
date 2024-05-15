@@ -12,7 +12,7 @@
     margin-left: 85%;
     position: relative;
     display: inline-block;
-    z-index: 1100;
+   
 }
 
 .dropdown-content {
@@ -24,7 +24,7 @@
     min-width: 180px;
     
     box-shadow: 0px 8px 16px 0px rgb(119,0,200,0.3);
-    z-index: 1;
+    z-index: 1100;
     border-radius: 20px 0px 20px 20px;
 }
 
@@ -33,6 +33,7 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    cursor: pointer;
 }
 
 .dropdown-content a:hover {background-color: #f1f1f1}

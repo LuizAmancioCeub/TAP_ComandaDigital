@@ -53,7 +53,7 @@ export class TabelaPreparoComponent implements OnInit, OnDestroy {
   private modalService = inject(NgbModal);
   
   openVerticallyCentered(content: TemplateRef<any>) {
-		this.modalService.open(content, { centered: true });
+		this.modalService.open(content, { centered: true,windowClass:'custom' });
 	}
 
   processarHorarios(): void {
