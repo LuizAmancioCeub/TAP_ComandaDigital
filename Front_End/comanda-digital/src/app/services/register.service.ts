@@ -29,7 +29,7 @@ export class RegisterService {
   }
 */
 
-   register(cpf:string, nome:string,telefone:string, senha:string):Promise<any>{
+   register(cpf:string, nome:string,telefone:string, email:string, senha:string):Promise<any>{
    // const encryptedPassword = this.encryptPassword(senha);
     return this.axiosService.request(
        "POST",
@@ -38,12 +38,13 @@ export class RegisterService {
          cpf: cpf,
          nome: nome,
          telefone: telefone,
+         email: email,
          senha: senha
        }
      );
    }
 
-   conferirCampos(cpf: string, nome: string, telefone: string, senha: string, senhaB: string): string {
+   conferirCampos(cpf: string, nome: string, telefone: string,email:string, senha: string, senhaB: string): string|null {
     if (cpf === "" || nome === "" || telefone === "" || senha === "" || senhaB === "") {
       return "campos";
     } else if (!this.validarNome(nome)) {
@@ -52,12 +53,14 @@ export class RegisterService {
       return "cpf";
     }else if (!this.validarTelefone(telefone)) {
       return "telefone";
+    }else if (!this.validarEmail(email)) {
+      return "email";
     }else if (senha.length < 6 || senha.length > 12) {
       return "TamanhoSenha"; 
     }else if (senha !== senhaB) {
       return "senha"; 
     } else {
-      return "ok";
+      return null;
     }
   }
 
@@ -82,5 +85,10 @@ export class RegisterService {
   validarNome(nome: string): boolean {
     const nameRegex = /^[a-zA-ZÀ-ÿ\s]*$/;
     return nameRegex.test(nome);
+  }
+
+  validarEmail(email:string): boolean{
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   }
 }

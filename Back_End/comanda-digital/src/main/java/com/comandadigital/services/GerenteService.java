@@ -73,7 +73,7 @@ public class GerenteService {
 			String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha());
 			PerfilModel perfilGerente = perfilRepository.findById(PerfilModel.GERENTE).orElseThrow(() -> new NegocioException("Perfil não encontrado"));
 			
-			GerenteModel newGerente = new GerenteModel(dto.nome(), dto.telefone(),matricula, dto.cpf(), encryptedPassword, perfilGerente);
+			GerenteModel newGerente = new GerenteModel(dto.nome(), dto.telefone(),dto.email(),matricula, dto.cpf(), encryptedPassword, perfilGerente);
 			
 			return this.gerenteRepository.save(newGerente);
 		}catch (NegocioException e) {
@@ -120,6 +120,7 @@ public class GerenteService {
 						f.setNome(g.getNome());
 						f.setCpf(g.getCpf());
 						f.setTelefone(g.getTelefone());
+						f.setEmail(g.getEmail());
 						f.setMatricula(g.getLogin());
 						f.setPerfil(g.getPerfil());
 						funcs.add(f);
@@ -134,6 +135,7 @@ public class GerenteService {
 						f.setNome(g.getNome());
 						f.setCpf(g.getCpf());
 						f.setTelefone(g.getTelefone());
+						f.setEmail(g.getEmail());
 						f.setMatricula(g.getLogin());
 						f.setPerfil(g.getPerfil());
 						funcs.add(f);
@@ -149,6 +151,7 @@ public class GerenteService {
 						f.setPerfil(c.getPerfil());
 						f.setCpf("");
 						f.setTelefone("");
+						f.setEmail("");
 						f.setMatricula("");
 						funcs.add(f);
 					}
@@ -163,6 +166,7 @@ public class GerenteService {
 						f.setPerfil(c.getPerfil());
 						f.setCpf("");
 						f.setTelefone("");
+						f.setEmail("");
 						f.setMatricula("");
 						funcs.add(f);
 					}

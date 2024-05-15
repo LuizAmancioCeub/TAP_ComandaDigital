@@ -16,4 +16,5 @@ public class Garcomprojection {
 	private String cpf;
 	private String nome;
 	private String telefone;
+	private String email;
 }

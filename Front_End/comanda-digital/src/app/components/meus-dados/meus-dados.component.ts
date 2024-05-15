@@ -20,6 +20,7 @@ export class MeusDadosComponent implements OnInit {
   cpf:string = ''
   nome:string = ''
   telefone:string=''
+  email:string= ''
   mesaNum:number=0
   mesaGarcom:string=''
 
@@ -51,6 +52,7 @@ export class MeusDadosComponent implements OnInit {
       this.cpf = this.userData.cpf
       this.nome = this.userData.nome
       this.telefone = this.userData.telefone
+      this.email = this.userData.email
       this.mesaNum = this.userData.mesa.numero
       this.mesaGarcom = this.userData.mesa.garcom
     }

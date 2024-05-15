@@ -83,6 +83,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setCpf(cliente.getLogin());
 	        	user.setNome(cliente.getNome());
 	        	user.setTelefone(cliente.getTelefone());
+	        	user.setEmail(cliente.getEmail());
 	        	user.setPerfil(cliente.getPerfil());
 	        	user.setMesa(converterMesa(cliente.getMesa()));
 	            return user;
@@ -95,6 +96,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setCpf(gerente.getCpf());
 	        	user.setNome(gerente.getNome());
 	        	user.setTelefone(gerente.getTelefone());
+	        	user.setEmail(gerente.getEmail());
 	        	user.setPerfil(gerente.getPerfil());
 	            return user;
 	        }
@@ -105,6 +107,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setCpf("");
 	        	user.setNome(cozinha.getLogin());
 	        	user.setTelefone("");
+	        	user.setEmail("");
 	        	user.setPerfil(cozinha.getPerfil());
 	            return user;
 	        }
@@ -116,6 +119,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setCpf(garcom.getCpf());
 	        	user.setNome(garcom.getNome());
 	        	user.setTelefone(garcom.getTelefone());
+	        	user.setEmail(garcom.getEmail());
 	        	user.setPerfil(garcom.getPerfil());
 	            return user;
 	        }
@@ -126,6 +130,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setCpf("");
 	        	user.setNome(caixa.getLogin());
 	        	user.setTelefone("");
+	        	user.setEmail("");
 	        	user.setPerfil(caixa.getPerfil());
 	            return user;
 	        }

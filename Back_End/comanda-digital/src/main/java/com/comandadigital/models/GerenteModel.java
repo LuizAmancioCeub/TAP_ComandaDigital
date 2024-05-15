@@ -56,13 +56,17 @@ private static final long serialVersionUID = -3130915992537078226L;
 	@Column(name = "TELEFONE", nullable = false, unique = true)
 	private String telefone;
 	
+	@Column(name = "EMAIL", nullable = false, unique = true)
+	private String email;
+	
 	@ManyToOne
 	@JoinColumn(name = "NU_PERFIL", nullable = false)
 	private PerfilModel perfil;
 	
-	public GerenteModel(String nome, String telefone,String login, String cpf, String senha, PerfilModel perfil) {
+	public GerenteModel(String nome, String telefone,String email,String login, String cpf, String senha, PerfilModel perfil) {
 		this.nome = nome;
 		this.telefone = telefone;
+		this.email = email;
 		this.login = login;
 		this.cpf = cpf;
 		this.senha = senha;

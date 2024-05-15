@@ -6,6 +6,7 @@ import com.comandadigital.dtos.myValidations.DigitsOnly;
 import com.comandadigital.models.PerfilModel;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record ClienteRegisterDTO(@NotBlank(message = "cpf precisa ser preenchido") 
@@ -21,6 +22,9 @@ public record ClienteRegisterDTO(@NotBlank(message = "cpf precisa ser preenchido
 								 @NotBlank(message = "Número de telefone precisa ser preenchido")
 								 @DigitsOnly(message = "Número de telefone deve conter apenas números")
 								 @Length(min = 11, max = 11, message = "Número de telefone inválido") String telefone, 
+								 
+								 @NotBlank(message = "Email precisa ser preenchido")
+								 @Email(message = "Email inválido") String email, 
 								 
 								 @Valid PerfilModel perfil
 							   ) {

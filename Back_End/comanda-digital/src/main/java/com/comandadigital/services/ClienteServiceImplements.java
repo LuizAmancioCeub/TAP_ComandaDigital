@@ -115,7 +115,7 @@ public class ClienteServiceImplements implements ClienteService {
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
 		PerfilModel perfilCliente = perfilRepository.findById(1).orElseThrow(() -> new NegocioException("Perfil não encontrado para cadastrar cliente")); // passando perfil
 		
-		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),perfilCliente);
+		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),dto.email(),perfilCliente);
 		
 		return this.repository.save(newCliente);
 		

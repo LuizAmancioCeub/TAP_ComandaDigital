@@ -66,7 +66,7 @@ public class GarcomService {
 			String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha());
 			PerfilModel perfilGarcom = perfilRepository.findById(PerfilModel.GARCOM).orElseThrow(() -> new NegocioException("Perfil não encontrado"));
 			
-			GarcomModel newGarcom = new GarcomModel(dto.nome(), dto.telefone(),matricula, dto.cpf(), encryptedPassword, perfilGarcom);
+			GarcomModel newGarcom = new GarcomModel(dto.nome(), dto.telefone(),dto.email(),matricula, dto.cpf(), encryptedPassword, perfilGarcom);
 			
 			return this.garcomRepository.save(newGarcom);
 		}catch (NegocioException e) {
@@ -103,6 +103,7 @@ public class GarcomService {
 				gar.setCpf(g.getCpf());
 				gar.setNome(g.getNome());
 				gar.setTelefone(g.getTelefone());
+				gar.setEmail(g.getEmail());
 				garcom.add(gar);
 			}
 			return garcom;

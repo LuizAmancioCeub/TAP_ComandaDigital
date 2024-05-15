@@ -54,6 +54,9 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	@Column(name = "TELEFONE", nullable = false, unique = true)
 	private String telefone;
 	
+	@Column(name = "EMAIL", nullable = false, unique = true)
+	private String email;
+	
 	@ManyToOne
 	@JoinColumn(name = "NU_PERFIL", nullable = false)
 	private PerfilModel perfil;
@@ -64,12 +67,13 @@ public class ClienteModel extends RepresentationModel<GarcomModel> implements Se
 	
 	
 	
-	public ClienteModel(String login, String nome,String senha,String telefone, PerfilModel perfil) {
+	public ClienteModel(String login, String nome,String senha,String telefone,String email, PerfilModel perfil) {
 		this.login = login;
 		this.senha = senha;
 		this.perfil = perfil;
 		this.nome = nome;
 		this.telefone = telefone;
+		this.email = email;
 	}
 	public ClienteModel(String login, String nome,String telefone) {
 		this.login = login;

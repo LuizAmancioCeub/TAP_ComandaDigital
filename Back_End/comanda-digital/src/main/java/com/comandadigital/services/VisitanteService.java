@@ -36,7 +36,7 @@ public class VisitanteService {
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
 		PerfilModel perfilCliente = perfilRepository.findById(PerfilModel.VISITANTE).orElseThrow(() -> new RuntimeException("Perfil não encontrado")); // passando perfil
 		
-		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),perfilCliente);
+		ClienteModel newCliente = new ClienteModel(dto.cpf(),dto.nome(),encryptedPassword, dto.telefone(),dto.email(),perfilCliente);
 		
 		return this.clienteRepository.save(newCliente);
 		
@@ -52,7 +52,7 @@ public class VisitanteService {
 				String encryptedPassword = new BCryptPasswordEncoder().encode("visitante"); // criptografando senha
 				PerfilModel perfilVisitante = perfilRepository.findById(PerfilModel.VISITANTE).orElseThrow(() -> new NegocioException("Perfil não encontrado para cadastrar visitante")); // passando perfil
 				
-				ClienteModel newVisitante = new ClienteModel("visitante12","visitante",encryptedPassword, "visitante12",perfilVisitante);
+				ClienteModel newVisitante = new ClienteModel("visitante12","visitante",encryptedPassword, "visitante12", "visitante@email.com",perfilVisitante);
 				this.clienteRepository.save(newVisitante);
 				ClienteLoginDTO visitanteDTO = new ClienteLoginDTO(newVisitante.getLogin(), newVisitante.getSenha(), newVisitante.getMesa());
 				var visitante = clienteService.login(visitanteDTO);

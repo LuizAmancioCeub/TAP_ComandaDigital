@@ -17,6 +17,7 @@ public class UserProjection {
 	private String nome;
 	private String cpf;
 	private String telefone;
+	private String email;
 	private PerfilModel perfil;
 	private MesaProjection mesa;
 	

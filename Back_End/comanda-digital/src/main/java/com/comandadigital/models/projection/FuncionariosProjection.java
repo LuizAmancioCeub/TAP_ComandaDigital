@@ -15,6 +15,7 @@ public class FuncionariosProjection {
 	private String nome;
 	private String cpf;
 	private String telefone;
+	private String email;
 	private PerfilModel perfil;
 	private String matricula;
 	private String senha;
@@ -24,11 +25,12 @@ public class FuncionariosProjection {
 		this.perfil = perfil;
 	}
 
-	public FuncionariosProjection(String nome, String cpf, String telefone, PerfilModel perfil, String matricula) {
+	public FuncionariosProjection(String nome, String cpf, String telefone,String email, PerfilModel perfil, String matricula) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
+		this.email = email;
 		this.perfil = perfil;
 		this.matricula = matricula;
 	}

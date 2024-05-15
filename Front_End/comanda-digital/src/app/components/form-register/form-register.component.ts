@@ -16,6 +16,7 @@ export class FormRegisterComponent {
   nome:string = "";
   cpf:string = "";
   telefone:string = "";
+  email:string = "";
   senha:string = "";
   senhaB:string = "";
   
@@ -28,13 +29,13 @@ export class FormRegisterComponent {
   
   onSubmitRegister(){
     // Verificar se as senhas são iguais
-    const campos = this.registerService.conferirCampos(this.cpf, this.nome, this.telefone, this.senha, this.senhaB)
-    if (campos !== "ok") {
+    const campos = this.registerService.conferirCampos(this.cpf, this.nome, this.telefone, this.email, this.senha, this.senhaB)
+    if (campos !== null) {
      this.mostrarMsg(campos,"")
     } 
     else {
       this.mostrarErro = false; // Limpar mensagem de erro se já estiver sendo exibida
-      this.registerUser(this.cpf, this.nome, this.telefone, this.senha);
+      this.registerUser(this.cpf, this.nome, this.telefone, this.email, this.senha);
     }
   }
 
@@ -61,13 +62,14 @@ export class FormRegisterComponent {
     }
   }
 
-  registerUser(cpf:string, nome:string,telefone:string, senha:string):void{
-    this.registerService.register(cpf, nome, telefone, senha)
+  registerUser(cpf:string, nome:string,telefone:string,email:string, senha:string):void{
+    this.registerService.register(cpf, nome, telefone,email, senha)
     .then((response) => {
       this.mostrarMsg("cadastrado","");
       this.cpf = ""
       this.nome = ""
       this.telefone = ""
+      this.email = "";
       this.senha = ""
       this.senhaB = ""
       setTimeout(() => {
@@ -121,6 +123,9 @@ export class FormRegisterComponent {
           break;
       case "telefone":
           this.erro = "Telefone inválido";
+          break;
+      case "email":
+          this.erro = "Email inválido";
           break;
       case "TamanhoSenha":
           this.erro = "Senha deve ter entre 6 à 12 caracteres";
