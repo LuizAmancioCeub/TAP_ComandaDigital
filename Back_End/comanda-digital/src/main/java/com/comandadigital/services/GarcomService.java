@@ -56,7 +56,7 @@ public class GarcomService {
 	@Transactional
 	public GarcomModel register(@Valid GarcomRegisterDTO dto) throws Exception {
 		try {
-			if(garcomRepository.findByCpf(dto.cpf()) != null) {
+			if(garcomRepository.findByCpf(dto.cpf()) != null || garcomRepository.findByEmail(dto.email()) != null ) {
 				throw new NegocioException("Já existe Garçom cadastrado com essas credenciais");
 			}
 			if(dto.perfil().getId() != PerfilModel.GARCOM) {

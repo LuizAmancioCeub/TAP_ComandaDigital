@@ -63,7 +63,7 @@ public class GerenteService {
 	@Transactional
 	public GerenteModel register(@RequestBody @Valid GerenteRegisterDTO dto) throws Exception {
 		try {
-			if(gerenteRepository.findByCpf(dto.cpf()) != null) {
+			if(gerenteRepository.findByCpf(dto.cpf()) != null || gerenteRepository.findByEmail(dto.email()) != null) {
 				throw new NegocioException("Já existe Gerente cadastrado com essas credenciais");
 			}
 			if(dto.perfil().getId() != PerfilModel.GERENTE) {

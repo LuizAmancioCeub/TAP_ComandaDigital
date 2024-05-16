@@ -14,6 +14,8 @@ public interface GarcomRepository extends JpaRepository<GarcomModel, Integer> {
 			
 			UserDetails findByCpf(String cpf);
 			
+			UserDetails findByEmail(String email);
+			
 			UserDetails findBySenha(String senha);
 			
 			@Query("SELECT MAX(CAST(SUBSTRING(g.login, 3) AS INTEGER)) FROM GarcomModel g")

@@ -17,5 +17,7 @@ public interface ClienteRepository extends JpaRepository<ClienteModel, UUID> {
 	//consultar telefone
 	UserDetails findByTelefone(String telefone);
 	
+	UserDetails findByEmail(String email);
+	
 	UserDetails findBySenha(String senha);
 }

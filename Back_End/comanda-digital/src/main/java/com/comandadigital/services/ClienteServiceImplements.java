@@ -109,8 +109,8 @@ public class ClienteServiceImplements implements ClienteService {
 	@Transactional
 	public ClienteModel register(@RequestBody @Valid ClienteRegisterDTO dto) {
 		validarCampos(dto);
-		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null) {
-			throw new NegocioException("Já existe cadastro com o CPF ou Telefone informados");
+		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null || repository.findByEmail(dto.email()) != null) {
+			throw new NegocioException("Já existe cadastro com as credenciais informadas");
 		}
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.senha()); // criptografando senha
 		PerfilModel perfilCliente = perfilRepository.findById(1).orElseThrow(() -> new NegocioException("Perfil não encontrado para cadastrar cliente")); // passando perfil
