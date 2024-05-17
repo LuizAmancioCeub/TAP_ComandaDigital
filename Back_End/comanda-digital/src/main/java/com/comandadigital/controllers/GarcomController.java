@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comandadigital.dtos.GarcomRegisterDTO;
+import com.comandadigital.dtos.GerenteUpdateDTO;
 import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.projection.Garcomprojection;
@@ -35,5 +37,11 @@ public class GarcomController {
 			public ResponseEntity<List<Garcomprojection>> getAllGarcons(){
 				List<Garcomprojection> garcons = garcomService.getAll();
 				return ResponseEntity.status(HttpStatus.OK).body(garcons);
+			}
+			
+			@PutMapping("/garcom")
+			public ResponseEntity alterarDados(@RequestBody @Valid GerenteUpdateDTO dto)throws Exception{
+				garcomService.alterarDados(dto);
+				return  ResponseEntity.ok().body("Seu perfil foi atualizado");
 			}
 }

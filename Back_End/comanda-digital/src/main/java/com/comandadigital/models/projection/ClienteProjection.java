@@ -14,4 +14,5 @@ public class ClienteProjection {
 	private String telefone;
 	private String email;
 	private String login;
+	private Integer perfil;
 }

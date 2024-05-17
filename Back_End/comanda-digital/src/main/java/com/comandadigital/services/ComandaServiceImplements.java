@@ -107,7 +107,8 @@ public class ComandaServiceImplements implements ComandaService {
 			throw new NegocioException("Número de cpf não encontrado");
 		}
 		ComandaModel comandaModel = comandaRepository.findComandaByCpf(cpf, statusId);
-		ClienteProjection cliente = new ClienteProjection(comandaModel.getCliente().getNome(), comandaModel.getCliente().getTelefone(),comandaModel.getCliente().getEmail(), comandaModel.getCliente().getLogin()); 
+		ClienteProjection cliente = new ClienteProjection(comandaModel.getCliente().getNome(), comandaModel.getCliente().getTelefone(),
+				comandaModel.getCliente().getEmail(), comandaModel.getCliente().getLogin(), comandaModel.getCliente().getPerfil().getId() ); 
 		int mesa = comandaModel.getCliente().getMesa().getId();
 		List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpf(cpf);
 		List<PedidosProjection> pedidos0 = new ArrayList<>();

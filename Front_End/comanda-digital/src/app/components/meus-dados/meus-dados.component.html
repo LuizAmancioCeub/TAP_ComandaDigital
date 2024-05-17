@@ -1,6 +1,7 @@
 
 <div class="modal-header">
-    <h2>Meus dados</h2>
+    <h2 *ngIf="perfil == 1">Meus dados</h2>
+    <h2 *ngIf="perfil != 1">Meus dados - {{descPerfil}}</h2>
     <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
 </div>
 <div class="modal-body">
@@ -22,28 +23,35 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6 col-md-6">
+            <div [ngClass]="{'col-6 col-md-6': perfil === 1, 'col-4 col-md-4': perfil !== 1}">
                 <label for="nome">CPF</label>
-                <input class="form-control" name="cpf" id="cpf" type="text" [(ngModel)]="cpf" mask="000.000.000-00">
+                <input class="form-control" name="cpf" id="cpf" type="text" readonly [(ngModel)]="cpfValidador" mask="000.000.000-00">
             </div>
-            <div class="col-6 col-md-6">
+            <div [ngClass]="{'col-6 col-md-6': perfil === 1, 'col-4 col-md-4': perfil !== 1}">
                 <label for="nome">Telefone</label>
                 <input class="form-control" name="telefone" id="telefone" type="text" [(ngModel)]="telefone" mask="(00) 0 0000-0000">
+            </div>
+            <div *ngIf="perfil !== 1" class="col-4 col-md-4">
+                <label for="nome">Matrícula</label>
+                <input class="form-control" name="matricula" id="matricula" type="text" [(ngModel)]="matriculaValidador" readonly>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-12">
                 <label for="nome">Email</label>
-                <input class="form-control" name="nome" id="nome" type="email" [(ngModel)]="email">
+                <input class="form-control" name="email" id="email" type="email" [(ngModel)]="email">
             </div>
         </div>
         <div class="row">
             <div style="display: flex;justify-content: center;margin-top: .5rem;" class="col-12 col-md-12">
-               <button class="btn btn-info">Alterar</button>
+               <button (click)="alterarDados()" class="btn btn-info">Alterar</button>
             </div>
         </div>
         <hr>
     </div>
-    <app-minha-mesa></app-minha-mesa>
-    <hr>
+    <div *ngIf="perfil == 1">
+        <app-minha-mesa></app-minha-mesa>
+        <hr>
+    </div>
+    
 </div>

@@ -29,6 +29,7 @@ export class ModalAddFuncionarioComponent implements OnInit {
   nome:string = ''
   cpf:string= ''
   telefone:string = '';
+  email:string = '';
   perfil:number = 0;
   senha:string = "";
   senhaB:string = "";
@@ -44,6 +45,7 @@ export class ModalAddFuncionarioComponent implements OnInit {
     this.cpf = '';
     this.perfil = 0;
     this.telefone = '';
+    this.email = '';
     this.senha = '';
     this.senhaB = '';
   }
@@ -61,6 +63,7 @@ export class ModalAddFuncionarioComponent implements OnInit {
           {
             nome:this.nome,
             telefone:this.telefone,
+            email:this.email,
             cpf:this.cpf,
             senha:this.senha,
             perfil:{
@@ -88,6 +91,7 @@ export class ModalAddFuncionarioComponent implements OnInit {
           {
             nome:this.nome,
             telefone:this.telefone,
+            email:this.email,
             cpf:this.cpf,
             senha:this.senha,
             perfil:{

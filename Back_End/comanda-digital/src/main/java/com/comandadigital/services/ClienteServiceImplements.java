@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comandadigital.dtos.ClienteLoginDTO;
 import com.comandadigital.dtos.ClienteRegisterDTO;
+import com.comandadigital.dtos.ClienteUpdateDTO;
 import com.comandadigital.dtos.ComandaRecordDTO;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.TokenService;
@@ -22,6 +23,7 @@ import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.MesaModel;
 import com.comandadigital.models.PerfilModel;
 import com.comandadigital.models.StatusModel;
+import com.comandadigital.models.projection.ClienteProjection;
 import com.comandadigital.repositories.ClienteRepository;
 import com.comandadigital.repositories.MesaRepository;
 import com.comandadigital.repositories.PerfilRepository;
@@ -108,7 +110,6 @@ public class ClienteServiceImplements implements ClienteService {
 	@Override
 	@Transactional
 	public ClienteModel register(@RequestBody @Valid ClienteRegisterDTO dto) {
-		validarCampos(dto);
 		if(repository.findByLogin(dto.cpf()) != null || repository.findByTelefone(dto.telefone()) != null || repository.findByEmail(dto.email()) != null) {
 			throw new NegocioException("Já existe cadastro com as credenciais informadas");
 		}
@@ -151,8 +152,49 @@ public class ClienteServiceImplements implements ClienteService {
 		setarMesaCliente(cpf, novaMesa);
 	}
 	
-	public void validarCampos(ClienteRegisterDTO dto) {
+	@Transactional
+	public ClienteProjection alterarDados(ClienteUpdateDTO dto) throws Exception {
+		try {
+			if(repository.findByLogin(dto.cpf()) == null) {
+				throw new NegocioException("Usuário não encontrado");
+			}
+			ClienteModel cliente = (ClienteModel) repository.findByLogin(dto.cpf());
+			validarTelefoneEmail(dto, cliente);
+			cliente.setNome(dto.nome());
+			repository.save(cliente);
+			return converterCliente(cliente);
+		}catch (NegocioException e) {
+			throw new NegocioException(e.getMessage());
+		}
+		catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
+	private ClienteProjection converterCliente(ClienteModel cm) {
+		ClienteProjection cp = new ClienteProjection();
+		cp.setLogin(cm.getLogin());
+		cp.setNome(cm.getNome());
+		cp.setTelefone(cm.getTelefone());
+		cp.setEmail(cm.getEmail());
+		cp.setPerfil(cm.getPerfil().getId());
+		return cp;
+	}
+	
+	private void validarTelefoneEmail(ClienteUpdateDTO dto, ClienteModel cliente) {
+		if(!dto.telefone().equals(cliente.getTelefone())) {
+			if(repository.findByTelefone(dto.telefone()) != null) {
+				throw new NegocioException("Já existe cadastro com esse número de celular");
+			}
+			cliente.setTelefone(dto.telefone());
+		}
 		
+		if(!dto.email().equals(cliente.getEmail())) {
+			if(repository.findByEmail(dto.email()) != null) {
+				throw new NegocioException("Já existe cadastro com o email informado");
+			}
+			cliente.setEmail(dto.email());
+		}
 	}
 
 }

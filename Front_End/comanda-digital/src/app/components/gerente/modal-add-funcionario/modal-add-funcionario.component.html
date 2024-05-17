@@ -41,8 +41,16 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <label for="email">Email</label>
+            <input [(ngModel)]="email" class="form-control" type="email" name="email" id="email" placeholder="Email do Funcionário">
+          </div>
+        </div>
+
         <div class='row'>
-            <div class="form-group col-12 col-md-12">
+            <div class="form-group col-6 col-md-6">
+              <label for="senha">Senha</label>
                 <div style="display: flex;">
                   <input [(ngModel)]="senha" type="password" name="senha" id="senha"  placeholder="Senha de primeiro acesso" class="form-control input__fieldR" minlength="6" maxlength="12">
                   <span class="input-group-text">
@@ -50,12 +58,11 @@
                 </span> 
                 </div>     
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-12 col-md-12"> 
-                    <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme a senha..." class="form-control" minlength="6" maxlength="12">
+            <div class="form-group col-6 col-md-6"> 
+              <label for="senhaB"></label>
+              <input  [(ngModel)]="senhaB" type="password" name="senhaB" id="senhaB" placeholder="Confirme a senha..." class="form-control" minlength="6" maxlength="12">
             </div>
-        </div>    
+        </div>
       </div>
 
       <div class="modal-footer">

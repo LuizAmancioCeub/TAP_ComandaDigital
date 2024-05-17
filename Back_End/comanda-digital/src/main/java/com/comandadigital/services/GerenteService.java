@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comandadigital.dtos.GerenteLoginDTO;
 import com.comandadigital.dtos.GerenteRegisterDTO;
+import com.comandadigital.dtos.GerenteUpdateDTO;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
 import com.comandadigital.infra.security.TokenService;
 import com.comandadigital.models.CaixaModel;
@@ -178,6 +179,57 @@ public class GerenteService {
 			throw new NegocioException(e.getMessage());
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
+		}
+	}
+	
+	@Transactional
+	public FuncionariosProjection alterarDados(GerenteUpdateDTO dto) throws Exception {
+		try {
+			if(gerenteRepository.findByLogin(dto.matricula()) == null) {
+				throw new NegocioException("Gerente não encontrado");
+			}
+			GerenteModel gerente = (GerenteModel) gerenteRepository.findByLogin(dto.matricula());
+			if(!gerente.getCpf().equals(dto.cpf())) {
+				throw new NegocioException("CPF informado não é correspondente ao usuário");
+			}
+			validarTelefoneEmail(dto, gerente);
+			gerente.setNome(dto.nome());;
+			gerenteRepository.save(gerente);
+			return converterGerente(gerente);
+		}catch (NegocioException e) {
+			throw new NegocioException(e.getMessage());
+		}
+		catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	} 
+	
+	private FuncionariosProjection converterGerente(GerenteModel cm) {
+		FuncionariosProjection cp = new FuncionariosProjection();
+		cp.setMatricula(cm.getLogin());
+		cp.setNome(cm.getNome());
+		cp.setTelefone(cm.getTelefone());
+		cp.setEmail(cm.getEmail());
+		PerfilModel perfilGerente = perfilRepository.findById(cm.getPerfil().getId()).orElseThrow(() -> new NegocioException("Perfil não encontrado"));
+		if(!perfilGerente.equals(PerfilModel.GERENTE)) {
+			throw new NegocioException("Perfil não corresponde com usuário");
+		}
+		return cp;
+	}
+	
+	private void validarTelefoneEmail(GerenteUpdateDTO dto, GerenteModel gerente) {
+		if(!dto.telefone().equals(gerente.getTelefone())) {
+			if(gerenteRepository.findByTelefone(dto.telefone()) != null) {
+				throw new NegocioException("Já existe cadastro com esse número de celular");
+			}
+			gerente.setTelefone(dto.telefone());
+		}
+		
+		if(!dto.email().equals(gerente.getEmail())) {
+			if(gerenteRepository.findByEmail(dto.email()) != null) {
+				throw new NegocioException("Já existe cadastro com o email informado");
+			}
+			gerente.setEmail(dto.email());
 		}
 	}
 }
