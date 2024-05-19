@@ -17,6 +17,7 @@ export type ComandaData = {
 }
 
 export type ComandaClienteData = {
+    id:number
     valorTotal:number
     status:string
     cliente:{
@@ -25,6 +26,7 @@ export type ComandaClienteData = {
         login:string
     }
     mesa:number
+    garcom:string
     pedidos:{
         idItem:number
         nomeItem:string

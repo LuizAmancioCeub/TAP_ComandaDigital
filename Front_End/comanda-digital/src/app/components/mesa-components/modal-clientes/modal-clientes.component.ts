@@ -14,6 +14,7 @@ export class ModalClientesComponent implements OnInit {
   
   constructor(private axiosService: AxiosService, private mesaService:MesaService, private modalService:NgbModal){
     this.dataComandaCliente = {
+      id:0,
       valorTotal:0,
       status:'',
       cliente:{
@@ -22,6 +23,7 @@ export class ModalClientesComponent implements OnInit {
           login:''
       },
       mesa:0,
+      garcom:'',
       pedidos:[{
           idItem:0,
           nomeItem:'',

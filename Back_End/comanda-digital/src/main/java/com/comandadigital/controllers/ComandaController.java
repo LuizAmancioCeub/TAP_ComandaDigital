@@ -56,6 +56,19 @@ public class ComandaController {
 		return ResponseEntity.status(HttpStatus.OK).body(comanda0);
 	}
 	
+	@GetMapping("consultarComanda/mesa/{mesa}")
+	public ResponseEntity<Object> getComandaByMesa(@PathVariable(value="mesa") Integer mesa) throws Exception{
+		List<ComandaProjection> comanda0 = comandaService.findComandaByMesa(mesa);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(comanda0);
+	}
+	
+	@GetMapping("consultarComanda/numero/{numero}")
+	public ResponseEntity<Object> getComandaByNumero(@PathVariable(value="numero") Integer numero){
+		ComandaProjection comanda0 = comandaService.findComandaByNumero(numero);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(comanda0);
+	}
 	
 	// deletar pelo id
 	@DeleteMapping("/comanda/{id}")

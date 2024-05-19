@@ -52,5 +52,27 @@ export class ComandaService {
     );
   }
 
+  getComandasByMesa(idMesa:number):Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/consultarComanda/mesa/${idMesa}`,
+      ""
+    );
+  }
+
+  getComandaByNumero(id:number):Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/consultarComanda/numero/${id}`,
+      ""
+    );
+  }
+  getComandaByCPF(cpf:string):Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/consultarComanda/${cpf}`,
+      ""
+    );
+  }
   
 }

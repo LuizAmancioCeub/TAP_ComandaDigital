@@ -126,18 +126,18 @@ export class FormLoginComponent implements OnInit {
        else if (perfil === 5) {
 
         this.loginService.setLoggedIn(true);
-        this.router.navigate(['/cozinha']); // Rota para cozinha
+        this.router.navigate(['/cozinha']); // 
 
       } 
        else if (perfil === 4) {
 
         this.loginService.setLoggedIn(true);
-        this.router.navigate(['/mesas']); // Rota para cozinha
+        this.router.navigate(['/mesas']); // 
        }
        else if (perfil === 6) {
 
         this.loginService.setLoggedIn(true);
-        this.router.navigate(['/mesas']); // Rota para cozinha
+        this.router.navigate(['/caixa']); // 
        }
        else {
         // Rota padrão para outros perfis ou tratamento de erro

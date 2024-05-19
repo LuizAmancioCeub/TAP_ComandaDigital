@@ -1,0 +1,75 @@
+<div class="comanda" style="padding: .5rem;background-color: rgb(236, 236, 236);">
+    <div class="corpo" style="border: 1px solid black;padding: .5rem;border-radius: 1rem;">
+        {{idComanda}}
+        <div class="header" style="margin: .5rem;">
+            <div class="row">
+                <div class="col-12 col-md-12" style="margin-left: 12%;">
+                    <label for="cliente">Cliente</label>
+                    <input  [value]="nomeCliente" style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem; width: 70%;" type="text" name="cliente" id="cliente" class="data form-control" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 col-md-4">
+                    <label for="data">Data</label>
+                    <input style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;" type="text" name="data" id="data" class="data form-control" readonly>
+                </div>
+
+                <div class="col-4 col-md-4">
+                    <label for="mesa">Mesa</label>
+                    <input  [value]="idMesa" type="text" name="mesa" id="mesa" class="data form-control" readonly>
+                </div>
+
+                <div class="col-4 col-md-4">
+                    <label for="mesa">Situação</label>
+                    <input  [value]="status" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;" type="text" name="mesa" id="mesa" class="data form-control" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="body" style="display: flex;justify-content: center;  max-height: 350px;overflow-y: auto;">
+            <table class="pedidos table table-bordered" style="width: 98%;">
+                <thead class="table-dark" style="color: azure;">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Qnt</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody class="table-light"  style="height: 280px">
+                    <tr *ngFor="let p of pedidos">
+                        <td>{{p.nomeItem}}</td>
+                        <td>{{p.quantidade}}</td>
+                        <td>{{p.valor | currency:'BRL':'symbol':'1.2-2'}} </td>
+                        <td>{{p.status.status}}</td>
+                    </tr>
+                    <tr *ngIf="pedidos.length < 1">
+                        <td colspan="4" >
+                            <div style="text-align: center;" class="alert alert-warning">Sem pedidos</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <div class="row">
+                <div class="col-6 col-md-6">
+                    <label for="garcom">Garçom</label>
+                    <input [value]="garcom" style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;" type="text" name="garcom" id="garcom" class="data form-control" readonly>
+                </div>
+
+                <div class="col-6 col-md-6">
+                    <label for="ValorT">Total <span style="margin-left: .2rem; cursor: pointer;" title="Apenas pedidos com Status 'Entregue' são contabilizados no Valor Total "><i class="bi bi-exclamation-circle-fill"></i></span></label>
+                    <input [value]="'R$ '+ valorTotal" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;" type="text" name="ValorT" id="ValorT" class="data form-control" readonly>
+                </div>
+            </div>
+
+            <div *ngIf="confirmarPagamento" class="row" style="display: flex; justify-content: center;">
+                <div class="col-6 col-md-6" style="display: flex; justify-content: center;">
+                    <button class="btn btn-success">Confirmar Pagamento</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

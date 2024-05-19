@@ -1,0 +1,30 @@
+.comanda .data{
+    background: transparent;border: 1px solid black; padding: .3rem;
+  }
+  
+  .pedidos thead tr td{
+    text-transform: uppercase;
+    padding-left: 1rem;padding-right: 1rem; padding-top: .5rem;padding-bottom: .5rem;
+  }
+  
+  .pedidos tbody tr td{
+    padding-left: 1rem;padding-right: 1rem; padding-top: .3rem;padding-bottom: .3rem;
+  }
+  
+  .table {
+    margin-top: .5rem;
+    border-collapse: collapse;
+    -webkit-border-radius: .6rem;
+       -moz-border-radius: .6rem;
+            border-radius: .6rem;
+            border:1px solid black;
+    overflow: hidden;
+  }
+  
+  .row{
+    padding-top: .5rem;
+  }
+  
+  .footer{
+    padding-bottom: 1rem;
+  }

@@ -10,6 +10,7 @@ import { GerenteComponent } from './pages/gerente/gerente.component';
 import { RoleGuard } from './services/RoleGuard';
 import { MesaComponent } from './components/mesa/mesa.component';
 import { ManterFuncionariosComponent } from './components/gerente/manter-funcionarios/manter-funcionarios.component';
+import { CaixaComponent } from './pages/caixa/caixa.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,12 @@ const routes: Routes = [
   {
     path:'mesas',
     component: MesaComponent,
-    canActivate: [RoleGuard], data: { allowedRoles: [3,4,6] }
+    canActivate: [RoleGuard], data: { allowedRoles: [3,4] }
+  },
+  {
+    path:'caixa',
+    component: CaixaComponent,
+    canActivate: [RoleGuard], data: { allowedRoles: [3,6] }
   }
 ];
 

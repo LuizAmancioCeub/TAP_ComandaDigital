@@ -47,6 +47,9 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ModalEditarMesaComponent } from './components/mesa-components/modal-editar-mesa/modal-editar-mesa.component';
 import { MeusDadosComponent } from './components/meus-dados/meus-dados.component';
 import { MinhaMesaComponent } from './components/mesa-components/minha-mesa/minha-mesa.component';
+import { CaixaComponent } from './pages/caixa/caixa.component';
+import { ConsultaComandasComponent } from './components/caixa/consulta-comandas/consulta-comandas.component';
+import { CardComandaComponent } from './components/caixa/card-comanda/card-comanda.component';
 
 
 
@@ -93,6 +96,9 @@ import { MinhaMesaComponent } from './components/mesa-components/minha-mesa/minh
     ModalEditarMesaComponent,
     MeusDadosComponent,
     MinhaMesaComponent,
+    CaixaComponent,
+    ConsultaComandasComponent,
+    CardComandaComponent,
   ],
   imports: [
     BrowserModule,

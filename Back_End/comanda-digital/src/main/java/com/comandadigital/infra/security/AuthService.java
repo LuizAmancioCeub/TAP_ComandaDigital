@@ -85,7 +85,7 @@ public class AuthService implements UserDetailsService {
 	        	user.setTelefone(cliente.getTelefone());
 	        	user.setEmail(cliente.getEmail());
 	        	user.setPerfil(cliente.getPerfil());
-	        	user.setMesa(converterMesa(cliente.getMesa()));
+	        	user.setMesa(cliente.getMesa() != null ? converterMesa(cliente.getMesa()) : null);
 	            return user;
 	        }
 	        

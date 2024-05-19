@@ -1,0 +1,91 @@
+<app-menu-perfil [perfil]="perfil" [nome]="nome"></app-menu-perfil>
+
+
+    <br>
+    <div style="margin-top: .2rem;" class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card card-mesas" style="background-color: transparent;">
+                    <div class="card-body" >
+                        <!--<div class="card-tittle" style="text-align: center;"><h2>Mesas</h2></div>-->
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
+                            
+                                <div class="card card-add">
+                                    <div class="card-body" style="text-align: center;">
+                                        <form #MesaForm="ngForm">
+                                            <div class="card-tittle">Pesqisar Comada por:</div>
+
+                                            <div class="row seletor" style="margin: .8rem;">
+                                                <div class="col-md-4">
+                                                    <button (click)="consultaBy(1)" [ngClass]="{'actived': consultaCPF}" class="button-30">CPF</button> 
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button (click)="consultaBy(2)"  [ngClass]="{'actived': consultaMesa}" class="button-30">Mesa</button>  
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button (click)="consultaBy(3)"  [ngClass]="{'actived': consultaNumero}" class="button-30">Número</button>
+                                                </div>
+                                            </div>
+                                         
+                                            <label>{{consulta}}</label>
+                                            <ng-container *ngIf="mostrarErro">
+                                               <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+                                            </ng-container>
+                                            <input [(ngModel)]="cpf" *ngIf="consultaCPF; else noMask" placeholder="000.000.000-00" [mask]="'000.000.000-00'" (keypress)="onKeyPress($event)" class="form-control" type="text" name="mesa" id="mesa">
+                                                <ng-template #noMask>
+                                                    <input [(ngModel)]="idMesa" *ngIf="consultaMesa" (keypress)="onKeyPress($event)" class="form-control" type="text" name="mesa" id="mesa">
+                                                    <input [(ngModel)]="numeroComanda" *ngIf="consultaNumero" (keypress)="onKeyPress($event)" class="form-control" type="text" name="mesa" id="mesa">
+                                                </ng-template>
+                                            <button (click)="pesquisar(tipoConsulta)" class="btn btn-primary" style="width: 60%;margin-top: 1rem;">Pesquisar</button>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="mesa">
+                            <ul class="lista">
+                                <li *ngFor="let mesa of mesaData">
+                                        <p style="text-align: center; font-size: 18px; font-weight: 600;">Mesa {{ mesa.id }} -  {{mesa.status.status}}</p>
+                                        <p>Garçom: {{ garcom[mesa.id] }}</p>
+                                        <p>QR: {{ mesa.qr_code }}</p>
+                                        <hr>
+                                        <div class="icons" style="display: flex; justify-content: end;">
+                                            <i title="Ver Clientes" (click)="visualizarClientes(mesa.id);openVerticallyCenteredLG(clientes, mesa.id)" data-toggle="modal" data-target="" *ngIf="mesa.status.id == 12 || mesa.status.id == 13" style="margin-right: .5rem;color: purple;" class="bi bi-person-lines-fill"></i>
+                                        </div>
+
+                                        <ng-template #clientes let-modal>
+                                            <app-modal-clientes [mesaId]="mesaId"></app-modal-clientes>
+                                        </ng-template>
+                                        <ng-template #editar let-modal>
+                                            <app-modal-editar-mesa [mesaId]="mesaId"></app-modal-editar-mesa>
+                                        </ng-template>
+                                </li>
+                        </ul>
+
+                        <div *ngIf="!mesaData || mesaData.length === 0">
+                            <p>Nenhuma mesa encontrada.</p>
+                        </div>
+                        </ng-container>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <app-card-comanda *ngFor="let c of comandaData"
+                [idComanda]="c.id"
+                [idMesa]="c.mesa"
+                [valorTotal]="c.valorTotal"
+                [status]="c.status"
+                [nomeCliente]="c.cliente.nome"
+                [cpfCliente]="c.cliente.login"
+                [pedidos]="c.pedidos"
+                [garcom]="c.garcom"
+            >
+            </app-card-comanda>
+        </div>
+        <br><br>
+    </div>

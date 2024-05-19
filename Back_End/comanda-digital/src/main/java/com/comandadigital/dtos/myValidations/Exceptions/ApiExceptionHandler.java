@@ -52,6 +52,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			return problemDetail;
 		}
 		
+		
+		@ExceptionHandler(Exception.class)
+		public ProblemDetail handleException(Exception e) {
+			ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+			problemDetail.setDetail(e.getMessage());
+			problemDetail.setType(URI.create("https://comanda-digital.com/erros/erro-inesperado"));
+			return problemDetail;
+		}
+		
 		@ExceptionHandler
 		public ProblemDetail handleDataIntegrityViolation(DataIntegrityViolationException e) {
 			ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
