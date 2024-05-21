@@ -24,9 +24,13 @@ export class CardComandaComponent implements OnInit {
   }
 
   confirmarPagamento:boolean = false;
+  fecharComanda:boolean = false;
   verificarStatus(){
     if(this.status === "Aguardando Pagamento"){
       this.confirmarPagamento = true;
+    }
+    if(this.status === "Aberta"){
+      this.fecharComanda = true;
     }
   }
 

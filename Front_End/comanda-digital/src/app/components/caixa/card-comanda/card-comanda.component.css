@@ -28,3 +28,7 @@
   .footer{
     padding-bottom: 1rem;
   }
+
+  .cancelado{
+    text-decoration: line-through;
+  }

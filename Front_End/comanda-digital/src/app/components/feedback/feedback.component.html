@@ -1,7 +1,7 @@
 <div class="modal-content" style=" border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">     
     <div class="modal-header">
         <input type="hidden" name="itemId" [(ngModel)]="itemId">
-        <h5 class="modal-title" id="gridModalLabel">Avalie este item</h5>
+        <h5 class="modal-title" id="gridModalLabel">Avalie {{item}}</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
     </div>
 
@@ -24,7 +24,10 @@
             <label for="comentario">Seu feedback:</label>
         </div>
         <div class="row" style="display: flex;justify-content: center;">
-            <textarea [(ngModel)]="feedback" style="background: transparent; width: 95%;" class="form-control" name="comentario" rows="3" placeholder="Caso queira deixe seu feedback"></textarea>
+            <textarea *ngIf="!mostrarErro" [(ngModel)]="feedback" style="background: transparent; width: 95%;" class="form-control" name="comentario" rows="3" placeholder="Caso queira deixe seu feedback"></textarea>
+            <div *ngIf="mostrarErro" class="alert alert-warning">
+                {{error}}
+            </div>
         </div>
         <div class="row" style="display: flex;justify-content: center;margin-top: .5rem;">
             <button (click)="submitRating()" style="width: 50%;" class="btn btn-success">Enviar</button>

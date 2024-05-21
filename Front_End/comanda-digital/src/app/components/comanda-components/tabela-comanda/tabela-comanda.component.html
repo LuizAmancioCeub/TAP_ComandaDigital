@@ -71,7 +71,8 @@
                 <app-feedback
                     imagem="{{pedidos.item.imagem}}"
                     item="{{pedidos.item.nome}}"
-                    itemId="{{pedidos.item.id}}"
+                    [itemId]="pedidos.item.id"
+                    [cpf]="pedidos.comanda.cliente.login"
                 ></app-feedback>
             </ng-template>
         </table>
@@ -82,12 +83,12 @@
     <table class="pagamento">
         <thead>
             <tr>
-                <th>Valor Total </th>
+                <th>Valor Total <span style="margin-left: .2rem; cursor: pointer;" title="Apenas pedidos com Status 'Entregue' são contabilizados no Valor Total "><i class="bi bi-exclamation-circle-fill"></i></span></th>
             </tr>
         </thead>
         <tbody> 
             <tr id="pagamento">
-                <td data-title = "Valor Total">R$ {{dataF.valorTotal}} </td>
+                <td data-title = "Valor Total">R$ {{dataF.valorTotal}} <span style="margin-left: .2rem; cursor: pointer;" title="Apenas pedidos com Status 'Entregue' são contabilizados no Valor Total "><i class="bi bi-exclamation-circle-fill"></i></span></td>
                 <td>
                     <button class="btn btn-warning" style="color: #000;">Pagamento</button>
                 </td>
