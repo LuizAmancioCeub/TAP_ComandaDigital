@@ -11,11 +11,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "TB13_STATUS")
 public class StatusModel extends RepresentationModel<CategoriaModel> implements Serializable {

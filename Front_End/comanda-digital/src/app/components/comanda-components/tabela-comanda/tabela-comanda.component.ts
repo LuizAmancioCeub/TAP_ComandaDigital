@@ -1,10 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ComandaData } from 'src/app/Models/ComandaData';
+import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { PedidosData } from 'src/app/Models/PedidosData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { ComandaService } from 'src/app/services/comanda.service';
+import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -13,34 +15,23 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./tabela-comanda.component.css']
 })
 export class TabelaComandaComponent implements OnInit {
-  constructor(private comandaService:ComandaService, private modalService:NgbModal, private userService:UserService){
-    this.dataF = {
-      id: 0,
-      valorTotal: 0,
-      cliente:{
-        login:"",
-        nome:""
-      },
-      mesa:{
-        id:0
-      },
-      status:{
-        id:0,
-        status:""
-      }
-    }
-  }
+  constructor(private eventService:EventsService,private comandaService:ComandaService, private modalService:NgbModal, 
+              private userService:UserService, private axiosService:AxiosService, private router:Router){}
   dataE:PedidosData[] = [];
   
   pedidos:boolean = false;
+
+  statusFechada:string = "Aguardando Pagamento";
+  statusPaga:string = "Paga";
+  statusAberta:string = "Aberta";
 
   load:boolean = true;
 
   userData:CredencialsData|null = null;
   ngOnInit(): void {
     this.initUserData();
-    this.getPedidosEntregues();
     this.getComanda();
+    this.getPedidosEntregues();
   }
 
   async initUserData(): Promise<void> {
@@ -68,22 +59,41 @@ perfil:number = 0;
           }else{
             response.data.horarioEntrega = ''
           }
+          console.log("OPAAA")
+          this.eventService.existsPedidoEntregue(true);
+            
           this.pedidos = true;
         }
         else if(response.data == 0){
+          this.eventService.existsPedidoEntregue(false);
           this.pedidos = false;
         }
       }
-    );
+    )
   }
-  dataF: ComandaData;
-  getComanda(){
-    this.comandaService.getComanda().then(
-      (response) => {
-        this.dataF = response.data;
-        this.load = false;
-      }
-    );
+  dataF: ComandaClienteData | null = null;
+  private async getComanda(): Promise<void>{
+    this.dataF = await this.comandaService.getComandaData();
+    if (this.dataF !== null) {
+      this.recuperarComanda();
+    } else {
+      console.error("Erro ao recuperar dados do usuário");
+      this.pedidos = false;
+      this.load = false;
+    }
+  }
+valorTotal:number = 0;
+idComanda:number = 0;
+status:string = "";
+  private recuperarComanda(){
+    if(this.dataF != null){
+      console.log(this.dataF.valorTotal)
+      this.valorTotal = this.dataF.valorTotal
+      console.log(this.valorTotal)
+      this.idComanda = this.dataF.id
+      this.status = this.dataF.status
+      this.load = false;
+    }
   }
 
   processarHorarios(): void {
@@ -107,8 +117,53 @@ perfil:number = 0;
 		this.modalService.open(content, { centered: true,windowClass: 'custom-modal-comanda-item'});
 	}
 
+  openVerticallyCenteredPagamento(content: TemplateRef<any>) {
+			this.modalService.open(content, { centered: true,windowClass:'custom' });
+	}
+
+
   close() {
     this.modalService.dismissAll();
   }
+
+  mostrarErro: boolean = false;
+  erro:string = "";
+  alert:string = "";
+  icon:string = "";
+
+  newStatusPaga:number = 10;
+  realizarPagamento(){
+   this.comandaService.updateStatusComanda(this.newStatusPaga)
+    .then((response => {
+        this.close();
+        setTimeout(() => {
+          this.eventService.updateComanda();
+        }, 300);
+      }))
+      .catch((error) => {
+        const responseData = error.response.data;
+      if(responseData.fields){
+        const errorFields = responseData.fields;
+        const fieldName = Object.keys(errorFields)[0];
+        const fieldError = errorFields[fieldName];
+        this.mostrarMsg(fieldError);
+      }else{
+        const errorDetail = responseData.detail;
+        this.mostrarMsg(errorDetail);
+      }
+      });  
+  }
+
+  mostrarMsg(mensagem:string):void{
+    this.mostrarErro = true;
+    this.alert = "warning"
+    this.erro = mensagem
+    this.icon = "bi bi-exclamation-triangle-fill";
+   // Definir um atraso de 3 segundos para limpar a mensagem de erro
+   setTimeout(() => {
+    this.mostrarErro = false;
+  }, 4000);
+}
+ 
 }
 

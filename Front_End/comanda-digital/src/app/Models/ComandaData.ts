@@ -40,4 +40,5 @@ export type ComandaClienteData = {
             status:string
         }
     }[]
+    dtAbertura:string
 }

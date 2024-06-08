@@ -1,7 +1,9 @@
 import { Conditional } from '@angular/compiler';
 import { Component,OnInit } from '@angular/core';
+import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { AxiosService } from 'src/app/services/axios.service';
+import { ComandaService } from 'src/app/services/comanda.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ComandaComponent implements OnInit {
 
-  constructor(private axiosService:AxiosService, private userService:UserService){}
+  constructor(private axiosService:AxiosService, private userService:UserService, private comandaService:ComandaService){}
   userData:CredencialsData|null = null;
 
   perfil:number = 0;

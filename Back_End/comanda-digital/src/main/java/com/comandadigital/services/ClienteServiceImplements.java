@@ -1,5 +1,6 @@
 package com.comandadigital.services;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -87,7 +88,7 @@ public class ClienteServiceImplements implements ClienteService {
 	        if(!comandaService.existsComandaByCpf(dto.login(), statusList)) {
 	        	 StatusModel defaultStatus = statusRepository.findById(StatusModel.ABERTA).orElseThrow(() -> new RuntimeException("Status não encontrado"));
 	             ClienteModel defaultCliente = (ClienteModel) repository.findByLogin(dto.login());
-	             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente);
+	             ComandaRecordDTO comandaDTO = new ComandaRecordDTO(defaultStatus, defaultCliente, LocalDateTime.now(), LocalDateTime.now());
 	             comandaService.register(comandaDTO);
 	        }
 	       

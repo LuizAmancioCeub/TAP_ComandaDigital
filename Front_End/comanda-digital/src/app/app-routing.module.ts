@@ -11,6 +11,7 @@ import { RoleGuard } from './services/RoleGuard';
 import { MesaComponent } from './components/mesa/mesa.component';
 import { ManterFuncionariosComponent } from './components/gerente/manter-funcionarios/manter-funcionarios.component';
 import { CaixaComponent } from './pages/caixa/caixa.component';
+import { MinhasComandasComponent } from './components/comanda-components/minhas-comandas/minhas-comandas.component';
 
 const routes: Routes = [
   {
@@ -59,11 +60,15 @@ const routes: Routes = [
     path:'caixa',
     component: CaixaComponent,
     canActivate: [RoleGuard], data: { allowedRoles: [3,6] }
+  },{
+    path:'minhasComandas',
+    component: MinhasComandasComponent,
+    canActivate: [RoleGuard], data: {allowedRoles : [1]}
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -28,6 +28,9 @@ export class ModalDeleteComponent {
             setTimeout(() => {
               this.eventService.emitMsgPedido(true, "Pedido Cancelado com Sucesso");
             }, 300);
+            setTimeout(() => {
+              this.eventService.updateComanda();
+            }, 300);
             // Redirecionar ou fazer outras ações necessárias após o login
           }).catch((error) => {
             console.log(error)

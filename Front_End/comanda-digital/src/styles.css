@@ -73,4 +73,9 @@ h2{
     .row{
         margin-top: .5rem;
     }
+
+    .alert-warning{
+        color: #5F758F;font-weight: 800;font-family: futura-lt-book;
+        font-size: 20px;
+    }
   }

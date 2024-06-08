@@ -11,12 +11,19 @@ export class EventsService {
   private msgMesaSource = new Subject<{ msg: boolean, txt: string }>();
 
   private updateCategoriaSource = new Subject<{}>();
+  private updateComandaSource = new Subject<{}>();
 
+  private existsPedidoPreparoSource = new Subject<{pedidoPreparo:boolean}>();
+  private existsPedidoEntregueSource = new Subject<{pedidoEntregue:boolean}>();
 
   msg$ = this.msgSource.asObservable();
   msgMesa$ = this.msgMesaSource.asObservable();
   msgPedido$ = this.msgPedidoSource.asObservable();
   categoria$ = this.updateCategoriaSource.asObservable();
+  comanda$ = this.updateComandaSource.asObservable();
+
+  existsPedidoPreparo$ = this.existsPedidoPreparoSource.asObservable();
+  existsPedidoEntregue$ = this.existsPedidoEntregueSource.asObservable();
 
   emitMsg(msg:boolean, txt:string) {
     this.msgSource.next({ msg, txt });
@@ -34,5 +41,16 @@ export class EventsService {
     this.updateCategoriaSource.next({});
   }
 
+  updateComanda(){
+    this.updateComandaSource.next({});
+  }
+
+  existsPedidoPreparo(pedidoPreparo:boolean){
+    this.existsPedidoPreparoSource.next({pedidoPreparo});
+  }
+
+  existsPedidoEntregue(pedidoEntregue:boolean){
+    this.existsPedidoEntregueSource.next({pedidoEntregue});
+  }
 
 }

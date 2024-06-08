@@ -1,6 +1,7 @@
 package com.comandadigital.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -40,5 +41,11 @@ public class ComandaModel extends RepresentationModel<ComandaModel> implements S
 	@ManyToOne
 	@JoinColumn(name = "NU_CLIENTE", nullable = false)
 	private ClienteModel cliente;
+	
+	@Column(name = "TS_ATUALIZACAO")
+	private LocalDateTime ts_atualizacao;
+	
+	@Column(name = "DT_ABERTURA")
+	private LocalDateTime dtAbertura;
 	
 }

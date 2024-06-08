@@ -1,12 +1,34 @@
 import { Injectable } from '@angular/core';
 import { AxiosService } from './axios.service';
+import { ComandaClienteData, ComandaData } from '../Models/ComandaData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComandaService {
+  comandaData: ComandaClienteData | null = null;
 
-  constructor(private axiosService:AxiosService) { }
+  constructor(private axiosService:AxiosService) {  }
+
+  setComandaData(comandaData: ComandaClienteData | null): void {
+    this.comandaData = comandaData;
+  }
+
+  async getComandaData(): Promise<ComandaClienteData | null> {
+    if (this.comandaData === null) {
+      await this.verificarComanda();
+    }
+    return this.comandaData;
+  }
+  
+  async verificarComanda(): Promise<void> {
+    try {
+      const response = await this.axiosService.request("GET", "/minhaComanda", "");
+      this.setComandaData(response.data);
+    } catch (error) {
+      console.error("Erro ao verificar comanda: ", error);
+    }
+  }
 
   getPedidosEmPreparo():Promise<any>{
     return this.axiosService.request(
@@ -29,7 +51,9 @@ export class ComandaService {
       "GET",
       "/minhaComanda",
       ""
-    );
+    ).then((response => {
+
+    }));
   }  
 
   updatePedido(idPedido:number,quantidade:number, valor:number, observacao:string):Promise<any>{
@@ -71,6 +95,22 @@ export class ComandaService {
     return this.axiosService.request(
       "GET",
       `/consultarComanda/${cpf}`,
+      ""
+    );
+  }
+
+  getMyComandas():Promise<any>{
+    return this.axiosService.request(
+      "GET",
+      `/minhasComandas`,
+      ""
+    );
+  }
+
+  updateStatusComanda(status:number):Promise<any>{
+    return this.axiosService.request(
+      "PUT",
+      `/minhaComanda/${status}`,
       ""
     );
   }

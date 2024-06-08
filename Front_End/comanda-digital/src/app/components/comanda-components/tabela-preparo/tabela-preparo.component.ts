@@ -5,6 +5,7 @@ import { PedidosData } from 'src/app/Models/PedidosData';
 import { AtualizaPedidosService } from 'src/app/services/atualiza-pedidos.service';
 import { AxiosService } from 'src/app/services/axios.service';
 import { ComandaService } from 'src/app/services/comanda.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-tabela-preparo',
@@ -12,7 +13,8 @@ import { ComandaService } from 'src/app/services/comanda.service';
   styleUrls: ['./tabela-preparo.component.css']
 })
 export class TabelaPreparoComponent implements OnInit, OnDestroy {
-  constructor(private comandaService:ComandaService,private atualizaPedidosService: AtualizaPedidosService){}
+  constructor(private comandaService:ComandaService,private atualizaPedidosService: AtualizaPedidosService,
+              private eventService:EventsService){}
   
   data:PedidosData[] = [];
   pedidos:boolean = false;
@@ -41,9 +43,11 @@ export class TabelaPreparoComponent implements OnInit, OnDestroy {
           }else{
             response.data.horarioPedido = ''
           }
+            this.eventService.existsPedidoPreparo(true);
           this.pedidos = true;
         }
         else if(response.data == 0){
+            this.eventService.existsPedidoPreparo(false);
           this.pedidos = false;
         }
       }

@@ -5,6 +5,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.ComandaRecordDTO;
@@ -82,7 +85,7 @@ public class ComandaServiceImplements implements ComandaService {
 		comandaModel.setStatus(defaultStatus);
 		// valor incial da comanda
 		comandaModel.setValorTotal(0.0);
-		
+		comandaModel.setTs_atualizacao(LocalDateTime.now());
 		return this.comandaRepository.save(comandaModel);
 	}
 
@@ -113,32 +116,44 @@ public class ComandaServiceImplements implements ComandaService {
 		
 		ComandaModel comandaModel = comandaRepository.findComandaByCpf(cpf, statusId);
 		
-		ClienteProjection cliente = new ClienteProjection(comandaModel.getCliente().getNome(), comandaModel.getCliente().getTelefone(),
-				comandaModel.getCliente().getEmail(), comandaModel.getCliente().getLogin(), comandaModel.getCliente().getPerfil().getId() ); 
-		
-		int mesa = comandaModel.getCliente().getMesa().getId();
-		String garcom = comandaModel.getCliente().getMesa().getGarcom().getNome();
-		
-		List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpf(cpf);
-		List<PedidosProjection> pedidos0 = new ArrayList<>();
-		
-		if(!pedidos.isEmpty()) {
-			for(PedidoModel pedido : pedidos) {
-				PedidosProjection p = new PedidosProjection();
-				p.setIdItem(pedido.getItem().getId());
-				p.setNomeItem(pedido.getItem().getNome());
-				p.setPrecoItem(pedido.getItem().getPreco());
-				p.setQuantidade(pedido.getQuantidade());
-				p.setValor(pedido.getValor());
-				p.setStatus(pedido.getStatus());
-				p.setHorarioPedido(pedido.getHorarioPedido());
-				pedidos0.add(p);
-			}
+		if(comandaModel == null) {
+			comandaModel = comandaRepository.findComandaByCpf(cpf, Arrays.asList(StatusModel.PAGA));
 		}
-		ComandaProjection projection = new ComandaProjection(comandaModel.getId(),comandaModel.getValorTotal(),
-				comandaModel.getStatus().getStatus(), cliente, mesa, garcom,pedidos0);
-		
-		return projection;
+		if(comandaModel != null) {
+			ClienteProjection cliente = new ClienteProjection(comandaModel.getCliente().getNome(), comandaModel.getCliente().getTelefone(),
+					comandaModel.getCliente().getEmail(), comandaModel.getCliente().getLogin(), comandaModel.getCliente().getPerfil().getId() ); 
+			
+			int mesa = comandaModel.getCliente().getMesa().getId();
+			String garcom = comandaModel.getCliente().getMesa().getGarcom().getNome();
+			
+			List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpfAndComanda(cpf, comandaModel.getId());
+			List<PedidosProjection> pedidos0 = new ArrayList<>();
+			
+			if(!pedidos.isEmpty()) {
+				for(PedidoModel pedido : pedidos) {
+					if(!pedido.getStatus().getId().equals(StatusModel.CANCELADO)) {
+						PedidosProjection p = new PedidosProjection();
+						p.setIdItem(pedido.getItem().getId());
+						p.setNomeItem(pedido.getItem().getNome());
+						p.setPrecoItem(pedido.getItem().getPreco());
+						p.setQuantidade(pedido.getQuantidade());
+						p.setValor(pedido.getValor());
+						p.setStatus(pedido.getStatus());
+						p.setHorarioPedido(pedido.getHorarioPedido());
+						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						p.setGarcom(garcom);
+						p.setComanda(comandaModel.getId());
+						pedidos0.add(p);
+					}
+					
+				}
+			}
+			ComandaProjection projection = new ComandaProjection(comandaModel.getId(),comandaModel.getValorTotal(),
+					comandaModel.getStatus().getStatus(), cliente, mesa, garcom,pedidos0,formatarData(comandaModel.getDtAbertura()));
+			
+			return projection;
+		}
+		return new ComandaProjection();
 	}
 	
 	// método para retornar comanda do cliente logado
@@ -156,7 +171,23 @@ public class ComandaServiceImplements implements ComandaService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        ComandaProjection comanda = findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO));
+	        List<ComandaModel> comandas = comandaRepository.findComandasByCpf(cpfDoUsuarioAutenticado);
+	        List<Integer> status = new ArrayList<Integer>(); 
+	        // verifica se possui comanda não paga
+	        for(ComandaModel c : comandas) {
+	        	if(!c.getStatus().getId().equals(StatusModel.PAGA)) {
+	        		 status.add(StatusModel.ABERTA);
+	        	        status.add(StatusModel.AGUARDANDO_PAGAMENTO);
+	        		break;
+	        	}else {
+	        		status.add(StatusModel.PAGA);
+	        		break;
+	        	}
+	        }
+	        
+	        ComandaProjection comanda = findComandaByCpf(cpfDoUsuarioAutenticado,status);
+	        
+	        
 	        if(comanda == null) {
 	        	throw new RuntimeException("Comanda não encontrada para cpf "+cpfDoUsuarioAutenticado);
 	        }
@@ -169,6 +200,7 @@ public class ComandaServiceImplements implements ComandaService {
 	    return null;
 	}
 	
+	@Transactional
 	public void updateValor(Integer id,double valor) {
 		ComandaModel comanda = comandaRepository.findById(id).orElseThrow(() -> new RuntimeException("Comanda não encontrado com ID: " + id));
 		
@@ -177,7 +209,49 @@ public class ComandaServiceImplements implements ComandaService {
 		valorTotal = v.doubleValue();
 		
 		comanda.setValorTotal(valorTotal);
+		comanda.setTs_atualizacao(LocalDateTime.now());
 		comandaRepository.save(comanda);
+	}
+	
+	@Transactional
+	public void updateStatus(Integer id, Integer newstatus) throws Exception {
+		try {
+			ComandaModel comanda = comandaRepository.findById(id).orElseThrow(() -> new RuntimeException("Comanda não encontrado com ID: " + id));
+			StatusModel status = statusRepository.findById(newstatus).orElseThrow(() -> new NegocioException("Status não encontrado"));
+			
+			if(status.getId().equals(comanda.getStatus().getId())) {
+				throw new NegocioException("Comanda já está nesse status.");
+			}
+			
+			if(comanda.getStatus().getId().equals(StatusModel.ABERTA) && newstatus.equals(StatusModel.PAGA)) {
+				throw new NegocioException("Necessário fechar comanda antes de confirmar pagamento.");
+			}
+			
+			if(newstatus.equals(StatusModel.AGUARDANDO_PAGAMENTO) ||
+					newstatus.equals(StatusModel.PAGA)) {
+				List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpfAndComanda(comanda.getCliente().getLogin(), comanda.getId());
+				if(pedidos.isEmpty()) {
+					throw new NegocioException("Não é possível fechar Comanda sem pedidos feitos");
+				}
+				
+				if(newstatus.equals(StatusModel.PAGA)) {
+					List<PedidoModel> pedidosEmPreparacao = pedidoRepository.findPedidoByComandaAndStatus(comanda.getId(),Arrays.asList(StatusModel.EM_PREPARACAO));
+					
+					if(!pedidosEmPreparacao.isEmpty()) {
+						throw new NegocioException("Será possível realizar o pagamento apenas após a entrega de todos os pedidos.");
+					}
+				}
+			}
+			
+			comanda.setStatus(status);
+			comanda.setTs_atualizacao(LocalDateTime.now());
+			comandaRepository.save(comanda);
+			
+		}catch (NegocioException e) {
+			throw new NegocioException(e.getMessage());
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 	
 	public boolean existsComandaByCpf(String cpf, List<Integer> statusId) {
@@ -201,7 +275,7 @@ public class ComandaServiceImplements implements ComandaService {
 		int mesa = comanda.get().getCliente().getMesa().getId();
 		String garcom = comanda.get().getCliente().getMesa().getGarcom().getNome();
 		
-		List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpf(comanda.get().getCliente().getLogin());
+		List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpfAndComanda(comanda.get().getCliente().getLogin(),comanda.get().getId());
 		List<PedidosProjection> pedidos0 = new ArrayList<>();
 		
 		if(!pedidos.isEmpty()) {
@@ -214,11 +288,15 @@ public class ComandaServiceImplements implements ComandaService {
 				p.setValor(pedido.getValor());
 				p.setStatus(pedido.getStatus());
 				p.setHorarioPedido(pedido.getHorarioPedido());
+				p.setHorarioEntrega(pedido.getHorarioEntrega());
+				p.setGarcom(garcom);
+				p.setComanda(comanda.get().getId());
+				
 				pedidos0.add(p);
 			}
 		}
 		ComandaProjection projection = new ComandaProjection(comanda.get().getId(),comanda.get().getValorTotal(), comanda.get().getStatus().getStatus(), 
-				cliente, mesa, garcom ,pedidos0);
+				cliente, mesa, garcom ,pedidos0,formatarData(comanda.get().getDtAbertura()));
 		
 		return projection;
 	}
@@ -240,7 +318,7 @@ public class ComandaServiceImplements implements ComandaService {
 				//int mesa = comanda.get().getCliente().getMesa().getId();
 				String garcom = comanda.getCliente().getMesa().getGarcom().getNome();
 				
-				List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpf(comanda.getCliente().getLogin());
+				List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpfAndComanda(comanda.getCliente().getLogin(), comanda.getId());
 				List<PedidosProjection> pedidos0 = new ArrayList<>();
 				
 				if(!pedidos.isEmpty()) {
@@ -253,11 +331,15 @@ public class ComandaServiceImplements implements ComandaService {
 						p.setValor(pedido.getValor());
 						p.setStatus(pedido.getStatus());
 						p.setHorarioPedido(pedido.getHorarioPedido());
+						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						p.setGarcom(garcom);
+						p.setComanda(comanda.getId());
+						
 						pedidos0.add(p);
 					}
 				}
 				ComandaProjection projection = new ComandaProjection(comanda.getId(),comanda.getValorTotal(), comanda.getStatus().getStatus(),
-						cliente, mesa,garcom ,pedidos0);
+						cliente, mesa,garcom ,pedidos0, formatarData(comanda.getDtAbertura()));
 				comandasProjection.add(projection);
 			}
 			
@@ -271,5 +353,85 @@ public class ComandaServiceImplements implements ComandaService {
 		}
 		
 	}
+	
+	// método para retornar Lista de comandas do cliente logado
+		public List<ComandaProjection> findMyComandas(){
+			 // Obtém o contexto de segurança
+		    SecurityContext securityContext = SecurityContextHolder.getContext();
 
+		    // Obtém a autenticação do contexto de segurança
+		    Authentication authentication = securityContext.getAuthentication();
+		    
+		 // Verifica se a autenticação é do tipo UsernamePasswordAuthenticationToken
+		    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+		    	// Obtem detalhes do ClienteModel
+		        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
+		        // Obtém o CPF do cliente
+		        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
+		        
+		        return this.findComandasByCpf(cpfDoUsuarioAutenticado); // retorna comanda o cliente logado
+
+		    }
+		    throw new NegocioException("Não foi possível localizar cliente");
+		}
+		
+		public List<ComandaProjection> findComandasByCpf(String cpf){
+			
+			UserDetails clienteDetails  = clienteRepository.findByLogin(cpf);
+			if(clienteDetails == null) {
+				throw new NegocioException("Número de cpf não encontrado");
+			}
+			
+			List<ComandaModel> comandas = comandaRepository.findComandasByCpf(cpf);
+	        List<ComandaProjection> comandasP = new ArrayList<ComandaProjection>();
+	        
+	        for(ComandaModel c : comandas) {
+	        	ComandaProjection cp = new ComandaProjection();
+	        	
+	        	ClienteProjection cliente = new ClienteProjection(c.getCliente().getNome(), c.getCliente().getTelefone(),
+						c.getCliente().getEmail(), c.getCliente().getLogin(), c.getCliente().getPerfil().getId() ); 
+				//int mesa = comanda.get().getCliente().getMesa().getId();
+				String garcom = c.getCliente().getMesa().getGarcom().getNome();
+				
+				List<PedidoModel> pedidos = pedidoRepository.findPedidoByCpfAndComanda(c.getCliente().getLogin(), c.getId());
+				List<PedidosProjection> pedidos0 = new ArrayList<>();
+				
+				if(!pedidos.isEmpty()) {
+					for(PedidoModel pedido : pedidos) {
+						PedidosProjection p = new PedidosProjection();
+						p.setIdItem(pedido.getItem().getId());
+						p.setNomeItem(pedido.getItem().getNome());
+						p.setPrecoItem(pedido.getItem().getPreco());
+						p.setQuantidade(pedido.getQuantidade());
+						p.setValor(pedido.getValor());
+						p.setStatus(pedido.getStatus());
+						p.setHorarioPedido(pedido.getHorarioPedido());
+						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						
+						p.setGarcom(garcom);
+						p.setComanda(c.getId());
+						
+						pedidos0.add(p);
+					}
+				}
+	        	cp.setCliente(cliente);
+	        	cp.setGarcom(garcom);
+	        	cp.setId(c.getId());
+	        	cp.setMesa(c.getCliente().getMesa().getId());
+	        	cp.setPedidos(pedidos0);
+	        	cp.setValorTotal(c.getValorTotal());
+	        	cp.setStatus(c.getStatus().getStatus());
+	        	cp.setDtAbertura(c.getDtAbertura() != null ? formatarData(c.getDtAbertura()): "-");
+	        	
+	        	comandasP.add(cp);
+	        }
+	        
+	        
+	        return comandasP; // retorna comanda o cliente logado
+		}
+		
+		public String formatarData(LocalDateTime dateTime){
+		     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+		     return dateTime.format(formatter);
+		}
 }

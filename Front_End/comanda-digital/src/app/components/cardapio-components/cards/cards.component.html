@@ -11,7 +11,7 @@
             <button
               (click)="isCliente && openVerticallyCentered(pedido)"
               [ngClass]="{'btn-success': isCliente, 'btnC': true, 'disabled': isVisitante}"
-              [attr.disabled]="!isCliente ? true : null"
+              [attr.disabled]="!isCliente || statusComanda == statusFechada ? true : null"
               class="btn"
               data-toggle="modal"
               data-target="#pedido"

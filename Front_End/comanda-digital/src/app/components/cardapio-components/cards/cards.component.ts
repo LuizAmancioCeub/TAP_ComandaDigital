@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComandaClienteData } from 'src/app/Models/ComandaData';
 import { AxiosService } from 'src/app/services/axios.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
+import { ComandaService } from 'src/app/services/comanda.service';
 import { EventsService } from 'src/app/services/events.service';
 import { GerenteService } from 'src/app/services/gerente.service';
 
@@ -11,7 +13,8 @@ import { GerenteService } from 'src/app/services/gerente.service';
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent implements OnInit {
-  constructor(private axiosService:AxiosService, private modalService:NgbModal,private gerenteservice:GerenteService, private eventService:EventsService,private categoriaService:CategoriaService){}
+  constructor(private axiosService:AxiosService, private modalService:NgbModal,private gerenteservice:GerenteService, 
+    private eventService:EventsService,private categoriaService:CategoriaService, private comandaService:ComandaService){}
  
   
   @Input()item:string="";
@@ -36,9 +39,10 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
    this.verificarUsuario();
    this.verificarStatusItem();
+   this.verificarComanda();
   }
 
-  verificarUsuario():void{
+  private verificarUsuario():void{
       if (this.perfil == 1) {
         this.isCliente = true; 
 
@@ -53,7 +57,7 @@ export class CardsComponent implements OnInit {
       }
   }
 
-  verificarStatusItem():void{
+  private verificarStatusItem():void{
     if(this.statusIdItem == 2){
       this.desativado = true;
     }
@@ -94,4 +98,20 @@ export class CardsComponent implements OnInit {
   openVerticallyCentered(content: TemplateRef<any>) {
 		this.modalService.open(content, { centered: true,windowClass:'custom'});
 	}
+
+  statusFechada:string = "Aguardando Pagamento"
+  statusComanda:string = "";
+  comandadata:ComandaClienteData | null = null;
+  private async verificarComanda(): Promise<void>{
+    this.comandadata = await this.comandaService.getComandaData();
+    if(this.comandadata !== null){
+      this.recuperarComanda();
+    }
+  }
+
+  private recuperarComanda(){
+    if(this.comandadata !== null){
+     this.statusComanda = this.comandadata.status
+    }
+  }
 }

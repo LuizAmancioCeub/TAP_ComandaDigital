@@ -19,8 +19,14 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf ORDER BY pedido.horarioPedido DESC ")
 	List<PedidoModel>findPedidoByCpf(@Param("cpf") String cpf);
 	
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.comanda.id = :idComanda ORDER BY pedido.horarioPedido DESC ")
+	List<PedidoModel>findPedidoByCpfAndComanda(@Param("cpf") String cpf, Integer idComanda);
+	
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id IN :statusId")
 	List<PedidoModel>findPedidoByCpfAndStatus(@Param("cpf") String cpf, @Param("statusId")List<Integer> statusList);
+	
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.id = :idComanda AND pedido.status.id IN :statusId")
+	List<PedidoModel>findPedidoByComandaAndStatus(@Param("idComanda") Integer id, @Param("statusId")List<Integer> statusList);
 	
 	 @Query("SELECT MAX(p.id) FROM PedidoModel p")
 	 Integer findMaxId();
@@ -28,6 +34,14 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	 @Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.status.id IN :statusId")
 		List<PedidoModel>findPedidoByStaus(@Param("statusId")List<Integer> statusList);
 	 
-	 
+
+	    @Query("SELECT pedido FROM PedidoModel pedido "
+	         + "WHERE pedido.comanda.cliente.login = :cpf "
+	         + "AND pedido.status.id IN :statusList "
+	         + "AND pedido.comanda.status.id NOT IN :comandaStatusId")
+	    List<PedidoModel> findPedidoByCpfAndStatusAndComandaStatus(
+	        @Param("cpf") String cpf, 
+	        @Param("statusList") List<Integer> statusList, 
+	        @Param("comandaStatusId") Integer comandaStatusId);
 	 
 }

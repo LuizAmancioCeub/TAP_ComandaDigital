@@ -42,5 +42,5 @@ export class CardComandaComponent implements OnInit {
 @Input()cpfCliente:string= '';
 @Input() pedidos: Pedido[] = [];
 @Input() garcom:string = '';
-
+@Input() dataAbertura:string = '';
 }

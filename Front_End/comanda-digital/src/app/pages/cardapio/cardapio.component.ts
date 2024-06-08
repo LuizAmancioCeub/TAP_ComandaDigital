@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ComandaClienteData } from 'src/app/Models/ComandaData';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { AxiosService } from 'src/app/services/axios.service';
+import { ComandaService } from 'src/app/services/comanda.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -18,11 +20,19 @@ export class CardapioComponent implements OnInit{
   load:boolean = true;
   
 
-  constructor(private axiosService:AxiosService, private userService:UserService){}
+  constructor(private axiosService:AxiosService, private userService:UserService, private comandaService:ComandaService){}
   ngOnInit(): void {
    this.verificarUsuario();
-   
+   this.verificarComanda();
   }
+
+  comandaData:ComandaClienteData|null = null;
+  verificarComanda():void{
+   this.axiosService.request("GET", "/minhaComanda", "").then(
+     (response) => {
+     this.comandaData = response.data;
+   });
+ }
 
   verificarUsuario():void{
     this.axiosService.request("GET", "/myCredenciais", "").then(

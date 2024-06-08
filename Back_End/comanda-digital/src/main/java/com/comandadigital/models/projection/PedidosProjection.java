@@ -22,7 +22,11 @@ public class PedidosProjection {
 	private int quantidade;
 	private double valor;
 	private LocalDateTime horarioPedido;
+	private LocalDateTime horarioEntrega;
 	private StatusModel status; 
+	
+	private Integer comanda;
+	private String garcom;
 	
 	
 }

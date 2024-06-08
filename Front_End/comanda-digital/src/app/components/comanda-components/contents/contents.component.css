@@ -20,3 +20,22 @@ h1{
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
+
+a{
+    cursor: pointer;
+}
+
+.alert-success{
+    text-align: center;
+    margin-bottom: 30vh;
+}
+
+.cas{
+    text-align: center;
+    margin-bottom: 30vh;
+}
+
+p{
+    color: #5F758F;font-weight: 800;font-family: futura-lt-book;
+    font-size: 20px;
+}

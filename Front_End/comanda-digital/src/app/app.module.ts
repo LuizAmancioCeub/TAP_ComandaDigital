@@ -50,6 +50,7 @@ import { MinhaMesaComponent } from './components/mesa-components/minha-mesa/minh
 import { CaixaComponent } from './pages/caixa/caixa.component';
 import { ConsultaComandasComponent } from './components/caixa/consulta-comandas/consulta-comandas.component';
 import { CardComandaComponent } from './components/caixa/card-comanda/card-comanda.component';
+import { MinhasComandasComponent } from './components/comanda-components/minhas-comandas/minhas-comandas.component';
 
 
 
@@ -99,6 +100,7 @@ import { CardComandaComponent } from './components/caixa/card-comanda/card-coman
     CaixaComponent,
     ConsultaComandasComponent,
     CardComandaComponent,
+    MinhasComandasComponent,
   ],
   imports: [
     BrowserModule,

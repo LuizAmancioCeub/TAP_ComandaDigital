@@ -36,7 +36,8 @@ export class ModalClientesComponent implements OnInit {
               id:0,
               status:''
           }
-      }]
+      }],
+      dtAbertura:''
     }
   }
 
@@ -99,7 +100,7 @@ export class ModalClientesComponent implements OnInit {
 
   dataComandaCliente:ComandaClienteData
   verComanda(cpf:string){
-    this.axiosService.request("GET", `/consultarComanda/${cpf}`, "").then(
+    this.axiosService.request("GET", `/consultarComandaAtiva/${cpf}`, "").then(
       (response) => {
         this.mostrarErro = false
         this.client = false;

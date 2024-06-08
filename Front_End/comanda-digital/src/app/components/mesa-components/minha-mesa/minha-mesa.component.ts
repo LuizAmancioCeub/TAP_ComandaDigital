@@ -161,7 +161,7 @@ export class MinhaMesaComponent {
         }
       }
       if(this.mostrarErro == false){
-        this.mostrarMsg("QrCode '"+novoQrCode+"' inválido",2);
+        this.mostrarMsg("QrCode inválido",2);
       }
     }).catch((error) => {
       const responseData = error.response.data;

@@ -32,3 +32,14 @@
   .cancelado{
     text-decoration: line-through;
   }
+
+  
+
+  @media all and (max-width: 450px) {
+    .comanda{
+      width: 350px;
+    }
+    .status{
+      display:none;
+    }
+  }

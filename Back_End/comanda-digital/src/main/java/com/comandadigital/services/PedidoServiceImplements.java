@@ -96,6 +96,7 @@ public class PedidoServiceImplements implements PedidoService {
 			
 	
 	@Override
+	@Transactional
 	public PedidoModel register( PedidoRecordDTO pedidoDTO) {
 		var pedidoModel = new PedidoModel();
 		BeanUtils.copyProperties(pedidoDTO, pedidoModel);
@@ -113,9 +114,9 @@ public class PedidoServiceImplements implements PedidoService {
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
 	        // verificando comanda
-	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA, StatusModel.AGUARDANDO_PAGAMENTO));
+	        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA));
 	        if(comandaCliente == null) {
-	        	return null;
+	        	throw new NegocioException("Cliente não possui Comanda aberta para realizar pedidos");
 	        }
 	        
 	        // Verificando se os itens do pedido existem e estão disponíveis
@@ -206,7 +207,7 @@ public class PedidoServiceImplements implements PedidoService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatus(cpfDoUsuarioAutenticado,statusList);
+	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatusAndComandaStatus(cpfDoUsuarioAutenticado,statusList, StatusModel.PAGA);
 	        if(pedidosCliente == null) {
 	        	return null;
 	        }
@@ -229,7 +230,7 @@ public class PedidoServiceImplements implements PedidoService {
 	        // Obtém o CPF do cliente
 	        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
 	        
-	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatus(cpfDoUsuarioAutenticado, statusList);
+	        List<PedidoModel> pedidosCliente = pedidoRepository.findPedidoByCpfAndStatusAndComandaStatus(cpfDoUsuarioAutenticado, statusList, StatusModel.PAGA);
 	        if(pedidosCliente == null) {
 	        	return null;
 	        }
@@ -242,24 +243,48 @@ public class PedidoServiceImplements implements PedidoService {
 
 
 	@Override
+	@Transactional
 	public PedidoModel update(Integer id, PedidoRecordUpdateDTO dto) {
-		PedidoModel pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
-		
-		if(pedido.getStatus().getId().equals(StatusModel.EM_PREPARACAO)) {
-			  if (!Objects.equals(dto.quantidade(), pedido.getQuantidade()) && !Objects.equals(dto.valor(), pedido.getValor())) {
-			        pedido.setValor(dto.valor());
-			        pedido.setQuantidade(dto.quantidade());
+		 SecurityContext securityContext = SecurityContextHolder.getContext();
+		    // Obtém a autenticação do contexto de segurança
+		    Authentication authentication = securityContext.getAuthentication();
+		    
+		    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+		    	
+		    	// Obtem detalhes do ClienteModel
+		        ClienteModel clienteModel = (ClienteModel) authentication.getPrincipal();
+		        // Obtém o CPF do cliente
+		        String cpfDoUsuarioAutenticado = clienteModel.getLogin();
+		        
+		        PedidoModel pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
+		        
+		        if(!pedido.getComanda().getCliente().getLogin().equalsIgnoreCase(cpfDoUsuarioAutenticado)){
+					throw new NegocioException("Usuário sem acesso");
+				}
+		        
+		        // verificando comanda
+		        ComandaModel comandaCliente = comandaRepository.findComandaByCpf(cpfDoUsuarioAutenticado,Arrays.asList(StatusModel.ABERTA));
+		        if(comandaCliente == null) {
+		        	throw new NegocioException("Cliente não possui Comanda aberta para alterar pedidos");
+		        }
+				
+				if(pedido.getStatus().getId().equals(StatusModel.EM_PREPARACAO)) {
+					  if (!Objects.equals(dto.quantidade(), pedido.getQuantidade()) && !Objects.equals(dto.valor(), pedido.getValor())) {
+					        pedido.setValor(dto.valor());
+					        pedido.setQuantidade(dto.quantidade());
+					    }
+			    if (!Objects.equals(dto.observacao(), pedido.getObservacao())) {
+					        pedido.setObservacao(dto.observacao());
 			    }
-	    if (!Objects.equals(dto.observacao(), pedido.getObservacao())) {
-			        pedido.setObservacao(dto.observacao());
-	    }
-	    
-			return pedidoRepository.save(pedido);
-		}
+			    
+					return pedidoRepository.save(pedido);
+				}
+		    }  	
 		
 		return null ;
 	}
 	
+	@Transactional
 	public void updateStatus(Integer id, Integer statusNovo) {
 		
 		PedidoModel pedido = pedidoRepository.findById(id)

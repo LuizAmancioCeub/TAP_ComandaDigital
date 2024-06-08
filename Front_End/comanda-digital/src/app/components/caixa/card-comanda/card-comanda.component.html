@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-4 col-md-4">
                     <label for="data">Data</label>
-                    <input style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;" type="text" name="data" id="data" class="data form-control" readonly>
+                    <input style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;" [value]="dataAbertura" type="text" name="data" id="data" class="data form-control" readonly>
                 </div>
 
                 <div class="col-4 col-md-4">
@@ -32,7 +32,7 @@
                         <th scope="col">Item</th>
                         <th scope="col">Qnt</th>
                         <th scope="col">Valor</th>
-                        <th scope="col">Status</th>
+                        <th class="status" scope="col">Status</th>
                     </tr>
                 </thead>
 
@@ -41,7 +41,7 @@
                         <td>{{p.nomeItem}}</td>
                         <td>{{p.quantidade}}</td>
                         <td [ngClass]="{'cancelado': p.status.id == 6}">{{p.valor | currency:'BRL':'symbol':'1.2-2'}} </td>
-                        <td>{{p.status.status}}</td>
+                        <td class="status">{{p.status.status}}</td>
                     </tr>
                     <tr *ngIf="pedidos.length < 1">
                         <td colspan="4" >

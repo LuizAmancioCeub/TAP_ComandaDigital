@@ -88,12 +88,57 @@
         </thead>
         <tbody> 
             <tr id="pagamento">
-                <td data-title = "Valor Total">R$ {{dataF.valorTotal}} <span style="margin-left: .2rem; cursor: pointer;" title="Apenas pedidos com Status 'Entregue' são contabilizados no Valor Total "><i class="bi bi-exclamation-circle-fill"></i></span></td>
+                <td data-title = "Valor Total">R$ {{valorTotal}} <span style="margin-left: .2rem; cursor: pointer;" title="Apenas pedidos com Status 'Entregue' são contabilizados no Valor Total "><i class="bi bi-exclamation-circle-fill"></i></span></td>
                 <td>
-                    <button class="btn btn-warning" style="color: #000;">Pagamento</button>
+                    <button (click)="openVerticallyCenteredPagamento(pagamento)" class="btn btn-warning"  style="color: #000;">Pagamento</button>
                 </td>
             </tr>
         </tbody> 
+
+        <ng-template #pagamento let-modal>
+           <div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="gridModalLabel">Comanda {{idComanda}}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+              </div>
+            <div class="modal-body">
+            
+                  <input type="hidden" name="itemId" [(ngModel)]="idComanda">
+                    
+                    <ng-container *ngIf="mostrarErro">
+                      <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+                    </ng-container>
+                    <div class="row" style="margin-top: .5rem;">
+                      <div class="col-12 col-sm-12">
+                        <label for="formaPagamento">Forma de Pagamento:</label>
+                        <select class="form-control" name="formaPagamento">
+                            <option value="">Selecione</option>
+                            <option value="1">Crédito</option>
+                            <option value="2">Débito</option>
+                            <option value="3">Pix</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 2rem;">  
+                        <hr>
+                      <div class="col-12 col-sm-12" style="text-align: end;" >
+                          <label style="color: #5F758F;font-weight: 800;font-family: futura-lt-book;
+        font-size: 20px;">Valor Total: R$ {{valorTotal}}</label>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row" style="margin-top: 2rem;">  
+                        <div class="col-12 col-sm-12" >
+                            <p style="font-size: 14px;"><span style="color: red;font-size: 25px;">*</span> Para pagamentos em dinheiro se dirija ao Caixa.</p>
+                        </div>
+                      </div>
+                  </div>
+              <div class="modal-footer">
+                <button (click)="realizarPagamento()" type="submit" class="btn btn-success" name="realizarPedido" id="realizarPedido">Realizar Pagamento</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Fechar</button>
+              </div>  
+           </div>
+        </ng-template>
     </table>
 </ng-container>
 </ng-container>

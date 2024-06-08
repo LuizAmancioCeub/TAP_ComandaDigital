@@ -51,6 +51,9 @@ export class ModelPedidoComponent implements OnChanges {
           setTimeout(() => {
             this.eventService.emitMsg(true, "Pedido Realizado com Sucesso");
           }, 300);
+          setTimeout(() => {
+            this.eventService.updateComanda();
+          }, 300);
         }).catch((error) => {
           this.eventService.emitMsg(true, "Não foi possível realizar Pedido");
           console.clear;

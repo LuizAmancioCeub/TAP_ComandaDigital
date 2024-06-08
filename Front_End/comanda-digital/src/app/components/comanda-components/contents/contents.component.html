@@ -1,11 +1,89 @@
 <h1>Confira sua Comanda</h1>
 <br>
-<a class="badge badge-succes bt" href="/cardapio/comanda/#pagamento">Fechar Comanda <i class="bi bi-journal-check"></i></a>
-<br><br>
-<app-tabela-preparo></app-tabela-preparo>
-<br><br>
-<app-tabela-comanda></app-tabela-comanda>
+    <ng-container *ngIf="exitsPedidos == false">
+        <div style="text-align:center;margin-bottom: 40vh;" class="alert alert-warning cas" role="alert">
+           <p>Ainda sem pedidos!<br> Faça seu pedido e aproveite🤤</p><br><br>
+            <a class="btn btn-success" [routerLink]="['/cardapio']">Visualizar Cardápio</a>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="status != statusPaga && exitsPedidos == true">
+        <div *ngIf="status == statusAberta">
+            <a class="badge badge-succes bt"(click)="openVerticallyCentered(confirmarFechamento)">Fechar Comanda <i class="bi bi-journal-check"></i></a>
+        </div>
+        <div *ngIf="status == statusAguaradando">
+            <a class="badge badge-succes bt"(click)="openVerticallyCentered(confirmarAbertura)">Abrir Comanda <i class="bi bi-journal-check"></i></a>
+        </div>
+        <br><br>
+        <app-tabela-preparo></app-tabela-preparo>
+        <br><br>
+        <app-tabela-comanda></app-tabela-comanda>
+        
+        <ng-container *ngIf="msg">
+            <app-msg txt="{{txt}}" show="{{show}}"></app-msg>
+        </ng-container>
+        
+        <ng-template #confirmarFechamento let-modal>
+            <div class="modal-content"style="border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gridModalLabel">Fechar Comanda?</h5>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning" style="text-align: center;padding: .5rem;">
+                        <p style="font-weight: 600;"><i class="bi bi-exclamation-circle"></i>  Após fechamento não será possível realizar e alterar pedidos.</p>
+                    </div>
+                    
+                </div> 
+                <div class="modal-footer" style="display:flex; justify-content: center;">
+                    <button (click)="fecharComanda()" style="width: 20%;" class="btn btn-success">SIM</button>
+                    <button (click)="close()" style="width: 20%;" class="btn btn-danger">NÃO</button>
+                </div>
+            </div>
+        </ng-template>
+        
+        <ng-template #confirmarAbertura let-modal>
+            <div class="modal-content"style="border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gridModalLabel">Abrir Comanda?</h5>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning" style="text-align: center;padding: .5rem;">
+                        <p style="font-weight: 600;"><i class="bi bi-exclamation-circle"></i>  Após abertura não será possível realizar o pagamento da comanda, sendo necessário o fechamneto para pagamento.</p>
+                    </div>
+                    
+                </div> 
+                <div class="modal-footer" style="display:flex; justify-content: center;">
+                    <button (click)="abrirComanda()" style="width: 20%;" class="btn btn-success">SIM</button>
+                    <button (click)="close()" style="width: 20%;" class="btn btn-danger">NÃO</button>
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+    
+    <ng-container *ngIf="status == statusPaga">
+        <div class="alert alert-success cas">
+            <p>Sua Comanda esta paga !</p><br>
+            <button (click)="openVerticallyCentered(abrirComanda)" style="margin-right: .5rem;" class="btn btn-primary">Abrir Comanda</button>
+            <button [routerLink]="['/minhasComandas']" class="btn btn-light">Minhas Comandas</button>
+        </div>
 
-<ng-container *ngIf="msg">
-    <app-msg txt="{{txt}}" show="{{show}}"></app-msg>
-</ng-container>
+        <ng-template #abrirComanda let-modal>
+            <div class="modal-content"style="border-radius:5px;background-color:#f8f3e8;box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gridModalLabel">Nova Comanda</h5>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center;padding: .5rem;">
+                        <p>Deseja abrir uma nova Comanda na Mesa {{mesa}}?</p>
+                    </div>
+                </div> 
+                <div class="modal-footer" style="display:flex; justify-content: center;">
+                    <button  style="width: 20%;" class="btn btn-success">SIM</button>
+                    <button (click)="close()" style="width: 20%;" class="btn btn-danger">NÃO</button>
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+

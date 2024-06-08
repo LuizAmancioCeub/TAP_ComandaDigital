@@ -1,0 +1,11 @@
+.tabela{
+    overflow: auto; 
+    white-space: nowrap;
+    display: flex;
+    gap: 1rem;
+}
+
+.grid{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 400px)); gap: 1rem;
+    place-content: center;
+  }
