@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, TemplateRef, ViewEncapsulation, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Output, inject, TemplateRef, ViewEncapsulation, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { LoginComponent } from 'src/app/pages/login/login.component';
 import { AxiosService } from 'src/app/services/axios.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { CredencialsData } from 'src/app/Models/CredencialsData';
 import { MesaData } from 'src/app/Models/mesaData';
+import { MesaService } from 'src/app/services/mesa.service';
 
 
 @Component({
@@ -17,22 +18,24 @@ export class FormLoginComponent implements OnInit {
   private modalService = inject(NgbModal);
   data:CredencialsData[] = [];
   
-  constructor(private axiosService: AxiosService , private loginService:LoginService, private router: Router){}
+  constructor(private axiosService: AxiosService , private loginService:LoginService, private router: Router, private mesaService:MesaService){}
   
-  
+  mesaSelect:boolean = false;
   ngOnInit(): void {
-    this.getMesas()
+    this.getMesas();
   }
 
   @Output() onSubmitLoginEvent = new EventEmitter();
 
   login:string = "";
   senha:string = "";
-  mesa:number|null = null;
+ @Input()mesaQrCode:string = '';
+ mesa:number = 0;
 
   
   mostrarErro: boolean = false;
   erro:string = "";
+  erroMesa:string = "";
   alert:string = "";
   icon:string = "";
   link:string = "";
@@ -115,6 +118,7 @@ export class FormLoginComponent implements OnInit {
       if (perfil === 1 || perfil === 2) {
 
         this.loginService.setLoggedIn(true);
+        this.mesaService.salvarMesa(this.mesa);
         this.router.navigate(['/cardapio']); // Rota para clientes
 
       }else if (perfil === 3) {
@@ -193,6 +197,12 @@ export class FormLoginComponent implements OnInit {
       this.icon = "bi bi-exclamation-triangle-fill";
 
     }
+    else if(tipo == "mesa"){
+      this.alert = "warning"
+      this.erroMesa = "Nenhuma mesa válida foi selecionada"
+      this.icon = "bi bi-exclamation-triangle-fill";
+
+    }
      else{
       this.mostrarErro = true;
       this.alert = "danger"
@@ -211,9 +221,36 @@ export class FormLoginComponent implements OnInit {
     this.axiosService.request("GET", "/mesasDisponiveis", "").then(
       (response) => {
       this.dataMesas = response.data;
+      this.verificarMesa();
       }
     );
   }
 
+  verificarMesa(){
+    let mesaExists = false;
+    const mesaRecuperada = this.mesaService.recuperarMesa();
+    if(mesaRecuperada != null){
+      this.mesa = mesaRecuperada;
+    }
+    if(this.mesa != 0 || this.mesaQrCode.trim() != ""){
+      
+      for (let i = 0; i < this.dataMesas.length; i++) {
+        const mesa = this.dataMesas[i];
+        let qr = mesa.qr_code.split('=');
+        const mesaQ = this.mesaQrCode.split('=');
+        
+        if(mesa.id == this.mesa || qr[1] == mesaQ[0] || mesa.id == parseFloat(mesaQ[0])){
+          this.mesaSelect = true;
+          mesaExists = true;
+          this.mesa = mesa.id;
+          break;
+        }
+      }
+    }
+    if(!mesaExists || this.mesa == 0){
+      this.mesa = 0;
+      this.mostrarMsg("mesa", "")
+    }
+  }
   
 }

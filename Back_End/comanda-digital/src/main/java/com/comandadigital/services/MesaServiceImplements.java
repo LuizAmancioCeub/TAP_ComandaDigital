@@ -17,6 +17,7 @@ import com.comandadigital.controllers.StatusController;
 import com.comandadigital.dtos.MesaRecordDTO;
 import com.comandadigital.dtos.myValidations.MesaUnique;
 import com.comandadigital.dtos.myValidations.Exceptions.NegocioException;
+import com.comandadigital.infra.security.CryptoUtils;
 import com.comandadigital.models.ClienteModel;
 import com.comandadigital.models.GarcomModel;
 import com.comandadigital.models.MesaModel;
@@ -78,7 +79,8 @@ public class MesaServiceImplements implements MesaService {
 		StatusModel defaultStatus = statusRepository.findById(StatusModel.INDISPONIVEL).orElse(null);
 		
 		mesaModel.setStatus(defaultStatus); // salvando o item já com status = 9(Livre)
-		mesaModel.setQr_code("comanda-digital.com/"+mesaModel.getId()); // passando link para gerar QrCode
+		String mesaCriptografada = CryptoUtils.encrypt(mesaModel.getId().toString());
+		mesaModel.setQr_code("comanda-digital.com/?mesa="+mesaCriptografada); // passando link para gerar QrCode
 		
 		return mesaRepository.save(mesaModel);
 	}

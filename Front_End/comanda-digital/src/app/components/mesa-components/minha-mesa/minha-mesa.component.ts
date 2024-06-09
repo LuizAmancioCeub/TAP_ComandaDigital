@@ -205,6 +205,7 @@ export class MinhaMesaComponent {
       this.cameraLigada = false;
       this.mesaService.camera = false;
       this.mesaService.alterarMesa = false;
+      this.mesaService.salvarMesa(novaMesa);
       this.mesaService.recuperarById(novaMesa).then((response) => {
         this.mesaNum = response.data.id
         this.mesaGarcom = response.data.garcom.nome

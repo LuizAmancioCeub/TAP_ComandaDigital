@@ -15,13 +15,14 @@ import { MinhasComandasComponent } from './components/comanda-components/minhas-
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: LoginComponent
   },
   {
     path:'cardapio',
     component: CardapioComponent,
     //canActivate: [AuthGuard] // verifica se usuario pode acessar
+    canActivate: [RoleGuard], data: { allowedRoles: [1,2,3] }
   },
   {
     path:'cardapio/comanda',

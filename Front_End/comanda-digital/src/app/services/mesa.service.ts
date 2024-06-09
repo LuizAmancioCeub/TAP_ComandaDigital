@@ -57,4 +57,13 @@ export class MesaService {
       ''
     )
   }
+
+  mesa:number|null = null;
+  salvarMesa(id:number){
+    this.mesa = id;
+  }
+
+  recuperarMesa():number|null{
+    return this.mesa;
+  }
 }
