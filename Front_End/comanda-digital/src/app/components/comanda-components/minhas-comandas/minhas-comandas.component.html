@@ -1,25 +1,30 @@
-<app-menu-perfil [nome]="nome" [mesa]="mesa" [perfil]="perfil"></app-menu-perfil>
-<div style="margin: .5rem;">
-    <a class="btn" [routerLink]="['/cardapio']"><i style="font-size: 20px;" class="bi bi-arrow-left-circle"></i> Cardápio</a>
-</div>
-<div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">
-    <h2>Minhas Comandas</h2>
-</div>
-<div style="margin-top: .2rem;" class="container-fluid">
-    <div class="tabela">
-        <app-card-comanda *ngFor="let c of comandaData"
-            [idComanda]="c.id"
-            [idMesa]="c.mesa"
-            [valorTotal]="c.valorTotal"
-            [status]="c.status"
-            [nomeCliente]="c.cliente.nome"
-            [cpfCliente]="c.cliente.login"
-            [pedidos]="c.pedidos"
-            [garcom]="c.garcom"
-            [dataAbertura]="c.dtAbertura"
-        >
-        </app-card-comanda>
-    </div><br><br>
+<div class="background" *ngIf="!load">
+    <app-menu-perfil [nome]="nome" [mesa]="mesa" [perfil]="perfil"></app-menu-perfil>
+    <div style="margin: .5rem;">
+        <a style="color: aliceblue;" class="btn" [routerLink]="['/cardapio']"><i style="font-size: 20px;" class="bi bi-arrow-left-circle"></i> Cardápio</a>
+    </div>
+    <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">
+        <h2 style="color: aliceblue;">Minhas Comandas</h2>
+    </div>
+    <div style="margin-top: .2rem;" class="container-fluid">
+        <div class="tabela">
+            <app-card-comanda *ngFor="let c of comandaData"
+                [idComanda]="c.id"
+                [idMesa]="c.mesa"
+                [valorTotal]="c.valorTotal"
+                [status]="c.status"
+                [nomeCliente]="c.cliente.nome"
+                [cpfCliente]="c.cliente.login"
+                [pedidos]="c.pedidos"
+                [garcom]="c.garcom"
+                [dataAbertura]="c.dtAbertura"
+            >
+            </app-card-comanda>
+        </div><br><br>
+    </div>
+<app-footer></app-footer>
 </div>
 
-<app-footer></app-footer>
+<ng-container *ngIf="load">
+    <app-loading></app-loading>
+</ng-container>

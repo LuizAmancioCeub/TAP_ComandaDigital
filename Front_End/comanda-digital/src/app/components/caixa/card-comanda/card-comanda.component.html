@@ -37,11 +37,70 @@
                 </thead>
 
                 <tbody class="table-light"  style="height: 280px">
-                    <tr *ngFor="let p of pedidos">
+                    <tr class="pedido" (click)="openVerticallyCentered(pedido)" *ngFor="let p of pedidos">
                         <td>{{p.nomeItem}}</td>
                         <td>{{p.quantidade}}</td>
                         <td [ngClass]="{'cancelado': p.status.id == 6}">{{p.valor | currency:'BRL':'symbol':'1.2-2'}} </td>
                         <td class="status">{{p.status.status}}</td>
+
+                        <ng-template #pedido let-modal>
+                            <div class="modal-header">
+                                <h2>{{p.nomeItem}}</h2>
+                                <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="row img">
+                                    <div class="col-12 col-sm-12" style="display: flex;justify-content: center;">
+                                        <img src="assets/imagens/{{p.imagem}}">
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+
+                                    <div class="col-6 col-md-6">
+                                        <label for="status">Situação</label>
+                                        <input style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;"  [value]="p.status.status" type="text" name="status" id="status" class="data form-control" readonly>
+                                    </div>
+
+                                    <div class="col-6 col-md-6">
+                                        <label for="horarioPedido">Horário do Pedido</label>
+                                        <input  [value]="p.horarioPedido" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;" type="text" name="horarioPedido" id="horarioPedido" class="data form-control" readonly>
+                                    </div>
+                                   
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 col-md-4">
+                                        <label for="data">Valor do Item</label>
+                                        <input style="border-top-left-radius: 1rem;border-bottom-left-radius: 1rem;" [value]="'R$ '+p.precoItem" type="text" name="data" id="data" class="data form-control" readonly>
+                                    </div>
+                    
+                                    <div class="col-4 col-md-4">
+                                        <label for="mesa">Quantidade</label>
+                                        <input style="text-align: center;" [value]="p.quantidade" type="text" name="mesa" id="mesa" class="data form-control" readonly>
+                                    </div>
+                    
+                                    <div class="col-4 col-md-4">
+                                        <label for="mesa">Valor Total</label>
+                                        <input  [value]="'R$ '+ p.valor" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;" type="text" name="mesa" id="mesa" class="data form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="display: flex;justify-content: center;">
+                                    <div class="col-6 col-md-6" style="text-align: center;">
+                                        <label for="horarioEntrega">Horário Entrega</label>
+                                        <input [value]="p.horarioEntrega" style="border-radius: 1rem;border-bottom-right-radius: 1rem;text-align: center;" type="text" name="horarioEntrega" id="horarioEntrega" class="data form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                
+                            </div>
+                           
+                        </ng-template>
+
                     </tr>
                     <tr *ngIf="pedidos.length < 1">
                         <td colspan="4" >
@@ -64,7 +123,7 @@
                 </div>
             </div>
 
-            <div *ngIf="confirmarPagamento || fecharComanda" class="row" style="display: flex; justify-content: center;">
+            <div *ngIf="confirmarPagamento || fecharComanda && perfil != 1" class="row" style="display: flex; justify-content: center;">
                 <div class="col-6 col-md-6" style="display: flex; justify-content: center;">
                     <button *ngIf="confirmarPagamento" class="btn btn-success">Confirmar Pagamento</button>
                     <button *ngIf="fecharComanda" class="btn btn-success">Fechar Comanda</button>

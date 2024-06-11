@@ -16,6 +16,7 @@
         <table *ngFor="let pedidos of dataE">
             <thead>
             <tr>
+                <th>Mesa</th>
                 <th>Num Pedido</th>
                 <th>Pedido</th>
                 <th>Quantidade</th>
@@ -31,6 +32,7 @@
                 <tr style="border-radius:20px;background-color:rgba(220, 220, 220, 0.45)">
                     <input type="hidden" name="idItens" value="{{pedidos.item.id}}">
                     <input type="hidden" name="idPedido" value="{{pedidos.id}}">
+                    <td data-title="Mesa">{{pedidos.comanda.cliente.mesa.id}}</td>
                     <td data-title="Num Pedido">{{pedidos.id}}</td>
                     <td data-title="Pedido">{{pedidos.item.nome}}</td>
                     <td data-title="Quantidade">{{pedidos.quantidade}}</td>

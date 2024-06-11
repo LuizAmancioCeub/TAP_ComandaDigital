@@ -1,13 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComandaClienteData } from 'src/app/Models/ComandaData';
+import { CredencialsData } from 'src/app/Models/CredencialsData';
+import { UserService } from 'src/app/services/user.service';
   interface Pedido {
+    idPedido:number,
     idItem: number;
     nomeItem: string;
     precoItem: number;
     quantidade: number;
     valor: number;
-    horario_dataPedido: string;
-    horarioPedido: Date;
+    horarioPedido: string;
+    horarioEntrega:string;
+    imagem:string;
     status: {
       id: number;
       status: string;
@@ -19,9 +24,30 @@ import { ComandaClienteData } from 'src/app/Models/ComandaData';
   styleUrls: ['./card-comanda.component.css']
 })
 export class CardComandaComponent implements OnInit {
+
+  load:boolean = true;
+  constructor(private userService:UserService, private modalService:NgbModal){}
   ngOnInit(): void {
+    this.initUserData();
     this.verificarStatus();
   }
+
+  private async initUserData(): Promise<void> {
+    this.userData = await this.userService.getUserData();
+    if (this.userData !== null) {
+      this.recuperarUser();
+    } else {
+      console.error("Erro ao recuperar dados do usuário");
+    }
+  }
+  
+  perfil:number=0;
+  userData:CredencialsData|null = null;
+  private recuperarUser(){
+    if(this.userData != null){
+      this.perfil = this.userData.perfil.id
+  }
+}
 
   confirmarPagamento:boolean = false;
   fecharComanda:boolean = false;
@@ -32,6 +58,7 @@ export class CardComandaComponent implements OnInit {
     if(this.status === "Aberta"){
       this.fecharComanda = true;
     }
+    this.load = false;
   }
 
 @Input()idMesa:number =0;
@@ -43,4 +70,11 @@ export class CardComandaComponent implements OnInit {
 @Input() pedidos: Pedido[] = [];
 @Input() garcom:string = '';
 @Input() dataAbertura:string = '';
+
+openVerticallyCentered(content: TemplateRef<any>) {
+  this.modalService.open(content, { centered: true,windowClass:'custom' });
+}
+close() {
+  this.modalService.dismissAll();
+}
 }

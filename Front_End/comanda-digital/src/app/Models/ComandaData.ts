@@ -28,13 +28,15 @@ export type ComandaClienteData = {
     mesa:number
     garcom:string
     pedidos:{
+        idPedido:number
         idItem:number
         nomeItem:string
         precoItem:number
         quantidade:number
         valor:number
-        horario_dataPedido: string
-        horarioPedido:Date
+        horarioPedido:string
+        horarioEntrega:string
+        imagem:string
         status:{
             id:number
             status:string

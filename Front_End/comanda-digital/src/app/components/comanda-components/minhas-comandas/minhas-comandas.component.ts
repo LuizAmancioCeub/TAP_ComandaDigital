@@ -12,8 +12,9 @@ interface Pedido {
   precoItem: number;
   quantidade: number;
   valor: number;
-  horario_dataPedido: string;
-  horarioPedido: Date;
+  horarioPedido: string;
+  horarioEntrega:string;
+  imagem:string;
   status: {
     id: number;
     status: string;
@@ -29,7 +30,7 @@ export class MinhasComandasComponent implements OnInit {
   constructor(private userService:UserService, private axiosService:AxiosService, private modalService:NgbModal, private comandaService:ComandaService){}
   
   userData:CredencialsData|null = null;
-  
+  load:boolean = true;
   perfil:number = 0;
   nome:string ="";
 
@@ -66,9 +67,11 @@ export class MinhasComandasComponent implements OnInit {
     this.comandaService.getMyComandas()
           .then((response => {
             this.recuperarComandas(response);
+            this.load = false;
           }))
           .catch((error => {
-            this.respostaError(error)
+            this.respostaError(error);
+            this.load = false;
           }));
   }
 
@@ -101,7 +104,6 @@ export class MinhasComandasComponent implements OnInit {
 
   comandaData:ComandaClienteData[] = []
   recuperarComandas(response:any){
-    console.log(response)
     if (Array.isArray(response.data)) {
       // Se for uma array, atribui diretamente
       this.comandaData = response.data;
@@ -109,8 +111,6 @@ export class MinhasComandasComponent implements OnInit {
       // Se for um objeto, coloca dentro de uma array
       this.comandaData = [response.data];
     }
-
-    console.log(this.comandaData[0])
   }
   
   private respostaError(msg:any):void{

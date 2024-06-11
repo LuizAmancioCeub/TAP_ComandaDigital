@@ -25,13 +25,15 @@ export class ModalClientesComponent implements OnInit {
       mesa:0,
       garcom:'',
       pedidos:[{
+        idPedido:0,
           idItem:0,
           nomeItem:'',
           precoItem:0,
           quantidade:0,
           valor:0,
-          horario_dataPedido: '',
-          horarioPedido:new Date(),
+          horarioPedido:'',
+          horarioEntrega:'',
+          imagem:'',
           status:{
               id:0,
               status:''

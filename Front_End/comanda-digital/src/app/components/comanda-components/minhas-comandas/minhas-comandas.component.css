@@ -9,3 +9,11 @@
     display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 400px)); gap: 1rem;
     place-content: center;
   }
+
+
+.background{
+    min-height: 100vh;
+    background-image: url(../../../../assets/imagens/rest.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}

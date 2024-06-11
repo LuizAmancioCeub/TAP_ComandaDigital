@@ -133,14 +133,16 @@ public class ComandaServiceImplements implements ComandaService {
 				for(PedidoModel pedido : pedidos) {
 					if(!pedido.getStatus().getId().equals(StatusModel.CANCELADO)) {
 						PedidosProjection p = new PedidosProjection();
+						p.setIdPedido(pedido.getId());
 						p.setIdItem(pedido.getItem().getId());
 						p.setNomeItem(pedido.getItem().getNome());
 						p.setPrecoItem(pedido.getItem().getPreco());
 						p.setQuantidade(pedido.getQuantidade());
 						p.setValor(pedido.getValor());
 						p.setStatus(pedido.getStatus());
-						p.setHorarioPedido(pedido.getHorarioPedido());
-						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						p.setHorarioPedido(pedido.getHorarioPedido() != null ?formatarHora(pedido.getHorarioPedido()):"");
+						p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
+						p.setImagem(pedido.getItem().getImagem());
 						p.setGarcom(garcom);
 						p.setComanda(comandaModel.getId());
 						pedidos0.add(p);
@@ -281,14 +283,16 @@ public class ComandaServiceImplements implements ComandaService {
 		if(!pedidos.isEmpty()) {
 			for(PedidoModel pedido : pedidos) {
 				PedidosProjection p = new PedidosProjection();
+				p.setIdPedido(pedido.getId());
 				p.setIdItem(pedido.getItem().getId());
 				p.setNomeItem(pedido.getItem().getNome());
 				p.setPrecoItem(pedido.getItem().getPreco());
 				p.setQuantidade(pedido.getQuantidade());
 				p.setValor(pedido.getValor());
 				p.setStatus(pedido.getStatus());
-				p.setHorarioPedido(pedido.getHorarioPedido());
-				p.setHorarioEntrega(pedido.getHorarioEntrega());
+				p.setHorarioPedido(pedido.getHorarioPedido() != null ?formatarHora(pedido.getHorarioPedido()):"");
+				p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
+				p.setImagem(pedido.getItem().getImagem());
 				p.setGarcom(garcom);
 				p.setComanda(comanda.get().getId());
 				
@@ -324,14 +328,16 @@ public class ComandaServiceImplements implements ComandaService {
 				if(!pedidos.isEmpty()) {
 					for(PedidoModel pedido : pedidos) {
 						PedidosProjection p = new PedidosProjection();
+						p.setIdPedido(pedido.getId());
 						p.setIdItem(pedido.getItem().getId());
 						p.setNomeItem(pedido.getItem().getNome());
 						p.setPrecoItem(pedido.getItem().getPreco());
 						p.setQuantidade(pedido.getQuantidade());
 						p.setValor(pedido.getValor());
 						p.setStatus(pedido.getStatus());
-						p.setHorarioPedido(pedido.getHorarioPedido());
-						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						p.setHorarioPedido(pedido.getHorarioPedido() != null ?formatarHora(pedido.getHorarioPedido()):"");
+						p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
+						p.setImagem(pedido.getItem().getImagem());
 						p.setGarcom(garcom);
 						p.setComanda(comanda.getId());
 						
@@ -387,7 +393,9 @@ public class ComandaServiceImplements implements ComandaService {
 	        
 	        for(ComandaModel c : comandas) {
 	        	ComandaProjection cp = new ComandaProjection();
-	        	
+	        	if(c.getId().equals(42)) {
+	        		c.getCliente();
+	        	}
 	        	ClienteProjection cliente = new ClienteProjection(c.getCliente().getNome(), c.getCliente().getTelefone(),
 						c.getCliente().getEmail(), c.getCliente().getLogin(), c.getCliente().getPerfil().getId() ); 
 				//int mesa = comanda.get().getCliente().getMesa().getId();
@@ -399,14 +407,16 @@ public class ComandaServiceImplements implements ComandaService {
 				if(!pedidos.isEmpty()) {
 					for(PedidoModel pedido : pedidos) {
 						PedidosProjection p = new PedidosProjection();
+						p.setIdPedido(pedido.getId());
 						p.setIdItem(pedido.getItem().getId());
 						p.setNomeItem(pedido.getItem().getNome());
 						p.setPrecoItem(pedido.getItem().getPreco());
 						p.setQuantidade(pedido.getQuantidade());
 						p.setValor(pedido.getValor());
 						p.setStatus(pedido.getStatus());
-						p.setHorarioPedido(pedido.getHorarioPedido());
-						p.setHorarioEntrega(pedido.getHorarioEntrega());
+						p.setHorarioPedido(pedido.getHorarioPedido() != null ?formatarHora(pedido.getHorarioPedido()):"");
+						p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
+						p.setImagem(pedido.getItem().getImagem());
 						
 						p.setGarcom(garcom);
 						p.setComanda(c.getId());
@@ -433,5 +443,13 @@ public class ComandaServiceImplements implements ComandaService {
 		public String formatarData(LocalDateTime dateTime){
 		     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 		     return dateTime.format(formatter);
+		}
+		public String formatarDataHora(LocalDateTime dateTime){
+		     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy - HH:mm");
+		     return dateTime.format(formatter);
+		}
+		public String formatarHora(LocalDateTime dateTime){
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+			return dateTime.format(formatter);
 		}
 }
