@@ -34,6 +34,7 @@ export class ModalClientesComponent implements OnInit {
           horarioPedido:'',
           horarioEntrega:'',
           imagem:'',
+          observacao:'',
           status:{
               id:0,
               status:''

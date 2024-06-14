@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { PedidosData } from 'src/app/Models/PedidosData';
@@ -6,6 +6,22 @@ import { AtualizaPedidosService } from 'src/app/services/atualiza-pedidos.servic
 import { AxiosService } from 'src/app/services/axios.service';
 import { ComandaService } from 'src/app/services/comanda.service';
 import { EventsService } from 'src/app/services/events.service';
+interface Pedido {
+  idPedido:number,
+  idItem: number;
+  nomeItem: string;
+  precoItem: number;
+  quantidade: number;
+  valor: number;
+  horarioPedido: string;
+  horarioEntrega:string;
+  imagem:string;
+  observacao:string;
+  status: {
+    id: number;
+    status: string;
+  };
+}
 
 @Component({
   selector: 'app-tabela-preparo',
@@ -18,8 +34,10 @@ export class TabelaPreparoComponent implements OnInit, OnDestroy {
   
   data:PedidosData[] = [];
   pedidos:boolean = false;
-  private subscription: Subscription| undefined;;
+  private subscription: Subscription| undefined;
 
+  @Input()pedidosEmPreparo:Pedido[] = [];
+  @Input()mesa:number = 0;
   ngOnInit(): void {
     this.getPedidosEmPreparo();
     this.subscription = this.atualizaPedidosService.atualizacaoPedido$.subscribe((atualizado: boolean) => {
@@ -45,6 +63,8 @@ export class TabelaPreparoComponent implements OnInit, OnDestroy {
           }
             this.eventService.existsPedidoPreparo(true);
           this.pedidos = true;
+          console.log(this.data)
+          console.log(this.pedidosEmPreparo)
         }
         else if(response.data == 0){
             this.eventService.existsPedidoPreparo(false);

@@ -15,12 +15,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "TB11_ITEM")
 public class ItemModel extends RepresentationModel<ItemModel> implements Serializable {

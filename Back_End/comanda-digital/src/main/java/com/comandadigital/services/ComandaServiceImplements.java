@@ -144,6 +144,8 @@ public class ComandaServiceImplements implements ComandaService {
 						p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
 						p.setImagem(pedido.getItem().getImagem());
 						p.setGarcom(garcom);
+						p.setObservacao(pedido.getObservacao());
+						
 						p.setComanda(comandaModel.getId());
 						pedidos0.add(p);
 					}
@@ -295,6 +297,7 @@ public class ComandaServiceImplements implements ComandaService {
 				p.setImagem(pedido.getItem().getImagem());
 				p.setGarcom(garcom);
 				p.setComanda(comanda.get().getId());
+				p.setObservacao(pedido.getObservacao());
 				
 				pedidos0.add(p);
 			}
@@ -340,6 +343,7 @@ public class ComandaServiceImplements implements ComandaService {
 						p.setImagem(pedido.getItem().getImagem());
 						p.setGarcom(garcom);
 						p.setComanda(comanda.getId());
+						p.setObservacao(pedido.getObservacao());
 						
 						pedidos0.add(p);
 					}
@@ -417,6 +421,8 @@ public class ComandaServiceImplements implements ComandaService {
 						p.setHorarioPedido(pedido.getHorarioPedido() != null ?formatarHora(pedido.getHorarioPedido()):"");
 						p.setHorarioEntrega(pedido.getHorarioEntrega() != null ? formatarHora(pedido.getHorarioEntrega()):"");
 						p.setImagem(pedido.getItem().getImagem());
+						
+						p.setObservacao(pedido.getObservacao());
 						
 						p.setGarcom(garcom);
 						p.setComanda(c.getId());

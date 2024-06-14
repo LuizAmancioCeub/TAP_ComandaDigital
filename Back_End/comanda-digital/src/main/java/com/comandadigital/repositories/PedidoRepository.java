@@ -1,5 +1,6 @@
 package com.comandadigital.repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +20,7 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf ORDER BY pedido.horarioPedido DESC ")
 	List<PedidoModel>findPedidoByCpf(@Param("cpf") String cpf);
 	
-	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.comanda.id = :idComanda ORDER BY pedido.horarioPedido DESC ")
+	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.comanda.id = :idComanda ORDER BY pedido.horarioPedido ASC ")
 	List<PedidoModel>findPedidoByCpfAndComanda(@Param("cpf") String cpf, Integer idComanda);
 	
 	@Query("SELECT pedido FROM PedidoModel pedido WHERE pedido.comanda.cliente.login = :cpf AND pedido.status.id IN :statusId")
@@ -43,5 +44,9 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Integer>{
 	        @Param("cpf") String cpf, 
 	        @Param("statusList") List<Integer> statusList, 
 	        @Param("comandaStatusId") Integer comandaStatusId);
+	    
+	    
+	    @Query("SELECT p FROM PedidoModel p WHERE p.status.id NOT IN :status AND p.horarioPedido BETWEEN :startDate AND :endDate")
+	    List<PedidoModel> findPedidosEntreDatas(@Param("status")List<Integer> status,@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 	 
 }

@@ -34,6 +34,7 @@ export type ComandaClienteData = {
         precoItem:number
         quantidade:number
         valor:number
+        observacao:string
         horarioPedido:string
         horarioEntrega:string
         imagem:string

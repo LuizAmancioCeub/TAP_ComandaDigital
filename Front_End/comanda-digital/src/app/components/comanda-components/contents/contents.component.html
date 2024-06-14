@@ -14,7 +14,7 @@
             <a class="badge badge-succes bt"(click)="openVerticallyCentered(confirmarAbertura)">Abrir Comanda <i class="bi bi-journal-check"></i></a>
         </div>
         <br><br>
-        <app-tabela-preparo></app-tabela-preparo>
+        <app-tabela-preparo [pedidosEmPreparo]="pedidosEmPreparo" [mesa]="mesa" ></app-tabela-preparo>
         <br><br>
         <app-tabela-comanda></app-tabela-comanda>
         

@@ -64,6 +64,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.PUT, "/cliente").hasAnyRole("CLIENTE","GERENTE")
 						.requestMatchers(HttpMethod.PUT, "/gerente").hasAnyRole("GERENTE")
 						.requestMatchers(HttpMethod.PUT, "/garcom").hasAnyRole("GARCOM","GERENTE")
+						.requestMatchers(HttpMethod.GET, "/pedidos/gerarRelatorio").hasAnyRole("GERENTE")
 						.anyRequest().authenticated()// qualquer outra requisição precisa estar logado
 				)
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // filtro vai acontecer antes do UserNamePassword...

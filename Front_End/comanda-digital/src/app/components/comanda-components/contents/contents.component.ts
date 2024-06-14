@@ -1,10 +1,28 @@
 import { Component, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { ComandaClienteData, ComandaData } from 'src/app/Models/ComandaData';
+import { AtualizaPedidosService } from 'src/app/services/atualiza-pedidos.service';
 import { AxiosService } from 'src/app/services/axios.service';
 import { ComandaService } from 'src/app/services/comanda.service';
 import { EventsService } from 'src/app/services/events.service';
+
+interface Pedido {
+  idPedido:number,
+  idItem: number;
+  nomeItem: string;
+  precoItem: number;
+  quantidade: number;
+  valor: number;
+  horarioPedido: string;
+  horarioEntrega:string;
+  imagem:string;
+  observacao:string;
+  status: {
+    id: number;
+    status: string;
+  };
+}
 
 @Component({
   selector: 'app-contents-comanda',
@@ -13,7 +31,7 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class ContentsComponentComanda implements OnInit, OnChanges {
   constructor(private eventService:EventsService, private axiosService:AxiosService,private modalService:NgbModal, 
-              private comandaService:ComandaService){
+              private comandaService:ComandaService, private atualizaPedidosService: AtualizaPedidosService){
     
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -24,6 +42,7 @@ export class ContentsComponentComanda implements OnInit, OnChanges {
   txt:string = "";
   show:string=""
   
+  private subscription: Subscription| undefined;
   ngOnInit(): void {
     this.getComanda();
 
@@ -41,6 +60,12 @@ export class ContentsComponentComanda implements OnInit, OnChanges {
 
     this.eventService.comanda$.subscribe(({ }) => {
       this.verificarComanda()
+    });
+
+    this.subscription = this.atualizaPedidosService.atualizacaoPedido$.subscribe((atualizado: boolean) => {
+      if (atualizado) {
+        this.verificarComanda();
+      }
     });
 
   }
@@ -77,8 +102,24 @@ mesa:number = 0;
       if(this.dataF.pedidos.length > 0){
         this.exitsPedidos = true;
       }
+      this.recuperarPedidos();
     }
   }
+
+pedidosEntregues:Pedido[] = [];
+pedidosEmPreparo:Pedido[] = [];
+pedidosCancelados:Pedido[] = [];
+private recuperarPedidos(){
+  this.dataF?.pedidos.forEach(pedido => {
+    if (pedido.status.id === 5) {
+      this.pedidosEntregues.push(pedido);
+    } else if (pedido.status.id === 3) {
+      this.pedidosEmPreparo.push(pedido);
+    } else if (pedido.status.id === 6) {
+      this.pedidosCancelados.push(pedido);
+    }
+  });
+}
 
 statusFechar:number = 9;
   fecharComanda(){

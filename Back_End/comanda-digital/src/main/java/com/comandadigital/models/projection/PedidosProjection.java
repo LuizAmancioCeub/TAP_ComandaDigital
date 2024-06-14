@@ -21,8 +21,10 @@ public class PedidosProjection {
 	
 	private int quantidade;
 	private double valor;
+	private String observacao;
 	private String horarioPedido;
 	private String horarioEntrega;
+	
 	private StatusModel status; 
 	
 	private Integer comanda;

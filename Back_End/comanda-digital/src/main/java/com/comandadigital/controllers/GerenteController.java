@@ -1,8 +1,13 @@
 package com.comandadigital.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +23,9 @@ import com.comandadigital.infra.security.AuthService;
 import com.comandadigital.models.PerfilModel;
 import com.comandadigital.models.projection.FuncionariosProjection;
 import com.comandadigital.services.GerenteService;
+import com.comandadigital.services.RelatorioService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -27,6 +34,8 @@ public class GerenteController {
 	GerenteService gerenteService;
 	@Autowired
 	AuthService authService;
+	@Autowired
+	RelatorioService relatorioService;
 	
 	
 	// Registrar
@@ -55,4 +64,31 @@ public class GerenteController {
 			gerenteService.alterarDados(dto);
 			return  ResponseEntity.ok().body("Seu perfil foi atualizado");
 		}
+		
+		// lista das categorias
+//				@GetMapping("pedidos/gerarRelatorio")
+//				 public ResponseEntity<InputStreamResource> relatorioSemanal() throws IOException {
+//			        ByteArrayInputStream in = relatorioService.gerarRelatorioSemanal();
+//
+//			        org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+//			        headers.add("Content-Disposition", "attachment; filename=relatorio_semanal.xlsx");
+//
+//			        return ResponseEntity
+//			                .ok()
+//			                .headers(headers)
+//			                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+//			                .body(new InputStreamResource(in));
+//			    }
+
+		    @GetMapping("pedidos/gerarRelatorio")
+		    public void downloadRelatorioSemanal(HttpServletResponse response) throws IOException {
+		    	
+		    	response.setContentType("application/octet-stream");
+		    	String headerKey = "Content-Disposition";
+		    	String headerValue = "attachment;filename=relatorio.xls";
+		    	
+		    	response.setHeader(headerKey, headerValue);
+		    	
+		       relatorioService.gerarRelatorioSemanal2(response);
+		    }
 }
