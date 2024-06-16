@@ -69,6 +69,7 @@ export class ContentsComponent implements OnInit {
         this.load = false;
         if(response.dataDesativados == 0){
           this.itens = false;
+          this.load = false;
         }
       }
     );

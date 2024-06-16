@@ -65,10 +65,11 @@ export class FormLoginComponent implements OnInit {
   }
 
   onSubmitLoginVisitante():void{
-      this.onLoginVisitante( "visitante12", "visitante", 10);
+      this.onLoginVisitante( "visitante12", "visitante", 0);
    }
 
   onLogin(login:string, senha:string, mesa:number|null):void{
+    this.load = true;
     this.loginService.onLogin(login,senha,mesa)
       .then((response) => {
         const token = response.data.token;
@@ -81,16 +82,20 @@ export class FormLoginComponent implements OnInit {
         if (error.response.status === 400) {
           // Se o status for 400 (regra de negocio), trate aqui
           const errorDetail = error.response.data.detail;
+          this.load = false;
           this.mostrarMsg("400",errorDetail);
         }else if(error.response.status === 403){
+          this.load = false;
           this.mostrarMsg("403","");
         } else{
+          this.load = false;
           this.mostrarMsg("","");
         }
       });
   }
 
   onLoginVisitante(login:string, senha:string, mesa:number):void{
+    this.load = true;
     this.loginService.onLoginVisitante(login,senha,mesa)
       .then((response) => {
         const token = response.data.token;
@@ -103,10 +108,13 @@ export class FormLoginComponent implements OnInit {
         if (error.response.status === 400) {
           // Se o status for 400 (regra de negocio), trate aqui
           const errorDetail = error.response.data.detail;
+          this.load = false;
           this.mostrarMsg("400",errorDetail);
         }else if(error.response.status === 403){
+          this.load = false;
           this.mostrarMsg("403","");
         } else{
+          this.load = false;
           this.mostrarMsg("","");
         }
       });
@@ -119,32 +127,39 @@ export class FormLoginComponent implements OnInit {
 
         this.loginService.setLoggedIn(true);
         this.mesaService.salvarMesa(this.mesa);
+        this.load = false;
         this.router.navigate(['/cardapio']); // Rota para clientes
 
       }else if (perfil === 3) {
 
         this.loginService.setLoggedIn(true);
         this.router.navigate(['/gerente']); // Rota para usuários gerentes
-
+        setTimeout(() => {
+          this.load = false;
+        }, 1000);
       }
        else if (perfil === 5) {
 
         this.loginService.setLoggedIn(true);
+        this.load = false;
         this.router.navigate(['/cozinha']); // 
 
       } 
        else if (perfil === 4) {
 
         this.loginService.setLoggedIn(true);
+        this.load = false;
         this.router.navigate(['/mesas']); // 
        }
        else if (perfil === 6) {
 
         this.loginService.setLoggedIn(true);
+        this.load = false;
         this.router.navigate(['/caixa']); // 
        }
        else {
         // Rota padrão para outros perfis ou tratamento de erro
+        this.load = false;
         this.router.navigate(['/']);
        }
       }
@@ -152,10 +167,13 @@ export class FormLoginComponent implements OnInit {
       if (error.response.status === 400) {
         // Se o status for 400 (regra de negocio), trate aqui
         const errorDetail = error.response.data.detail;
+        this.load = false;
         this.mostrarMsg("400",errorDetail);
       }else if(error.response.status === 403){
+        this.load = false;
         this.mostrarMsg("403","");
       } else{
+        this.load = false;
         this.mostrarMsg("","");
       }
     });
@@ -225,7 +243,7 @@ export class FormLoginComponent implements OnInit {
       }
     );
   }
-
+load:boolean = false;
   verificarMesa(){
     let mesaExists = false;
     const mesaRecuperada = this.mesaService.recuperarMesa();

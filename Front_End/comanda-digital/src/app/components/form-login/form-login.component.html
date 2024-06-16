@@ -1,58 +1,56 @@
-<div class="card_login">
-    <a class="title_card_login">Bem-Vindo !! <br>Preencha os campos para acessar nosso cardápio</a>
-    <form #loginForm="ngForm">
-       
-        <ng-container *ngIf="mostrarErro">
-            <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
-        </ng-container>
-
-        <ng-container *ngIf="mesa == 0">
-            <div style="padding-left: .5rem;" class="alert alert-{{alert}}">
-                <div style="text-align: center;">
-                    <i class="{{icon}}"></i> {{erroMesa}}
-                </div>
-            </div>
-        </ng-container>
-        
-        <div class="inputBox">
-            <select (click)="verificarMesa()" name="mesa" id="mesa" [(ngModel)]="mesa" required="required" [disabled]="mesaSelect">
-                <option selected disabled value="0">Sua Mesa</option> 
-                <option *ngFor="let mesa of dataMesas" [value]="mesa.id">Mesa {{mesa.id}}</option>
-            </select>
-        </div> 
-            <div class="input">
-                <input class="inputField" type="text" name="login" id="login" [(ngModel)]="login" maxlength="14" required="required">
-                <label for="cpf" class="input__label">CPF</label>
-            </div>
-
-            <div class="input">
-                <input class="input__field" id="password" name="senha" type="password" maxlength="12" [(ngModel)]="senha" required />
-                <label for="password" class="input__label">Senha</label>
-                <span class="input__icon-wrapper">
-                    <i (click)="eye()" class="input__icon ri-eye-off-line"></i>
-                </span>
-            </div>
-       
-        <div class="btns">
-            <div class="form-group col-md-12">
-                <button (click)="onSubmitLogin()" type="submit" id="cadastrar" name="cadastrar" class=" form-control btn btn-primary btn-block">Entrar</button> 
-            </div>
-    
-            <div style="margin-top: .8rem;" class="form-group col-md-12">
-                <button (click)="onSubmitLoginVisitante()" id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
-            </div>
+<ng-container *ngIf="load">
+    <app-loading></app-loading>
+</ng-container>
+<ng-container *ngIf="!load">
+    <div class="card_login">
+        <a class="title_card_login">Bem-Vindo !! <br>Preencha os campos para acessar nosso cardápio</a>
+        <form #loginForm="ngForm">
            
-            <div style="margin-top: 1.5rem;" class="form-group col-md-12 d-flex justify-content-center"> 
-                <a (click)="openVerticallyCentered(content)" style="color: black;" data-toggle="modal">Não tem conta? Registra-se aqui</a>
-            </div>
-            <div style="margin-top: .8rem;" class="form-group col-md-12 d-flex justify-content-center"> 
-                <a href="#esqueci" style="color: black;" data-toggle="modal">Esqueci a Senha</a>
-            </div>    
-        </div>
-    </form> 
+            <ng-container *ngIf="mostrarErro">
+                <div class="alert alert-{{alert}}"><i class="{{icon}}"></i> {{erro}}</div>
+            </ng-container>
+            
+            <div class="inputBox">
+                <select (click)="verificarMesa()" name="mesa" id="mesa" [(ngModel)]="mesa" required="required" [disabled]="mesaSelect">
+                    <option selected disabled value="0">Sua Mesa</option> 
+                    <option *ngFor="let mesa of dataMesas" [value]="mesa.id">Mesa {{mesa.id}}</option>
+                </select>
+            </div> 
+                <div class="input">
+                    <input class="inputField" type="text" name="login" id="login" [(ngModel)]="login" maxlength="14" required="required">
+                    <label for="cpf" class="input__label">CPF</label>
+                </div>
+    
+                <div class="input">
+                    <input class="input__field" id="password" name="senha" type="password" maxlength="30" [(ngModel)]="senha" required />
+                    <label for="password" class="input__label">Senha</label>
+                    <span class="input__icon-wrapper">
+                        <i (click)="eye()" class="input__icon ri-eye-off-line"></i>
+                    </span>
+                </div>
+           
+            <div class="btns">
+                <div class="form-group col-md-12">
+                    <button (click)="onSubmitLogin()" type="submit" id="cadastrar" name="cadastrar" class=" form-control btn btn-primary btn-block">Entrar</button> 
+                </div>
         
-</div>
-
-<ng-template #content let-modal>
-    <app-form-register></app-form-register>
-</ng-template>
+                <div style="margin-top: .8rem;" class="form-group col-md-12">
+                    <button (click)="onSubmitLoginVisitante()" id="visitante" name="visitante" class=" form-control btn btn-success btn-block">Visitante</button> 
+                </div>
+               
+                <div style="margin-top: 1.5rem;cursor: pointer;" class="form-group col-md-12 d-flex justify-content-center"> 
+                    <a (click)="openVerticallyCentered(content)" style="color: black;" data-toggle="modal">Não tem conta? Registra-se aqui</a>
+                </div>
+                <div style="margin-top: .8rem;" class="form-group col-md-12 d-flex justify-content-center"> 
+                    <a style="color: black;" data-toggle="modal">Esqueci a Senha</a>
+                </div>    
+            </div>
+        </form> 
+            
+    </div>
+    
+    <ng-template #content let-modal>
+        <app-form-register></app-form-register>
+    </ng-template>
+    
+</ng-container>
